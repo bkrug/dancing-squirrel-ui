@@ -1,6 +1,7 @@
 import React from "react";
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
+import getTrainingRequestForm from "./SignupForm";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
           Signup with us today to prepare your squirrel for the next great American musical or to awe a stadium full of fans.
         </p>
       </header>
+      <div>
+        {getTrainingRequestForm()}
+      </div>
     </div>
   );
 }
