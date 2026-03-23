@@ -4,11 +4,8 @@ import "./SignupForm.css";
 export default function getTrainingRequestForm() {
   function postRequest(formData: FormData) {
     console.log(formData);
-    fetch("/api/request/create", {
+    fetch("http://localhost:5626/api/request/create", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: formData
     })
     .then(response => response.json())
