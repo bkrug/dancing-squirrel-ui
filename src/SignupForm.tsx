@@ -2,9 +2,24 @@ import React from "react";
 import "./SignupForm.css";
 
 export default function getTrainingRequestForm() {
+  function postRequest(formData: FormData) {
+    console.log(formData);
+    fetch("/api/request/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Record saved", data);
+    })
+    .catch(error => console.log(error));
+  }  
   return (
-    <form action="training-request/create" method="POST">
-      <p>
+    <form action={postRequest} method="POST">
+      <div>
         <label htmlFor="caretakertype">Caretaker Type</label>
         <div className="radiogroup">
           <input type="radio" name="caretakertype" id="company" value="company" defaultChecked />
@@ -12,14 +27,14 @@ export default function getTrainingRequestForm() {
           <input type="radio" name="caretakertype" id="person" value="person" />
           <label htmlFor="person">Person</label>
         </div>
-      </p>
+      </div>
       <p>
         <label htmlFor="caretakername">Caretaker Name</label>
-        <input type="text" name="caretakername" />
+        <input type="text" name="caretakername" required />
       </p>
       <p>
         <label htmlFor="email">Email</label>
-        <input type="email" name="email" />
+        <input type="email" name="email" required />
       </p>
       <p>
         <label htmlFor="phone">Phone</label>
@@ -27,7 +42,7 @@ export default function getTrainingRequestForm() {
       </p>
       <p>
         <label htmlFor="squirrelname">Squirrel Name</label>
-        <input type="text" name="squirrelname" />
+        <input type="text" name="squirrelname" required />
       </p>
       <button type="submit">Register Squirrel</button>
     </form>

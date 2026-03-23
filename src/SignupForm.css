@@ -68,6 +68,11 @@ textarea {
   height: 5em;
 }
 
+input:user-invalid,
+textarea:user-invalid {
+  outline-color: red;
+}
+
 .button {
   /* Align buttons with the text fields */
   padding-left: 90px; /* same size as the label elements */
