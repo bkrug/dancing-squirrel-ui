@@ -1,7 +1,7 @@
 import React from "react";
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
-import getTrainingRequestForm from "./SignupForm";
+import useTrainingRequestForm from "./SignupForm";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         </p>
       </header>
       <div>
-        {getTrainingRequestForm()}
+        {useTrainingRequestForm()}
       </div>
     </div>
   );

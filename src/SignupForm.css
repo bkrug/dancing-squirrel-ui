@@ -73,6 +73,14 @@ textarea:user-invalid {
   outline-color: red;
 }
 
+/* Base the left margin and padding on the label's width and field's left margin */
+.error {
+  color: red;
+  padding-left: 150px;
+  margin-left: .5em;
+  text-align: left;
+}
+
 .button {
   /* Align buttons with the text fields */
   padding-left: 90px; /* same size as the label elements */
