@@ -22,6 +22,13 @@ function toCamelCase(key: string, value: any) {
   return value;
 }
 
+function parseToCamelCase<T extends object>(constructor: { new (): T}, jsonString: string) {
+  return Object.assign(
+    new constructor(),
+    JSON.parse(jsonString, toCamelCase)
+  );
+}
+
 export default function useTrainingRequestForm() {
   const [errors, setErrors] = useState(new TrainingRequestValidationFailures())
 
@@ -34,9 +41,7 @@ export default function useTrainingRequestForm() {
     .then(response => response.status >= 400 ? response.text() : null )
     .then(jsonString => {
       if (!jsonString) return;
-      //TODO: Use generics here
-      let failures = Object.assign(new TrainingRequestValidationFailures(), JSON.parse(jsonString, toCamelCase));
-      console.log('validation failure', failures)
+      let failures = parseToCamelCase(TrainingRequestValidationFailures, jsonString);
       setErrors(failures);
     })
     .catch(httpErrors => {
@@ -44,8 +49,6 @@ export default function useTrainingRequestForm() {
       setErrors(httpErrors);
     });
   }
-
-  console.log('errors from state', errors);  
 
   return (
     <form action={postRequest} method="POST">
