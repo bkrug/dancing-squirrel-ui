@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./SignupForm.css";
+import parseToCamelCase from "./jsonParsing";
 
 class TrainingRequestValidationFailures {
   caretakerType: string = "";
@@ -10,30 +11,10 @@ class TrainingRequestValidationFailures {
   squirrelName: string = "";
 }
 
-function toCamelCase(key: string, value: any) {
-  if (value && typeof value === 'object'){
-    for (var k in value) {
-      if (/^[A-Z]/.test(k) && Object.hasOwnProperty.call(value, k)) {
-        value[k.charAt(0).toLowerCase() + k.substring(1)] = value[k];
-        delete value[k];
-      }
-    }
-  }
-  return value;
-}
-
-function parseToCamelCase<T extends object>(constructor: { new (): T}, jsonString: string) {
-  return Object.assign(
-    new constructor(),
-    JSON.parse(jsonString, toCamelCase)
-  );
-}
-
 export default function useTrainingRequestForm() {
   const [errors, setErrors] = useState(new TrainingRequestValidationFailures())
 
   function postRequest(formData: FormData) {
-    console.log(formData);
     fetch("http://localhost:5626/api/request/create", {
       method: "POST",
       body: formData
@@ -45,8 +26,8 @@ export default function useTrainingRequestForm() {
       setErrors(failures);
     })
     .catch(httpErrors => {
-      console.log(httpErrors);
-      setErrors(httpErrors);
+      console.error(httpErrors);
+      alert("An internal error occurred.");
     });
   }
 
