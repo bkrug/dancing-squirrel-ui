@@ -11,8 +11,8 @@ form {
   border-radius: 1em;
 }
 
-p + p {
-  margin-top: 1em;
+.field  {
+  margin-bottom: 1em;
 }
 
 label {
