@@ -1,26 +1,21 @@
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import "./SignupForm.css";
-import parseToCamelCase from "./jsonParsing";
+import parseToCamelCase from "../FormSubmission/jsonParsing";
+import FormResponse from '../FormSubmission/formResponse';
 
-class TrainingRequestValidationFailures {
-  caretakerType: string = "";
+enum CaretakerType { Empty, Person, Company };
+
+class TrainingRequestFormValues {
+  caretakerType: CaretakerType = CaretakerType.Person;
   caretakerName: string = "";
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
 }
 
-class TrainingRequestResponse {
-  isSuccess: boolean = false;
-  isInternalError: boolean = false;
-  validationFailures: TrainingRequestValidationFailures = new TrainingRequestValidationFailures();
-}
-
-enum CaretakerType { Empty, Person, Company };
-
-class TrainingRequestFormValues {
-  caretakerType: CaretakerType = CaretakerType.Person;
+class TrainingRequestValidationFailures {
+  caretakerType: string = "";
   caretakerName: string = "";
   email: string = "";
   phone: string = "";
@@ -53,7 +48,7 @@ export default function useTrainingRequestForm() {
         })
         .then(response => response.text() )
         .then(jsonString => {
-          let parsedResponse = parseToCamelCase(TrainingRequestResponse, jsonString);
+          let parsedResponse = parseToCamelCase(FormResponse<TrainingRequestValidationFailures>, jsonString);
           if (parsedResponse.isSuccess) {
             actions.resetForm();
           }
