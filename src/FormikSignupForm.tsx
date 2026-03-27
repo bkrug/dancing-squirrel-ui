@@ -1,6 +1,4 @@
-import { useState } from "react";
-//import { useFormik } from "formik";
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import "./SignupForm.css";
 import parseToCamelCase from "./jsonParsing";
@@ -11,6 +9,12 @@ class TrainingRequestValidationFailures {
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
+}
+
+class TrainingRequestResponse {
+  isSuccess: boolean = false;
+  isInternalError: boolean = false;
+  validationFailures: TrainingRequestValidationFailures = new TrainingRequestValidationFailures();
 }
 
 enum CaretakerType { Empty, Person, Company };
@@ -24,23 +28,6 @@ class TrainingRequestFormValues {
 }
 
 export default function useTrainingRequestForm() {
-  // function postRequest(formData: FormData) {
-  //   fetch("http://localhost:5626/api/request/create", {
-  //     method: "POST",
-  //     body: formData
-  //   })
-  //   .then(response => response.status >= 400 ? response.text() : null )
-  //   .then(jsonString => {
-  //     if (!jsonString) return;
-  //     let failures = parseToCamelCase(TrainingRequestValidationFailures, jsonString);
-  //     setErrors(failures);
-  //   })
-  //   .catch(httpErrors => {
-  //     console.error(httpErrors);
-  //     alert("An internal error occurred.");
-  //   });
-  // }
-
   return (
     <Formik
       initialValues={new TrainingRequestFormValues()}
@@ -53,15 +40,43 @@ export default function useTrainingRequestForm() {
         squirrelName: Yup.string()
           .required('Required'),
         })}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+      onSubmit={(values, actions) => {
+        let formData = new FormData();
+        formData.append("caretakerType", values.caretakerType.toString());
+        formData.append("caretakerName", values.caretakerName);
+        formData.append("email", values.email);
+        formData.append("phone", values.phone);
+        formData.append("squirrelName", values.squirrelName);
+        fetch("http://localhost:5626/api/request/create", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.text() )
+        .then(jsonString => {
+          let parsedResponse = parseToCamelCase(TrainingRequestResponse, jsonString);
+          if (parsedResponse.isSuccess) {
+            actions.resetForm();
+          }
+          else if (parsedResponse.validationFailures){
+            actions.setErrors(parsedResponse.validationFailures);
+          }
+          else if (parsedResponse.isInternalError) {
+            alert("An internal error occurred.");
+          }
+          else {
+            alert("An error occurred.");
+          }
+          actions.setSubmitting(false);
+        })
+        .catch(httpErrors => {
+          console.error(httpErrors);
+          alert("An internal error occurred.");
+          actions.setSubmitting(false);
+        });
       }}
     >
       {formik => (
-        <form onSubmit={formik.handleSubmit} method="POST">
+        <Form onSubmit={formik.handleSubmit} method="POST">
 
           <div className="field">
             <label htmlFor="caretakerType">Caretaker Type</label>
@@ -115,7 +130,7 @@ export default function useTrainingRequestForm() {
           </div>
 
           <button type="submit">Register Squirrel</button>
-        </form>
+        </Form>
       )}
     </Formik>
   );
