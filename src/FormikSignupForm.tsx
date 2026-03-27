@@ -70,7 +70,7 @@ export default function useTrainingRequestForm() {
         })
         .catch(httpErrors => {
           console.error(httpErrors);
-          alert("An internal error occurred.");
+          alert("An HTTP error occurred.");
           actions.setSubmitting(false);
         });
       }}
