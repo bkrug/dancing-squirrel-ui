@@ -64,7 +64,7 @@ export default function useTrainingRequestForm() {
             alert("An internal error occurred.");
           }
           else {
-            alert("An error occurred.");
+            alert("A malformed response was received from the server.");
           }
           actions.setSubmitting(false);
         })
