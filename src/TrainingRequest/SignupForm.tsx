@@ -52,8 +52,8 @@ export default function useTrainingRequestForm() {
           if (parsedResponse.isSuccess) {
             actions.resetForm();
           }
-          else if (parsedResponse.validationFailures){
-            actions.setErrors(parsedResponse.validationFailures);
+          else if (parsedResponse.validationFailuresStrict){
+            actions.setErrors(parsedResponse.validationFailuresStrict);
           }
           else if (parsedResponse.isInternalError) {
             alert("An internal error occurred.");

@@ -10,7 +10,7 @@ function toCamelCase(key: string, value: any) {
   return value;
 }
 
-function parseToCamelCase<T extends object>(constructor: { new (): T}, jsonString: string) {
+function parseToCamelCase<T extends object>(constructor: { new (): T}, jsonString: string) : T {
   return Object.assign(
     new constructor(),
     JSON.parse(jsonString, toCamelCase)
