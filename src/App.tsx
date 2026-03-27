@@ -1,7 +1,7 @@
 import React from "react";
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
-import useTrainingRequestForm from "./FormikSignupForm";
+import useTrainingRequestForm from "./SignupForm";
 
 function App() {
   return (
