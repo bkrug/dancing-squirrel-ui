@@ -26,7 +26,6 @@ const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
 
 interface RadioGroupOption<TValue> {
   label: string;
-  name: string;
   value: TValue;
 };
 
@@ -54,7 +53,7 @@ const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, ...props
                   {...field}
                   {...props}
                 />
-                <label htmlFor={option.name}>{option.label}</label>              
+                <label>{option.label}</label>              
               </>
             )
           })
@@ -142,8 +141,8 @@ export default function useTrainingRequestForm() {
             label="Caretaker Type"
             name="caretakerType"
             options={[
-              { label: "Person", name: "person", value: CaretakerType.Person.toString() },
-              { label: "Company", name: "company", value: CaretakerType.Company.toString() }
+              { label: "Person", value: CaretakerType.Person.toString() },
+              { label: "Company", value: CaretakerType.Company.toString() }
             ]} />
           <LocalTextInput label="Caretaker Name" name="caretakerName" />
           <LocalTextInput label="Email" name="email" type="email" />
