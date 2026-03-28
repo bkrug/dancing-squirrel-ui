@@ -1,8 +1,31 @@
-import { Formik, Field, Form } from 'formik';
+import { FC } from 'react';
+import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import "./SignupForm.css";
 import parseToCamelCase from "../FormSubmission/jsonParsing";
 import FormResponse from '../FormSubmission/formResponse';
+
+interface TextInputProps {
+  label: string,
+  name: string,
+  type?: string
+}
+
+const SquirrelTextInput: FC<TextInputProps> = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+  // which we can spread on <input>. We can use field meta to show an error
+  // message if the field is invalid and it has been touched (i.e. visited)
+  props.type = props.type || "text";
+  console.log("calculatedType", props.type);
+  const [field, meta] = useField(props);
+  return (
+    <div className="field">
+      <label htmlFor={props.name}>{label}</label>
+      <input {...field} {...props} />
+      {meta.touched && meta.error && <div className='error'>{meta.error}</div>}
+    </div>
+  );
+};
 
 enum CaretakerType { Empty, Person, Company };
 
@@ -36,13 +59,18 @@ export default function useTrainingRequestForm() {
           .required('Required'),
         })}
       onSubmit={(values, actions) => {
+        let url = "http://localhost:5626/api/request/create";
+        //Need generics for FormValues class and ValidationFailures class
+        //Need to create FormData object from reflection
+
         let formData = new FormData();
         formData.append("caretakerType", values.caretakerType.toString());
         formData.append("caretakerName", values.caretakerName);
         formData.append("email", values.email);
         formData.append("phone", values.phone);
         formData.append("squirrelName", values.squirrelName);
-        fetch("http://localhost:5626/api/request/create", {
+
+        fetch(url, {
           method: "POST",
           body: formData
         })
@@ -100,29 +128,10 @@ export default function useTrainingRequestForm() {
             {formik.touched.caretakerType && formik.errors.caretakerType && <div className='error'>{formik.errors.caretakerType}</div>}
           </div>
 
-          <div className="field">
-            <label htmlFor="caretakerName">Caretaker Name</label>
-            <Field name="caretakerName" type="text"/>
-            {formik.touched.caretakerName && formik.errors.caretakerName && <div className='error'>{formik.errors.caretakerName}</div>}
-          </div>
-
-          <div className="field">
-            <label htmlFor="email">Email</label>
-            <Field name="email" type="email"/>
-            {formik.touched.email && formik.errors.email && <div className='error'>{formik.errors.email}</div>}
-          </div>
-
-          <div className="field">
-            <label htmlFor="phone">Phone</label>
-            <Field name="phone" type="tel"/>
-            {formik.touched.phone && formik.errors.phone && <div className='error'>{formik.errors.phone}</div>}
-          </div>
-
-          <div className="field">
-            <label htmlFor="squirrelName">Squirrel Name</label>
-            <Field name="squirrelName" type="text"/>
-            {formik.touched.squirrelName && formik.errors.squirrelName && <div className='error'>{formik.errors.squirrelName}</div>}
-          </div>
+          <SquirrelTextInput label="Caretaker Name" name="caretakerName" />
+          <SquirrelTextInput label="Email" name="email" type="email" />
+          <SquirrelTextInput label="Phone" name="phone" type="tel" />
+          <SquirrelTextInput label="Squirrel Name" name="squirrelName" />
 
           <button type="submit">Register Squirrel</button>
         </Form>
