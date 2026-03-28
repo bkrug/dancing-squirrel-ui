@@ -11,10 +11,7 @@ interface TextInputProps {
   type?: string
 }
 
-const SquirrelTextInput: FC<TextInputProps> = ({ label, ...props }) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input>. We can use field meta to show an error
-  // message if the field is invalid and it has been touched (i.e. visited)
+const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || "text";
   console.log("calculatedType", props.type);
   const [field, meta] = useField(props);
@@ -22,6 +19,47 @@ const SquirrelTextInput: FC<TextInputProps> = ({ label, ...props }) => {
     <div className="field">
       <label htmlFor={props.name}>{label}</label>
       <input {...field} {...props} />
+      {meta.touched && meta.error && <div className='error'>{meta.error}</div>}
+    </div>
+  );
+};
+
+interface RadioGroupOption<TValue> {
+  label: string;
+  name: string;
+  value: TValue;
+};
+
+interface RadioInputProps<TValue> {
+  label: string,
+  name: string,
+  options: RadioGroupOption<TValue>[]
+}
+
+const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, ...props }) => {
+  const [{value, ...field}, meta] = useField(props);
+  return (
+    <div className="field">
+      <label htmlFor={props.name}>{label}</label>
+      <div className="radiogroup">
+        {
+          options.map((option) => {
+            return (
+              <>
+                <input
+                  id="company"
+                  type="radio"
+                  value={option.value}
+                  defaultChecked={meta.value===option.value}
+                  {...field}
+                  {...props}
+                />
+                <label htmlFor={option.name}>{option.label}</label>              
+              </>
+            )
+          })
+        }
+      </div>
       {meta.touched && meta.error && <div className='error'>{meta.error}</div>}
     </div>
   );
@@ -100,38 +138,17 @@ export default function useTrainingRequestForm() {
     >
       {formik => (
         <Form onSubmit={formik.handleSubmit} method="POST">
-
-          <div className="field">
-            <label htmlFor="caretakerType">Caretaker Type</label>
-            <div className="radiogroup">
-              <input
-                id="company"
-                type="radio"
-                name="caretakerType"
-                value={CaretakerType.Company}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                defaultChecked={formik.values.caretakerType===CaretakerType.Company}
-              />
-              <label htmlFor="company">Company</label>
-              <input
-                id="person"
-                type="radio"
-                name="caretakerType"
-                value={CaretakerType.Person}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                defaultChecked={formik.values.caretakerType===CaretakerType.Person}
-              />
-              <label htmlFor="person">Person</label>
-            </div>
-            {formik.touched.caretakerType && formik.errors.caretakerType && <div className='error'>{formik.errors.caretakerType}</div>}
-          </div>
-
-          <SquirrelTextInput label="Caretaker Name" name="caretakerName" />
-          <SquirrelTextInput label="Email" name="email" type="email" />
-          <SquirrelTextInput label="Phone" name="phone" type="tel" />
-          <SquirrelTextInput label="Squirrel Name" name="squirrelName" />
+          <LocalRadioInput
+            label="Caretaker Type"
+            name="caretakerType"
+            options={[
+              { label: "Person", name: "person", value: CaretakerType.Person.toString() },
+              { label: "Company", name: "company", value: CaretakerType.Company.toString() }
+            ]} />
+          <LocalTextInput label="Caretaker Name" name="caretakerName" />
+          <LocalTextInput label="Email" name="email" type="email" />
+          <LocalTextInput label="Phone" name="phone" type="tel" />
+          <LocalTextInput label="Squirrel Name" name="squirrelName" />
 
           <button type="submit">Register Squirrel</button>
         </Form>
