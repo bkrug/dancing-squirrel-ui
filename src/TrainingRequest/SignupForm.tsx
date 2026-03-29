@@ -1,8 +1,7 @@
-import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import "./SignupForm.css";
-import parseToCamelCase from "../Forms/Submission/jsonParsing";
-import FormResponse from '../Forms/Submission/formResponse';
+import submitFormikForm from "../Forms/Submission/formikSubmission";
 import { LocalTextInput, LocalRadioInput } from '../Forms/Fields/LocalFields';
 
 enum CaretakerType { Empty, Person, Company };
@@ -21,53 +20,6 @@ class TrainingRequestValidationFailures {
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
-}
-
-function getFormData(source: any) : FormData {
-  var formData = new FormData();
-  let key: keyof any;
-  for (key in source) {
-    let foundValue = source[key];
-    formData.append(key, foundValue.toString());
-  }
-  return formData;
-}
-
-function submitFormikForm<TValues extends object, TValidationFailures extends object>
-  (
-    url: string,
-    values: TValues,
-    actions: FormikHelpers<TValues>
-  )
-{
-  let formData = getFormData(values);
-
-  fetch(url, {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.text())
-  .then(jsonString => {
-    let parsedResponse = parseToCamelCase(FormResponse<TValidationFailures>, jsonString);
-    if (parsedResponse.isSuccess) {
-      actions.resetForm();
-    }
-    else if (parsedResponse.validationFailuresStrict) {
-      actions.setErrors(parsedResponse.validationFailuresStrict);
-    }
-    else if (parsedResponse.isInternalError) {
-      alert("An internal error occurred.");
-    }
-    else {
-      alert("A malformed response was received from the server.");
-    }
-    actions.setSubmitting(false);
-  })
-  .catch(httpErrors => {
-    console.error(httpErrors);
-    alert("An HTTP error occurred.");
-    actions.setSubmitting(false);
-  });
 }
 
 export default function useTrainingRequestForm() {
@@ -108,4 +60,3 @@ export default function useTrainingRequestForm() {
     </Formik>
   );
 }
-
