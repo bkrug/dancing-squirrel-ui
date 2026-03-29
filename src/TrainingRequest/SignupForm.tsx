@@ -23,6 +23,16 @@ class TrainingRequestValidationFailures {
   squirrelName: string = "";
 }
 
+function getFormData(source: any) : FormData {
+  var formData = new FormData();
+  let key: keyof any;
+  for (key in source) {
+    let foundValue = source[key];
+    formData.append(key, foundValue.toString());
+  }
+  return formData;
+}
+
 export default function useTrainingRequestForm() {
   return (
     <Formik
@@ -41,12 +51,7 @@ export default function useTrainingRequestForm() {
         //Need generics for FormValues class and ValidationFailures class
         //Need to create FormData object from reflection
 
-        let formData = new FormData();
-        formData.append("caretakerType", values.caretakerType.toString());
-        formData.append("caretakerName", values.caretakerName);
-        formData.append("email", values.email);
-        formData.append("phone", values.phone);
-        formData.append("squirrelName", values.squirrelName);
+        let formData = getFormData(values);
 
         fetch(url, {
           method: "POST",
