@@ -30,15 +30,33 @@ export default function useTrainingRequestForm() {
   return (
     <Formik
       initialValues={new TrainingRequestFormValues()}
-      validationSchema={Yup.object({
-        caretakerName: Yup.string()
-          .required('Required'),
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Required'),
-        squirrelName: Yup.string()
-          .required('Required'),
-        })}
+      validationSchema={
+        Yup.object({
+          caretakerCompanyName: Yup.string()
+            .when('caretakerType', {
+              is: (value: any) => value==CaretakerType.Company,
+              then: (schema) => schema.required('Required'),
+              otherwise: (schema) => schema.notRequired()
+            }),
+          caretakerFirstName: Yup.string()
+            .when('caretakerType', {
+              is: (value: any) => value==CaretakerType.Person,
+              then: (schema) => schema.required('Required'),
+              otherwise: (schema) => schema.notRequired()
+            }),
+          caretakerLastName: Yup.string()
+            .when('caretakerType', {
+              is: (value: any) => value==CaretakerType.Person,
+              then: (schema) => schema.required('Required'),
+              otherwise: (schema) => schema.notRequired()
+            }),
+          email: Yup.string()
+            .email('Invalid email address')
+            .required('Required'),
+          squirrelName: Yup.string()
+            .required('Required'),
+        })
+      }
       onSubmit={(values, actions) => {
         let url = "http://localhost:5626/api/request/create";
         submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>(url, values, actions);
@@ -47,7 +65,7 @@ export default function useTrainingRequestForm() {
       {formik => (
         <Form onSubmit={formik.handleSubmit} method="POST">
           <fieldset>
-            <legend>Owner/Caretaker Details</legend>          
+            <legend>Owner/Caretaker Details</legend>
             <LocalRadioInput
               label="Type"
               name="caretakerType"
