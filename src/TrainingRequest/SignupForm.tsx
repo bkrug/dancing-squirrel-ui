@@ -8,7 +8,9 @@ enum CaretakerType { Empty, Person, Company };
 
 class TrainingRequestFormValues {
   caretakerType: CaretakerType = CaretakerType.Person;
-  caretakerName: string = "";
+  caretakerFirstName: string = "";
+  caretakerLastName: string = "";
+  caretakerCompanyName: string = "";
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
@@ -16,7 +18,9 @@ class TrainingRequestFormValues {
 
 class TrainingRequestValidationFailures {
   caretakerType: string = "";
-  caretakerName: string = "";
+  caretakerFirstName: string = "";
+  caretakerLastName: string = "";
+  caretakerCompanyName: string = "";
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
@@ -42,16 +46,30 @@ export default function useTrainingRequestForm() {
     >
       {formik => (
         <Form onSubmit={formik.handleSubmit} method="POST">
-          <LocalRadioInput
-            label="Caretaker Type"
-            name="caretakerType"
-            options={[
-              { label: "Person", value: CaretakerType.Person.toString() },
-              { label: "Company", value: CaretakerType.Company.toString() }
-            ]} />
-          <LocalTextInput label="Caretaker Name" name="caretakerName" />
-          <LocalTextInput label="Email" name="email" type="email" />
-          <LocalTextInput label="Phone" name="phone" type="tel" />
+          <fieldset>
+            <legend>Owner/Caretaker Details</legend>          
+            <LocalRadioInput
+              label="Type"
+              name="caretakerType"
+              options={[
+                { label: "Person", value: CaretakerType.Person.toString() },
+                { label: "Company", value: CaretakerType.Company.toString() }
+              ]} />
+            {
+              formik.values.caretakerType == CaretakerType.Person
+              ? (
+                <>
+                  <LocalTextInput label="First Name" name="caretakerFirstName" />
+                  <LocalTextInput label="Last Name" name="caretakerLastName" />
+                </>
+              )
+              : (
+                <LocalTextInput label="Organization Name" name="caretakerCompanyName" />
+              )
+            }
+            <LocalTextInput label="Email" name="email" type="email" />
+            <LocalTextInput label="Phone" name="phone" type="tel" />
+          </fieldset>
           <LocalTextInput label="Squirrel Name" name="squirrelName" />
 
           <button type="submit">Register Squirrel</button>

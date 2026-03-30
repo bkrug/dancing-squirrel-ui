@@ -11,8 +11,10 @@ form {
   border-radius: 1em;
 }
 
-.field  {
-  margin-bottom: 1em;
+.field + .field,
+fieldset + .field,
+button[type="submit"]  {
+  margin-top: 1em;
 }
 
 label {
@@ -79,15 +81,4 @@ textarea:user-invalid {
   padding-left: 150px;
   margin-left: .5em;
   text-align: left;
-}
-
-.button {
-  /* Align buttons with the text fields */
-  padding-left: 90px; /* same size as the label elements */
-}
-
-button {
-  /* This extra margin represent roughly the same space as the space
-     between the labels and their text fields */
-  margin-left: 0.5em;
 }
