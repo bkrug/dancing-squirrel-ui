@@ -45,7 +45,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
                   id="company"
                   type="radio"
                   value={option.value}
-                  defaultChecked={meta.value==option.value}
+                  defaultChecked={meta.value.toString()===option.value}
                   {...field}
                   {...props}
                 />

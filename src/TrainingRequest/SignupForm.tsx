@@ -34,19 +34,19 @@ export default function useTrainingRequestForm() {
         Yup.object({
           caretakerCompanyName: Yup.string()
             .when('caretakerType', {
-              is: (value: any) => value==CaretakerType.Company,
+              is: (value: any) => value.toString()===CaretakerType.Company.toString(),
               then: (schema) => schema.required('Required'),
               otherwise: (schema) => schema.notRequired()
             }),
           caretakerFirstName: Yup.string()
             .when('caretakerType', {
-              is: (value: any) => value==CaretakerType.Person,
+              is: (value: any) => value.toString()===CaretakerType.Person.toString(),
               then: (schema) => schema.required('Required'),
               otherwise: (schema) => schema.notRequired()
             }),
           caretakerLastName: Yup.string()
             .when('caretakerType', {
-              is: (value: any) => value==CaretakerType.Person,
+              is: (value: any) => value.toString()===CaretakerType.Person.toString(),
               then: (schema) => schema.required('Required'),
               otherwise: (schema) => schema.notRequired()
             }),
@@ -74,7 +74,7 @@ export default function useTrainingRequestForm() {
                 { label: "Company", value: CaretakerType.Company.toString() }
               ]} />
             {
-              formik.values.caretakerType == CaretakerType.Person
+              formik.values.caretakerType.toString() === CaretakerType.Person.toString()
               ? (
                 <>
                   <LocalTextInput label="First Name" name="caretakerFirstName" />
