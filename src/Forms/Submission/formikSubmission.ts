@@ -2,6 +2,9 @@ import { FormikHelpers } from 'formik';
 import parseToCamelCase from "../Submission/jsonParsing";
 import FormResponse from '../Submission/formResponse';
 
+const baseUrl = process.env.REACT_APP_BACKEND_API;
+if (!baseUrl) throw new TypeError("Base URL is not configured");
+
 export function getFormData(source: any) : FormData {
   var formData = new FormData();
   let key: keyof any;
@@ -14,14 +17,15 @@ export function getFormData(source: any) : FormData {
 
 export default function submitFormikForm<TValues extends object, TValidationFailures extends object>
   (
-    url: string,
+    endpoint: string,
     values: TValues,
     actions: FormikHelpers<TValues>
   )
 {
   let formData = getFormData(values);
+  let fullUrl = new URL(endpoint, baseUrl)
 
-  fetch(url, {
+  fetch(fullUrl, {
     method: "POST",
     body: formData
   })

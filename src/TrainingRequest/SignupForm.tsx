@@ -58,8 +58,7 @@ export default function useTrainingRequestForm() {
         })
       }
       onSubmit={(values, actions) => {
-        let url = "http://localhost:5626/api/request/create";
-        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>(url, values, actions);
+        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>("request/create", values, actions);
       }}
     >
       {formik => (

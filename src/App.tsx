@@ -1,4 +1,3 @@
-import React from "react";
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
 import useTrainingRequestForm from "./TrainingRequest/SignupForm";
