@@ -21,11 +21,12 @@ export default function submitFormikForm<TValues extends object, TValidationFail
     values: TValues,
     actions: FormikHelpers<TValues>
   )
+  : Promise<FormResponse<TValidationFailures>>
 {
   let formData = getFormData(values);
   let fullUrl = new URL(endpoint, baseUrl)
 
-  fetch(fullUrl, {
+  return fetch(fullUrl, {
     method: "POST",
     body: formData
   })
@@ -45,10 +46,16 @@ export default function submitFormikForm<TValues extends object, TValidationFail
       alert("A malformed response was received from the server.");
     }
     actions.setSubmitting(false);
+    return parsedResponse;
   })
   .catch(httpErrors => {
     console.error(httpErrors);
     alert("An HTTP error occurred.");
     actions.setSubmitting(false);
+    return {
+      isSuccess: false,
+      isInternalError: true,
+      validationFailures: {}
+    } as FormResponse<TValidationFailures>;
   });
 }

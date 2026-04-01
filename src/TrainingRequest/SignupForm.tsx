@@ -26,7 +26,9 @@ class TrainingRequestValidationFailures {
   squirrelName: string = "";
 }
 
-export default function useTrainingRequestForm() {
+type ParameterlessCallback = () => void;
+
+export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Formik
       initialValues={new TrainingRequestFormValues()}
@@ -58,7 +60,10 @@ export default function useTrainingRequestForm() {
         })
       }
       onSubmit={(values, actions) => {
-        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>("request/create", values, actions);
+        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>("request/create", values, actions)
+          .then(parsedResponse => {
+            if (parsedResponse.isSuccess) onSuccess();
+          });
       }}
     >
       {formik => (

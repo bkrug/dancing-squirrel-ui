@@ -1,8 +1,14 @@
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
-import useTrainingRequestForm from "./TrainingRequest/SignupForm";
+import TrainingRequestForm from "./TrainingRequest/SignupForm";
+import { useState, useCallback } from "react";
 
 function App() {
+  let [isComplete, setComplete] = useState(false);
+  const onCompletion = useCallback(() => {
+    setComplete(true)
+  }, [isComplete]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +21,10 @@ function App() {
         </p>
       </header>
       <div>
-        {useTrainingRequestForm()}
+        {!isComplete
+          ? <TrainingRequestForm onSuccess={onCompletion} />
+          : (<h1>Successful Submission</h1>)
+        }
       </div>
     </div>
   );
