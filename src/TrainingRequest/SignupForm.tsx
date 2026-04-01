@@ -26,8 +26,6 @@ class TrainingRequestValidationFailures {
   squirrelName: string = "";
 }
 
-type ParameterlessCallback = () => void;
-
 export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Formik
