@@ -1,6 +1,7 @@
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
 import TrainingRequestForm from "./TrainingRequest/SignupForm";
+import LoginForm from "./Login/LoginForm";
 import { useState, useCallback } from "react";
 
 function App() {
@@ -8,6 +9,15 @@ function App() {
   const onCompletion = useCallback(() => {
     setComplete(true)
   }, []);
+  const makeTestRequest = useCallback(() => {
+    const baseUrl = process.env.REACT_APP_BACKEND_API;
+    if (!baseUrl) throw new TypeError("Base URL is not configured");
+    let fullUrl = new URL("api/security/loginCheck", baseUrl);
+
+    fetch(fullUrl, {
+      method: "POST"
+    })    
+  }, [])
 
   return (
     <div className="App">
@@ -20,6 +30,9 @@ function App() {
           Signup with us today to prepare your squirrel for the next great American musical or to awe a stadium full of fans.
         </p>
       </header>
+      <div>
+        <LoginForm onSuccess={makeTestRequest} />
+      </div>
       <div>
         {!isComplete
           ? <TrainingRequestForm onSuccess={onCompletion} />

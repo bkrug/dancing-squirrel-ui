@@ -1,0 +1,84 @@
+body {
+  /* Center the form on the page */
+  text-align: center;
+}
+
+form {
+  display: inline-block;
+  /* Form outline */
+  padding: 1em;
+  border: 1px solid #cccccc;
+  border-radius: 1em;
+}
+
+.field + .field,
+fieldset + .field,
+button[type="submit"]  {
+  margin-top: 1em;
+}
+
+label {
+  /* Uniform size & alignment */
+  display: inline-block;
+  min-width: 150px;
+  text-align: right;
+}
+
+input[type="radio"] + label {
+  min-width: auto;
+  margin: 0 .5em;
+}
+
+label + input,
+label + .radiogroup {
+  margin-left: .5em;
+}
+
+input:not([type="radio"]),
+textarea,
+.radiogroup {
+  /* Uniform text field size */
+  width: 300px;
+}
+
+input:not([type="radio"]),
+textarea {
+  /* To make sure that all text fields have the same font settings
+     By default, text areas have a monospace font */
+  font: 1em sans-serif;
+  box-sizing: border-box;
+  /* Match form field borders */
+  border: 1px solid #999999;
+}
+
+.radiogroup {
+  display: inline-block;
+}
+
+input:focus,
+textarea:focus {
+  /* Set the outline width and style */
+  outline-style: solid;
+  /* To give a little highlight on active elements */
+  outline-color: black;
+}
+
+textarea {
+  /* Align multiline text fields with their labels */
+  vertical-align: top;
+  /* Provide space to type some text */
+  height: 5em;
+}
+
+input:user-invalid,
+textarea:user-invalid {
+  outline-color: red;
+}
+
+/* Base the left margin and padding on the label's width and field's left margin */
+.error {
+  color: red;
+  padding-left: 150px;
+  margin-left: .5em;
+  text-align: left;
+}
