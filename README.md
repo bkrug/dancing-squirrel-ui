@@ -1,6 +1,6 @@
 ## Description
 
-This is a WebApi for managing an imaginary company that trains squirrels to work in the entertainment industry. See also the companion repo for the ReactJS application: https://github.com/bkrug/dancing-squirrel-api
+This is a React JS application for managing an imaginary company that trains squirrels to work in the entertainment industry. See also the companion repo for the ReactJS application: https://github.com/bkrug/dancing-squirrel-api
 
 ## Available Scripts
 
