@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+## Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a WebApi for managing an imaginary company that trains squirrels to work in the entertainment industry. See also the companion repo for the ReactJS application: https://github.com/bkrug/dancing-squirrel-api
 
 ## Available Scripts
 
