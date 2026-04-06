@@ -6,16 +6,16 @@ import { useState, useCallback } from "react";
 
 function App() {
   let [isComplete, setComplete] = useState(false);
-  const onCompletion = useCallback(() => {
-    setComplete(true)
-  }, []);
+  const onCompletion = useCallback(() => setComplete(true), []);
   const makeTestRequest = useCallback(() => {
     const baseUrl = process.env.REACT_APP_BACKEND_API;
     if (!baseUrl) throw new TypeError("Base URL is not configured");
-    let fullUrl = new URL("api/security/loginCheck", baseUrl);
+    let fullUrl = new URL("security/loginCheck", baseUrl);
 
     fetch(fullUrl, {
-      method: "POST"
+      method: "POST",
+      mode: "cors",
+      credentials: "include"
     })    
   }, [])
 

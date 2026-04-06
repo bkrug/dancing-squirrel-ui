@@ -31,7 +31,7 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
     method: "POST",
     headers: headers,
     mode: "cors",
-    credentials: "include",    
+    credentials: "include",
     body: JSON.stringify(values)
   })
   .then(response => {
@@ -73,7 +73,7 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
     method: "POST",
     headers: headers,
     mode: "cors",
-    credentials: "include",    
+    credentials: "include",
     body: JSON.stringify(values)
   })
   .then(response => response.text())
