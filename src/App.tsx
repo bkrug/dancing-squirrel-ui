@@ -1,12 +1,10 @@
 import breakdancingSquirrel from "./breakdancing-squirrel.jpg";
 import "./App.css";
-import TrainingRequestForm from "./TrainingRequest/SignupForm";
+import CustomerSignup from "./Pages/CustomerSignup/CustomerSignup";
 import LoginForm from "./Login/LoginForm";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 
 function App() {
-  let [isComplete, setComplete] = useState(false);
-  const onCompletion = useCallback(() => setComplete(true), []);
   const makeTestRequest = useCallback(() => {
     const baseUrl = process.env.REACT_APP_BACKEND_API;
     if (!baseUrl) throw new TypeError("Base URL is not configured");
@@ -34,10 +32,7 @@ function App() {
         <LoginForm onSuccess={makeTestRequest} />
       </div>
       <div>
-        {!isComplete
-          ? <TrainingRequestForm onSuccess={onCompletion} />
-          : (<><h1>Successful Submission</h1>Our representative will reach out to you.</>)
-        }
+        <CustomerSignup/>
       </div>
     </div>
   );

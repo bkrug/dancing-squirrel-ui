@@ -35,7 +35,7 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       {formik => (
         <Form onSubmit={formik.handleSubmit} method="POST">
           <LocalTextInput label="Username" name="username" type="text" />
-          <LocalTextInput label="Passowrd" name="password" type="password" />
+          <LocalTextInput label="Password" name="password" type="password" />
 
           <button type="submit">Login</button>
         </Form>

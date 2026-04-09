@@ -1,8 +1,8 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import "./SignupForm.css";
-import submitFormikForm from "../Forms/Submission/formikSubmission";
-import { LocalTextInput, LocalRadioInput } from '../Forms/Fields/LocalFields';
+import submitFormikForm from "../../../Forms/Submission/formikSubmission";
+import { LocalTextInput, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
 
 enum CaretakerType { Empty, Person, Company };
 
