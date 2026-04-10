@@ -4,6 +4,7 @@ import App from "./App";
 import Employee from "./Pages/Employee/Employee";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router";
+import RequiredAuth from "./Login/RequiredAuth";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -12,7 +13,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="login" element={<Employee />} />
+      <Route path="login" element={<RequiredAuth><Employee /></RequiredAuth>} />
     </Routes>
   </BrowserRouter>,
 );
