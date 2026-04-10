@@ -39,7 +39,7 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
     //actions.resetForm();
     actions.setSubmitting(false);
     return {
-      isSuccess: true,
+      isSuccess: response.ok,
       isInternalError: false,
       validationFailures: {}
     } as FormResponse<TValidationFailures>;

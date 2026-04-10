@@ -9,7 +9,6 @@ interface TextInputProps {
 
 export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || "text";
-  console.log("calculatedType", props.type);
   const [field, meta] = useField(props);
   return (
     <div className="field">
