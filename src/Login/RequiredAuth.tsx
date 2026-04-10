@@ -26,9 +26,9 @@ let testRequest = function() {
 };
 
 let logoutUser = function () {
-  let fullUrl = new URL("security/logout", baseUrl);  
+  let fullUrl = new URL("authentication", baseUrl);  
   return fetch(fullUrl, {
-    method: "POST",
+    method: "DELETE",
     mode: "cors",
     credentials: "include"
   })

@@ -26,7 +26,7 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         })
       }
       onSubmit={(values, actions) => {
-        submitUserCredentials<LoginFormValues, LoginValidationFailures>("security/login", values, actions)
+        submitUserCredentials<LoginFormValues, LoginValidationFailures>("authentication", values, actions)
           .then(parsedResponse => {
             if (parsedResponse.isSuccess) onSuccess();
           });
