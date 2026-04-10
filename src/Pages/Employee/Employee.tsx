@@ -26,6 +26,17 @@ let testRequest = function() {
   });
 };
 
+let logoutUser = function () {
+  let fullUrl = new URL("security/logout", baseUrl);  
+  return fetch(fullUrl, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include"
+  })
+  .then(response => response.ok)
+  .catch(() => false);  
+}
+
 export default function Employee() {
   const [authed, setAuth] = useState(false);
 
@@ -36,12 +47,15 @@ export default function Employee() {
   
   const makeTestRequest = useCallback(() => {
     setAuth(true);
-    localStorage.setItem("authed", "true");
     testRequest(); 
   }, []);
 
+  const makeLogoutRequest = function() {
+    logoutUser().then(logoutSuccessful => setAuth(!logoutSuccessful));
+  }
+
   return (
     authed
-    ? <div>Already Logged in.</div>
+    ? <div>Already Logged in.<button onClick={makeLogoutRequest}>Logout</button></div>
     : <LoginForm onSuccess={makeTestRequest} />);
 }
