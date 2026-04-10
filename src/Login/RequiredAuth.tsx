@@ -5,9 +5,9 @@ const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError("Base URL is not configured");
 
 let checkAuthentication = function () {
-  let fullUrl = new URL("security/loginCheck", baseUrl);
+  let fullUrl = new URL("authentication", baseUrl);
   return fetch(fullUrl, {
-    method: "POST",
+    method: "GET",
     mode: "cors",
     credentials: "include"
   })
@@ -16,10 +16,10 @@ let checkAuthentication = function () {
 };
 
 let testRequest = function() {
-  let fullUrl = new URL("security/adminCheck", baseUrl);
+  let fullUrl = new URL("authorization/admin", baseUrl);
 
   fetch(fullUrl, {
-    method: "POST",
+    method: "GET",
     mode: "cors",
     credentials: "include"
   });
@@ -36,7 +36,8 @@ let logoutUser = function () {
   .catch(() => false);  
 }
 
-//TODO: Store the state at a higher level like index.tsx so that we don't have to keep re-running this checkAuthentication() method
+//TODO: Store the state at a higher level like index.tsx so that we don't have to keep re-running this checkAuthentication() method.
+//BUG: checkAuthentication() is getting called directly after logging out. This is not necessary.
 export default function RequiredAuth({ children }: PropsWithChildren) {
   const [authed, setAuth] = useState(false);
 
