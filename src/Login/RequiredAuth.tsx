@@ -11,18 +11,11 @@ let checkAuthentication = function () {
     mode: "cors",
     credentials: "include"
   })
-  .then(response => response.ok)
+  .then(response => {
+    console.log(response);
+    return response.ok;
+  })
   .catch(() => false);
-};
-
-let testRequest = function() {
-  let fullUrl = new URL("authorization/admin", baseUrl);
-
-  fetch(fullUrl, {
-    method: "GET",
-    mode: "cors",
-    credentials: "include"
-  });
 };
 
 let logoutUser = function () {
@@ -33,27 +26,20 @@ let logoutUser = function () {
     credentials: "include"
   })
   .then(response => response.ok)
-  .catch(() => false);  
+  .catch(() => false);
 }
 
 //TODO: Store the state at a higher level like index.tsx so that we don't have to keep re-running this checkAuthentication() method.
-//BUG: checkAuthentication() is getting called directly after logging out. This is not necessary.
 export default function RequiredAuth({ children }: PropsWithChildren) {
-  const [authed, setAuth] = useState(false);
-
-  if (authed)
-    testRequest();
-  else
+  const [authed, setAuth] = useState(null as boolean | null);
+  if (authed === null)
     checkAuthentication().then(isAuthenticated => setAuth(isAuthenticated));
   
-  const makeTestRequest = useCallback(() => {
-    setAuth(true);
-    testRequest(); 
-  }, []);
-
   const makeLogoutRequest = function() {
     logoutUser().then(logoutSuccessful => setAuth(!logoutSuccessful));
   }
+
+  const recordSuccessfulLogin = useCallback(() => setAuth(true), []);
 
   return (
     authed
@@ -61,5 +47,5 @@ export default function RequiredAuth({ children }: PropsWithChildren) {
         <button onClick={makeLogoutRequest}>Logout</button>
         {children}
       </>
-    : <LoginForm onSuccess={makeTestRequest} />);
+    : <LoginForm onSuccess={recordSuccessfulLogin} />);
 }
