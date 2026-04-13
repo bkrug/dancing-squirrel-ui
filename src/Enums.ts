@@ -1,0 +1,1 @@
+export enum CaretakerType { Empty, Person, Company };

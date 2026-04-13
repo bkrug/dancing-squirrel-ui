@@ -1,6 +1,6 @@
 import { FormikHelpers } from 'formik';
 import parseToCamelCase from "../Submission/jsonParsing";
-import FormResponse from '../Submission/formResponse';
+import FormResponse, { PagedData } from '../Submission/formResponse';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError("Base URL is not configured");
@@ -13,7 +13,7 @@ export function getFormData(source: any) : FormData {
     formData.append(key, foundValue.toString());
   }
   return formData;
-}
+};
 
 export function submitUserCredentials<TValues extends object, TValidationFailures extends object>
   (
@@ -54,7 +54,7 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
   });
-}
+};
 
 //TODO: remove duplicate code
 export function submitFormikJson<TValues extends object, TValidationFailures extends object>
@@ -104,7 +104,7 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
   });
-}
+};
 
 export default function submitFormikForm<TValues extends object, TValidationFailures extends object>
   (
@@ -151,4 +151,31 @@ export default function submitFormikForm<TValues extends object, TValidationFail
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
   });
-}
+};
+
+export function getJson<TParsed extends object>(endpoint: string ) : Promise<PagedData<TParsed>>
+{
+  const fullUrl = new URL(endpoint, baseUrl)
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
+
+  return fetch(fullUrl, {
+    method: "GET",
+    headers: headers,
+    mode: "cors",
+    credentials: "include"
+  })
+  .then(response => response.text())
+  .then(jsonString => {
+    let parsedResponse = parseToCamelCase(PagedData<TParsed>, jsonString);
+    if (!parsedResponse) {
+      alert("A malformed response was received from the server.");
+    }
+    return parsedResponse;
+  })
+  .catch(httpErrors => {
+    console.error(httpErrors);
+    alert("An HTTP error occurred.");
+    return new PagedData<TParsed>();
+  });
+};

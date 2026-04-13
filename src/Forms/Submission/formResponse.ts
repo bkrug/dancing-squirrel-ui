@@ -6,3 +6,10 @@ export default class FormResponse<T extends object> {
     return this.validationFailures as T;
   }
 }
+
+export class PagedData<T extends object> {
+  page: number = 0;
+  morePages: boolean = false;
+  totalRecords: number | null = null;
+  data: T[] = [];
+}

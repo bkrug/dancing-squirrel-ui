@@ -3,8 +3,7 @@ import * as Yup from 'yup';
 import "./SignupForm.css";
 import submitFormikForm from "../../../Forms/Submission/formikSubmission";
 import { LocalTextInput, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
-
-enum CaretakerType { Empty, Person, Company };
+import { CaretakerType } from '../../../Enums';
 
 class TrainingRequestFormValues {
   caretakerType: CaretakerType = CaretakerType.Person;
