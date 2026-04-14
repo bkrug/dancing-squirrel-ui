@@ -40,15 +40,35 @@ const columns: TableColumn<TrainingRequestGridFields>[] = [
   }
 ];
 
+const pageLength = 10;
+
 export default function Employee() {
   let [gridRows, setRows] = useState(null as (TrainingRequestGridFields[] | null));
+  let [totalRows, setTotalRows] = useState(0);
 
-  let refreshGridData = () => getJson<TrainingRequestGridFields>("request").then(parsedResponse => setRows(parsedResponse.data));
+  const refreshGridData = (page : number) => 
+    getJson<TrainingRequestGridFields>(`request?page=${page}&length=${pageLength}`)
+    .then(parsedResponse => {
+      setRows(parsedResponse.data);
+      if (parsedResponse.totalRecords != null)
+        setTotalRows(parsedResponse.totalRecords);
+      else if (parsedResponse.morePages)
+        setTotalRows(page * pageLength + 1);
+      else
+        setTotalRows((page - 1) * pageLength + parsedResponse.data.length);
+    });
 
   if (gridRows === null)
-    refreshGridData();
+    refreshGridData(1);
 
   return (
-    <DataTable columns={columns} data={gridRows || []} />
+    <DataTable
+      columns={columns}
+      data={gridRows || []}
+      pagination
+			paginationServer
+			paginationTotalRows={totalRows}
+      paginationRowsPerPageOptions={[pageLength]}
+      onChangePage={refreshGridData} />
   );
 }
