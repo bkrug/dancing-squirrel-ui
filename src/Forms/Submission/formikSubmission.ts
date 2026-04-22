@@ -177,6 +177,6 @@ export async function getJsonWithConstructor<TParsed extends object>(endpoint: s
   } catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
-    return new constructor;
+    return new constructor();
   }
 };

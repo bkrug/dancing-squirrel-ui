@@ -12,7 +12,7 @@ export default function OnboardCustomer() {
       getJsonWithConstructor(`requests/${trainingRequestId}`, TrainingRequest)
         .then(json => setRecord(json as TrainingRequest))
     },
-    []
+    [ trainingRequestId ]
   );
 
   return (
