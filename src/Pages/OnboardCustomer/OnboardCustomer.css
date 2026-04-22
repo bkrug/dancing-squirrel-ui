@@ -1,0 +1,13 @@
+body {
+  text-align: center;
+}
+
+td {
+  text-align: left;
+}
+
+td:first-child {
+  font-weight: bold;
+  padding-right: 2em;
+  text-align: right;
+}

@@ -9,6 +9,6 @@ export default class TrainingRequest
     phone: string | null = null;
     squirrelId: number | null = null;
     onboardUsername: string | null = null;
-    onboardingDateTime: Date | null = null;
+    onboardingDateTime: string | null = null;
     descriptionOfNeeds: string | null = null;
   }
