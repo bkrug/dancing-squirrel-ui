@@ -1,8 +1,8 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import "./SignupForm.css";
+import "./TrainingRequestForm.css";
 import submitFormikForm from "../../../Forms/Submission/formikSubmission";
-import { LocalTextInput, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
+import { LocalTextInput, LocalTextArea, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
 import { CaretakerType } from '../../../Enums';
 
 class TrainingRequestFormValues {
@@ -92,7 +92,7 @@ export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => vo
             <LocalTextInput label="Phone" name="phone" type="tel" />
           </fieldset>
           <LocalTextInput label="Squirrel Name" name="squirrelName" />
-          <LocalTextInput label="Describe the training you are looking for" name="descriptionOfNeeds" />
+          <LocalTextArea label="Describe the training you are looking for" name="descriptionOfNeeds" />
 
           <button type="submit">Register Squirrel</button>
         </Form>

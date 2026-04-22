@@ -1,22 +1,3 @@
-body {
-  /* Center the form on the page */
-  text-align: center;
-}
-
-form {
-  display: inline-block;
-  /* Form outline */
-  padding: 1em;
-  border: 1px solid #cccccc;
-  border-radius: 1em;
-}
-
-.field + .field,
-fieldset + .field,
-button[type="submit"]  {
-  margin-top: 1em;
-}
-
 label {
   /* Uniform size & alignment */
   display: inline-block;

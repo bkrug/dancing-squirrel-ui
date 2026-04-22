@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useField } from 'formik';
+import './LocalFields.css';
 
 interface TextInputProps {
   label: string,
@@ -14,7 +15,19 @@ export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
     <div className="field">
       <label htmlFor={props.name}>{label}</label>
       <input {...field} {...props} />
-      {meta.touched && meta.error && <div className='error'>{meta.error}</div>}
+      {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+    </div>
+  );
+};
+
+export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {
+  props.type = props.type || "text";
+  const [field, meta] = useField(props);
+  return (
+    <div className="field">
+      <label htmlFor={props.name}>{label}</label>
+      <textarea {...field} {...props} />
+      {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </div>
   );
 };
@@ -54,7 +67,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
           })
         }
       </div>
-      {meta.touched && meta.error && <div className='error'>{meta.error}</div>}
+      {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </div>
   );
 };
