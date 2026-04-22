@@ -1,6 +1,5 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-//TODO: Reduce duplicate styling
 import './LoginForm.css';
 import { submitUserCredentials } from '../Forms/Submission/formikSubmission';
 import { LocalTextInput } from '../Forms/Fields/LocalFields';

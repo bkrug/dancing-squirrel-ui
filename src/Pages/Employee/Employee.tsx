@@ -1,4 +1,3 @@
-//TODO: Reduce duplicate styling
 import './Employee.css';
 import { useEffect, useState } from 'react';
 import { getJson } from '../../Forms/Submission/formikSubmission';
@@ -40,8 +39,6 @@ export default function Employee() {
   let [gridRows, setRows] = useState(null as (TrainingRequest[] | null));
   let [totalRows, setTotalRows] = useState(0);
 
-  //TODO: Let's retire this "morePages" property.
-  //If we need it in the future we can have two separate PagedDatd representations.
   const refreshGridData = (page : number) => 
     getJson<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
     .then(parsedResponse => {
