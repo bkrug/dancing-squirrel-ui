@@ -24,7 +24,7 @@ export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || "text";
   const [field, meta] = useField(props);
   return (
-    <div className="field">
+    <div className="field textareacontainer">
       <label htmlFor={props.name}>{label}</label>
       <textarea {...field} {...props} />
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}

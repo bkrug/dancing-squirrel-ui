@@ -16,7 +16,6 @@ label + .radiogroup {
 }
 
 input:not([type="radio"]),
-textarea,
 .radiogroup {
   /* Uniform text field size */
   width: 300px;
@@ -44,9 +43,13 @@ textarea:focus {
   outline-color: black;
 }
 
+.textareacontainer {
+  text-align: left;
+}
+
 textarea {
-  /* Align multiline text fields with their labels */
-  vertical-align: top;
+  width: 500px;
+  display: block;
   /* Provide space to type some text */
   height: 5em;
 }
