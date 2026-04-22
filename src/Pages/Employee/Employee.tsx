@@ -1,56 +1,52 @@
 //TODO: Reduce duplicate styling
 import './Employee.css';
 import { useEffect, useState } from 'react';
-import { CaretakerType } from '../../Enums';
 import { getJson } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import TrainingRequest from '../../DbModels/TrainingRequest';
 
-class TrainingRequestGridFields {
-  caretakerType: CaretakerType = CaretakerType.Person;
-  caretakerFirstName: string = '';
-  caretakerLastName: string = '';
-  caretakerCompanyName: string = '';
-  email: string = '';
-  phone: string = '';
-  squirrelName: string = '';
-}
-
-const columns: TableColumn<TrainingRequestGridFields>[] = [
-	{
-		name: 'Caretaker Type',
-		selector: row => row.caretakerType === CaretakerType.Person ? 'individual' : 'organization',
-	},
-	{
-		name: 'Caretaker Name',
-		selector: row => row.caretakerType === CaretakerType.Person
-      ? row.caretakerLastName + ', ' + row.caretakerFirstName
-      : row.caretakerCompanyName,
-	},
+const columns: TableColumn<TrainingRequest>[] = [
+  {
+    name: 'Buttons',
+		cell: row => (<a href={`onboard/${row.trainingRequestId}`} rel="noopener noreferrer">Onboard Customer</a>)
+  },
   {
     name: 'Squirrel',
     selector: row => row.squirrelName
   },
+	{
+		name: 'Caretaker Type',
+		selector: row => row.organizationName === null ? 'individual' : 'organization',
+	},
+	{
+		name: 'Caretaker Name',
+		selector: row => row.organizationName === null
+      ? row.ownerLastName + ', ' + row.ownerFirstName
+      : row.organizationName
+	},
   {
     name: 'Email',
     selector: row => row.email
   },
   {
     name: 'Phone',
-    selector: row => row.phone
+    selector: row => row.phone || ''
   }
 ];
 
 const pageLength = 10;
 
 export default function Employee() {
-  let [gridRows, setRows] = useState(null as (TrainingRequestGridFields[] | null));
+  let [gridRows, setRows] = useState(null as (TrainingRequest[] | null));
   let [totalRows, setTotalRows] = useState(0);
 
+  //TODO: Let's retire this "morePages" property.
+  //If we need it in the future we can have two separate PagedDatd representations.
   const refreshGridData = (page : number) => 
-    getJson<TrainingRequestGridFields>(`requests?page=${page}&length=${pageLength}`)
+    getJson<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
     .then(parsedResponse => {
       setRows(parsedResponse.data);
-      if (parsedResponse.totalRecords != null)
+      if (parsedResponse.totalRecords !== null)
         setTotalRows(parsedResponse.totalRecords);
       else if (parsedResponse.morePages)
         setTotalRows(page * pageLength + 1);
