@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import Employee from "./Pages/Employee/Employee";
+import OnboardCustomer from "./Pages/OnboardCustomer/OnboardCustomer";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router";
 import RequiredAuth from "./Login/RequiredAuth";
@@ -14,6 +15,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="employee" element={<RequiredAuth><Employee /></RequiredAuth>} />
+      <Route path="onboard/:trainingRequestId" element={<RequiredAuth><OnboardCustomer /></RequiredAuth>} />
     </Routes>
   </BrowserRouter>,
 );
