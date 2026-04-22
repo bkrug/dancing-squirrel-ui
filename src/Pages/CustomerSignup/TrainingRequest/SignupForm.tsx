@@ -1,6 +1,6 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import "./SignupForm.css";
+import "./SignupForm";
 import submitFormikForm from "../../../Forms/Submission/formikSubmission";
 import { LocalTextInput, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
 import { CaretakerType } from '../../../Enums';
@@ -13,6 +13,7 @@ class TrainingRequestFormValues {
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
+  descriptionOfNeeds: string = "";
 }
 
 class TrainingRequestValidationFailures {
@@ -23,6 +24,7 @@ class TrainingRequestValidationFailures {
   email: string = "";
   phone: string = "";
   squirrelName: string = "";
+  descriptionOfNeeds: string = "";
 }
 
 export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => void }) {
@@ -90,6 +92,7 @@ export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => vo
             <LocalTextInput label="Phone" name="phone" type="tel" />
           </fieldset>
           <LocalTextInput label="Squirrel Name" name="squirrelName" />
+          <LocalTextInput label="Describe the training you are looking for" name="descriptionOfNeeds" />
 
           <button type="submit">Register Squirrel</button>
         </Form>
