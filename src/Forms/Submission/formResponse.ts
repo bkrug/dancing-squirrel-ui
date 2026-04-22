@@ -9,7 +9,6 @@ export default class FormResponse<T extends object> {
 
 export class PagedData<T extends object> {
   page: number = 0;
-  morePages: boolean = false;
-  totalRecords: number | null = null;
+  totalRecords: number = 0;
   data: T[] = [];
 }

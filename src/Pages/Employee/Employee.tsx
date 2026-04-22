@@ -46,12 +46,7 @@ export default function Employee() {
     getJson<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
     .then(parsedResponse => {
       setRows(parsedResponse.data);
-      if (parsedResponse.totalRecords !== null)
-        setTotalRows(parsedResponse.totalRecords);
-      else if (parsedResponse.morePages)
-        setTotalRows(page * pageLength + 1);
-      else
-        setTotalRows((page - 1) * pageLength + parsedResponse.data.length);
+      setTotalRows(parsedResponse.totalRecords);
     });
 
   useEffect(() => { refreshGridData(1); }, []);
