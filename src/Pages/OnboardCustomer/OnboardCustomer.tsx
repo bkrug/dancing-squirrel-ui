@@ -10,12 +10,7 @@ export default function OnboardCustomer() {
   useEffect(
     () => {
       getJsonWithConstructor(`requests?trainingRequestId=${trainingRequestId}`, TrainingRequest)
-        .then(json => {
-          let trainingRequest = json as TrainingRequest;
-          console.log(json);
-          console.log(trainingRequest);
-          setRecord(trainingRequest);
-        });
+        .then(json => setRecord(json as TrainingRequest))
     },
     []
   );
