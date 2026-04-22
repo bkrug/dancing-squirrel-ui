@@ -179,3 +179,30 @@ export function getJson<TParsed extends object>(endpoint: string ) : Promise<Pag
     return new PagedData<TParsed>();
   });
 };
+
+export function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed} ) : Promise<TParsed>
+{
+  const fullUrl = new URL(endpoint, baseUrl)
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
+
+  return fetch(fullUrl, {
+    method: 'GET',
+    headers: headers,
+    mode: 'cors',
+    credentials: 'include'
+  })
+  .then(response => response.text())
+  .then(jsonString => {
+    let parsedResponse = parseToCamelCase(constructor, jsonString);
+    if (!parsedResponse) {
+      alert('A malformed response was received from the server.');
+    }
+    return parsedResponse;
+  })
+  .catch(httpErrors => {
+    console.error(httpErrors);
+    alert('An HTTP error occurred.');
+    return new constructor;
+  });
+};
