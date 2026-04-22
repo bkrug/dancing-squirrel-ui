@@ -59,7 +59,7 @@ export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => vo
         })
       }
       onSubmit={(values, actions) => {
-        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>('request/create', values, actions)
+        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>('requests', values, actions)
           .then(parsedResponse => {
             if (parsedResponse.isSuccess) onSuccess();
           });

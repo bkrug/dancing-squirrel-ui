@@ -47,7 +47,7 @@ export default function Employee() {
   let [totalRows, setTotalRows] = useState(0);
 
   const refreshGridData = (page : number) => 
-    getJson<TrainingRequestGridFields>(`request?page=${page}&length=${pageLength}`)
+    getJson<TrainingRequestGridFields>(`requests?page=${page}&length=${pageLength}`)
     .then(parsedResponse => {
       setRows(parsedResponse.data);
       if (parsedResponse.totalRecords != null)

@@ -9,7 +9,7 @@ export default function OnboardCustomer() {
 
   useEffect(
     () => {
-      getJsonWithConstructor(`requests?trainingRequestId=${trainingRequestId}`, TrainingRequest)
+      getJsonWithConstructor(`requests/${trainingRequestId}`, TrainingRequest)
         .then(json => setRecord(json as TrainingRequest))
     },
     []
