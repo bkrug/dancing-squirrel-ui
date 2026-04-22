@@ -15,7 +15,7 @@ function getFormData(source: any) : FormData {
   return formData;
 };
 
-export function submitUserCredentials<TValues extends object, TValidationFailures extends object>
+export async function submitUserCredentials<TValues extends object, TValidationFailures extends object>
   (
     endpoint: string,
     values: TValues,
@@ -27,14 +27,14 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');
 
-  return fetch(fullUrl, {
-    method: 'POST',
-    headers: headers,
-    mode: 'cors',
-    credentials: 'include',
-    body: JSON.stringify(values)
-  })
-  .then(response => {
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers: headers,
+      mode: 'cors',
+      credentials: 'include',
+      body: JSON.stringify(values)
+    });
     console.log(response);
     //actions.resetForm();
     actions.setSubmitting(false);
@@ -43,8 +43,7 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
       isInternalError: false,
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
-  })
-  .catch(httpErrors => {
+  } catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
     actions.setSubmitting(false);
@@ -53,11 +52,11 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
       isInternalError: true,
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
-  });
+  }
 };
 
 //TODO: remove duplicate code
-export function submitFormikJson<TValues extends object, TValidationFailures extends object>
+export async function submitFormikJson<TValues extends object, TValidationFailures extends object>
   (
     endpoint: string,
     values: TValues,
@@ -69,16 +68,16 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');
 
-  return fetch(fullUrl, {
-    method: 'POST',
-    headers: headers,
-    mode: 'cors',
-    credentials: 'include',
-    body: JSON.stringify(values)
-  })
-  .then(response => response.text())
-  .then(jsonString => {
-    let parsedResponse = parseToCamelCase(FormResponse<TValidationFailures>, jsonString);
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers: headers,
+      mode: 'cors',
+      credentials: 'include',
+      body: JSON.stringify(values)
+    });
+    const jsonString = await response.text();
+    let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
     if (parsedResponse.isSuccess) {
       actions.resetForm();
     }
@@ -93,8 +92,7 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
     }
     actions.setSubmitting(false);
     return parsedResponse;
-  })
-  .catch(httpErrors => {
+  } catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
     actions.setSubmitting(false);
@@ -103,10 +101,10 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
       isInternalError: true,
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
-  });
+  }
 };
 
-export default function submitFormikForm<TValues extends object, TValidationFailures extends object>
+export default async function submitFormikForm<TValues extends object, TValidationFailures extends object>
   (
     endpoint: string,
     values: TValues,
@@ -117,15 +115,15 @@ export default function submitFormikForm<TValues extends object, TValidationFail
   let formData = getFormData(values);
   let fullUrl = new URL(endpoint, baseUrl)
 
-  return fetch(fullUrl, {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include', 
-    body: formData
-  })
-  .then(response => response.text())
-  .then(jsonString => {
-    let parsedResponse = parseToCamelCase(FormResponse<TValidationFailures>, jsonString);
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      body: formData
+    });
+    const jsonString = await response.text();
+    let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
     if (parsedResponse.isSuccess) {
       actions.resetForm();
     }
@@ -140,8 +138,7 @@ export default function submitFormikForm<TValues extends object, TValidationFail
     }
     actions.setSubmitting(false);
     return parsedResponse;
-  })
-  .catch(httpErrors => {
+  } catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
     actions.setSubmitting(false);
@@ -150,7 +147,7 @@ export default function submitFormikForm<TValues extends object, TValidationFail
       isInternalError: true,
       validationFailures: {}
     } as FormResponse<TValidationFailures>;
-  });
+  }
 };
 
 export function getJson<TParsed extends object>(endpoint: string ) : Promise<PagedData<TParsed>>
@@ -158,29 +155,28 @@ export function getJson<TParsed extends object>(endpoint: string ) : Promise<Pag
   return getJsonWithConstructor(endpoint, PagedData<TParsed>);
 };
 
-export function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed} ) : Promise<TParsed>
+export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed} ) : Promise<TParsed>
 {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');
 
-  return fetch(fullUrl, {
-    method: 'GET',
-    headers: headers,
-    mode: 'cors',
-    credentials: 'include'
-  })
-  .then(response => response.text())
-  .then(jsonString => {
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      credentials: 'include'
+    });
+    const jsonString = await response.text();
     let parsedResponse = parseToCamelCase(constructor, jsonString);
     if (!parsedResponse) {
       alert('A malformed response was received from the server.');
     }
     return parsedResponse;
-  })
-  .catch(httpErrors => {
+  } catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
     return new constructor;
-  });
+  }
 };

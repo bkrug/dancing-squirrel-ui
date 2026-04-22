@@ -1,6 +1,6 @@
 //TODO: Reduce duplicate styling
 import './Employee.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CaretakerType } from '../../Enums';
 import { getJson } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
@@ -58,8 +58,7 @@ export default function Employee() {
         setTotalRows((page - 1) * pageLength + parsedResponse.data.length);
     });
 
-  if (gridRows === null)
-    refreshGridData(1);
+  useEffect(() => { refreshGridData(1); }, []);
 
   return (
     <DataTable
