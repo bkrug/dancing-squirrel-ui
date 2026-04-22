@@ -9,7 +9,7 @@ interface TextInputProps {
 }
 
 export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
-  props.type = props.type || "text";
+  props.type = props.type || 'text';
   const [field, meta] = useField(props);
   return (
     <div className="field textinputcontainer">
@@ -21,7 +21,7 @@ export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
 };
 
 export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {
-  props.type = props.type || "text";
+  props.type = props.type || 'text';
   const [field, meta] = useField(props);
   return (
     <div className="field textareacontainer">

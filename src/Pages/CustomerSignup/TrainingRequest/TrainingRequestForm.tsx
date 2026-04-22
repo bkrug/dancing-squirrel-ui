@@ -1,30 +1,30 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import "./TrainingRequestForm.css";
-import submitFormikForm from "../../../Forms/Submission/formikSubmission";
+import './TrainingRequestForm.css';
+import submitFormikForm from '../../../Forms/Submission/formikSubmission';
 import { LocalTextInput, LocalTextArea, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
 import { CaretakerType } from '../../../Enums';
 
 class TrainingRequestFormValues {
   caretakerType: CaretakerType = CaretakerType.Person;
-  caretakerFirstName: string = "";
-  caretakerLastName: string = "";
-  caretakerCompanyName: string = "";
-  email: string = "";
-  phone: string = "";
-  squirrelName: string = "";
-  descriptionOfNeeds: string = "";
+  caretakerFirstName: string = '';
+  caretakerLastName: string = '';
+  caretakerCompanyName: string = '';
+  email: string = '';
+  phone: string = '';
+  squirrelName: string = '';
+  descriptionOfNeeds: string = '';
 }
 
 class TrainingRequestValidationFailures {
-  caretakerType: string = "";
-  caretakerFirstName: string = "";
-  caretakerLastName: string = "";
-  caretakerCompanyName: string = "";
-  email: string = "";
-  phone: string = "";
-  squirrelName: string = "";
-  descriptionOfNeeds: string = "";
+  caretakerType: string = '';
+  caretakerFirstName: string = '';
+  caretakerLastName: string = '';
+  caretakerCompanyName: string = '';
+  email: string = '';
+  phone: string = '';
+  squirrelName: string = '';
+  descriptionOfNeeds: string = '';
 }
 
 export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => void }) {
@@ -59,7 +59,7 @@ export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => vo
         })
       }
       onSubmit={(values, actions) => {
-        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>("request/create", values, actions)
+        submitFormikForm<TrainingRequestFormValues, TrainingRequestValidationFailures>('request/create', values, actions)
           .then(parsedResponse => {
             if (parsedResponse.isSuccess) onSuccess();
           });
@@ -73,8 +73,8 @@ export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => vo
               label="Type"
               name="caretakerType"
               options={[
-                { label: "Person", value: CaretakerType.Person.toString() },
-                { label: "Company", value: CaretakerType.Company.toString() }
+                { label: 'Person', value: CaretakerType.Person.toString() },
+                { label: 'Company', value: CaretakerType.Company.toString() }
               ]} />
             {
               formik.values.caretakerType.toString() === CaretakerType.Person.toString()

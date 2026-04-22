@@ -1,18 +1,18 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 //TODO: Reduce duplicate styling
-import "./LoginForm.css";
-import { submitUserCredentials } from "../Forms/Submission/formikSubmission";
+import './LoginForm.css';
+import { submitUserCredentials } from '../Forms/Submission/formikSubmission';
 import { LocalTextInput } from '../Forms/Fields/LocalFields';
 
 class LoginFormValues {
-  username: string = "";
-  password: string = "";
+  username: string = '';
+  password: string = '';
 }
 
 class LoginValidationFailures {
-  username: string = "";
-  password: string = "";
+  username: string = '';
+  password: string = '';
 }
 
 export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
@@ -26,7 +26,7 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         })
       }
       onSubmit={(values, actions) => {
-        submitUserCredentials<LoginFormValues, LoginValidationFailures>("authentication", values, actions)
+        submitUserCredentials<LoginFormValues, LoginValidationFailures>('authentication', values, actions)
           .then(parsedResponse => {
             if (parsedResponse.isSuccess) onSuccess();
           });

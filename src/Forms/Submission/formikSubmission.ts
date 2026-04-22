@@ -1,9 +1,9 @@
 import { FormikHelpers } from 'formik';
-import parseToCamelCase from "../Submission/jsonParsing";
+import parseToCamelCase from '../Submission/jsonParsing';
 import FormResponse, { PagedData } from '../Submission/formResponse';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
-if (!baseUrl) throw new TypeError("Base URL is not configured");
+if (!baseUrl) throw new TypeError('Base URL is not configured');
 
 export function getFormData(source: any) : FormData {
   var formData = new FormData();
@@ -28,10 +28,10 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
   headers.set('Content-Type', 'application/json');
 
   return fetch(fullUrl, {
-    method: "POST",
+    method: 'POST',
     headers: headers,
-    mode: "cors",
-    credentials: "include",
+    mode: 'cors',
+    credentials: 'include',
     body: JSON.stringify(values)
   })
   .then(response => {
@@ -46,7 +46,7 @@ export function submitUserCredentials<TValues extends object, TValidationFailure
   })
   .catch(httpErrors => {
     console.error(httpErrors);
-    alert("An HTTP error occurred.");
+    alert('An HTTP error occurred.');
     actions.setSubmitting(false);
     return {
       isSuccess: false,
@@ -70,10 +70,10 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
   headers.set('Content-Type', 'application/json');
 
   return fetch(fullUrl, {
-    method: "POST",
+    method: 'POST',
     headers: headers,
-    mode: "cors",
-    credentials: "include",
+    mode: 'cors',
+    credentials: 'include',
     body: JSON.stringify(values)
   })
   .then(response => response.text())
@@ -86,17 +86,17 @@ export function submitFormikJson<TValues extends object, TValidationFailures ext
       actions.setErrors(parsedResponse.validationFailuresStrict);
     }
     else if (parsedResponse.isInternalError) {
-      alert("An internal error occurred.");
+      alert('An internal error occurred.');
     }
     else {
-      alert("A malformed response was received from the server.");
+      alert('A malformed response was received from the server.');
     }
     actions.setSubmitting(false);
     return parsedResponse;
   })
   .catch(httpErrors => {
     console.error(httpErrors);
-    alert("An HTTP error occurred.");
+    alert('An HTTP error occurred.');
     actions.setSubmitting(false);
     return {
       isSuccess: false,
@@ -118,9 +118,9 @@ export default function submitFormikForm<TValues extends object, TValidationFail
   let fullUrl = new URL(endpoint, baseUrl)
 
   return fetch(fullUrl, {
-    method: "POST",
-    mode: "cors",
-    credentials: "include", 
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include', 
     body: formData
   })
   .then(response => response.text())
@@ -133,17 +133,17 @@ export default function submitFormikForm<TValues extends object, TValidationFail
       actions.setErrors(parsedResponse.validationFailuresStrict);
     }
     else if (parsedResponse.isInternalError) {
-      alert("An internal error occurred.");
+      alert('An internal error occurred.');
     }
     else {
-      alert("A malformed response was received from the server.");
+      alert('A malformed response was received from the server.');
     }
     actions.setSubmitting(false);
     return parsedResponse;
   })
   .catch(httpErrors => {
     console.error(httpErrors);
-    alert("An HTTP error occurred.");
+    alert('An HTTP error occurred.');
     actions.setSubmitting(false);
     return {
       isSuccess: false,
@@ -160,22 +160,22 @@ export function getJson<TParsed extends object>(endpoint: string ) : Promise<Pag
   headers.set('Content-Type', 'application/json');
 
   return fetch(fullUrl, {
-    method: "GET",
+    method: 'GET',
     headers: headers,
-    mode: "cors",
-    credentials: "include"
+    mode: 'cors',
+    credentials: 'include'
   })
   .then(response => response.text())
   .then(jsonString => {
     let parsedResponse = parseToCamelCase(PagedData<TParsed>, jsonString);
     if (!parsedResponse) {
-      alert("A malformed response was received from the server.");
+      alert('A malformed response was received from the server.');
     }
     return parsedResponse;
   })
   .catch(httpErrors => {
     console.error(httpErrors);
-    alert("An HTTP error occurred.");
+    alert('An HTTP error occurred.');
     return new PagedData<TParsed>();
   });
 };

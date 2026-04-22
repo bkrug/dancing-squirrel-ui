@@ -1,29 +1,29 @@
 //TODO: Reduce duplicate styling
-import "./Employee.css";
-import { useState } from "react";
+import './Employee.css';
+import { useState } from 'react';
 import { CaretakerType } from '../../Enums';
-import { getJson } from "../../Forms/Submission/formikSubmission";
+import { getJson } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
 class TrainingRequestGridFields {
   caretakerType: CaretakerType = CaretakerType.Person;
-  caretakerFirstName: string = "";
-  caretakerLastName: string = "";
-  caretakerCompanyName: string = "";
-  email: string = "";
-  phone: string = "";
-  squirrelName: string = "";
+  caretakerFirstName: string = '';
+  caretakerLastName: string = '';
+  caretakerCompanyName: string = '';
+  email: string = '';
+  phone: string = '';
+  squirrelName: string = '';
 }
 
 const columns: TableColumn<TrainingRequestGridFields>[] = [
 	{
 		name: 'Caretaker Type',
-		selector: row => row.caretakerType === CaretakerType.Person ? "individual" : "organization",
+		selector: row => row.caretakerType === CaretakerType.Person ? 'individual' : 'organization',
 	},
 	{
 		name: 'Caretaker Name',
 		selector: row => row.caretakerType === CaretakerType.Person
-      ? row.caretakerLastName + ", " + row.caretakerFirstName
+      ? row.caretakerLastName + ', ' + row.caretakerFirstName
       : row.caretakerCompanyName,
 	},
   {

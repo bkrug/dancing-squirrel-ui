@@ -1,15 +1,15 @@
-import { PropsWithChildren, useCallback, useState } from "react";
-import LoginForm from "./LoginForm";
+import { PropsWithChildren, useCallback, useState } from 'react';
+import LoginForm from './LoginForm';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
-if (!baseUrl) throw new TypeError("Base URL is not configured");
+if (!baseUrl) throw new TypeError('Base URL is not configured');
 
 let checkAuthentication = function () {
-  let fullUrl = new URL("authentication", baseUrl);
+  let fullUrl = new URL('authentication', baseUrl);
   return fetch(fullUrl, {
-    method: "GET",
-    mode: "cors",
-    credentials: "include"
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'include'
   })
   .then(response => {
     console.log(response);
@@ -19,11 +19,11 @@ let checkAuthentication = function () {
 };
 
 let logoutUser = function () {
-  let fullUrl = new URL("authentication", baseUrl);  
+  let fullUrl = new URL('authentication', baseUrl);  
   return fetch(fullUrl, {
-    method: "DELETE",
-    mode: "cors",
-    credentials: "include"
+    method: 'DELETE',
+    mode: 'cors',
+    credentials: 'include'
   })
   .then(response => response.ok)
   .catch(() => false);

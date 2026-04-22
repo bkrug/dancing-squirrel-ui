@@ -1,6 +1,6 @@
-import "./CustomerSignup.css";
-import TrainingRequestForm from "./TrainingRequest/TrainingRequestForm";
-import { useState, useCallback } from "react";
+import './CustomerSignup.css';
+import TrainingRequestForm from './TrainingRequest/TrainingRequestForm';
+import { useState, useCallback } from 'react';
 
 export default function CustomerSignup() {
   let [isComplete, setComplete] = useState(false);
