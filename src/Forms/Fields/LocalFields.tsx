@@ -14,7 +14,7 @@ export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   return (
     <div className="field textinputcontainer">
       <label htmlFor={props.name}>{label}</label>
-      <input {...field} {...props} />
+      <input {...field} {...props} className="rightsidefield" />
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </div>
   );
@@ -26,7 +26,7 @@ export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {
   return (
     <div className="field textareacontainer">
       <label htmlFor={props.name}>{label}</label>
-      <textarea {...field} {...props} />
+      <textarea {...field} {...props} className="bottomsidefield"/>
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </div>
   );
@@ -48,7 +48,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
   return (
     <div className="field radiogroupcontainer">
       <label htmlFor={props.name}>{label}</label>
-      <div className="radiogroup">
+      <div className="radiogroup rightsidefield">
         {
           options.map((option) => {
             return (

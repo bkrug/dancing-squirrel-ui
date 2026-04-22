@@ -1,3 +1,11 @@
+form {
+  display: inline-block;
+  /* Form outline */
+  padding: 1em;
+  border: 1px solid #cccccc;
+  border-radius: 1em;
+}
+
 label {
   /* Uniform size & alignment */
   display: inline-block;
@@ -13,12 +21,6 @@ input[type="radio"] + label {
 label + input,
 label + .radiogroup {
   margin-left: .5em;
-}
-
-input:not([type="radio"]),
-.radiogroup {
-  /* Uniform text field size */
-  width: 300px;
 }
 
 input:not([type="radio"]),
@@ -48,7 +50,6 @@ textarea:focus {
 }
 
 textarea {
-  width: 500px;
   display: block;
   /* Provide space to type some text */
   height: 5em;

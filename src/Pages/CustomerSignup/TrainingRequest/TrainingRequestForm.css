@@ -3,16 +3,20 @@ body {
   text-align: center;
 }
 
-form {
-  display: inline-block;
-  /* Form outline */
-  padding: 1em;
-  border: 1px solid #cccccc;
-  border-radius: 1em;
-}
-
 button[type="submit"],
 .field + .field,
 fieldset + .field {
   margin-top: 1em;
+}
+
+.customer-signup label {
+  min-width: 100px;
+}
+
+.rightsidefield {
+  width: 300px;
+}
+
+.bottomsidefield {
+  width: 450px;
 }
