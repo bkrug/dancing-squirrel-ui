@@ -155,7 +155,7 @@ export function getJson<TParsed extends object>(endpoint: string ) : Promise<Pag
   return getJsonWithConstructor(endpoint, PagedData<TParsed>);
 };
 
-export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed} ) : Promise<TParsed>
+export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) : Promise<TParsed>
 {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();
@@ -163,7 +163,7 @@ export async function getJsonWithConstructor<TParsed extends object>(endpoint: s
 
   try {
     const response = await fetch(fullUrl, {
-      method: 'GET',
+      method: methodVerb || 'GET',
       headers: headers,
       mode: 'cors',
       credentials: 'include'
