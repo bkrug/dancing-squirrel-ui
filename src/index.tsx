@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './CustomerPortal';
-import Employee from './Pages/Employee/Employee';
+import PortalCustomer from './PortalCustomer';
+import PortalEmployee from './PortalEmployee';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router';
@@ -13,8 +13,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="employee" element={<RequiredAuth><Employee /></RequiredAuth>} />
+      <Route path="/" element={<PortalCustomer />} />
+      <Route path="employee" element={<RequiredAuth><PortalEmployee /></RequiredAuth>} />
       <Route path="onboard/:trainingRequestId" element={<RequiredAuth><OnboardCustomer /></RequiredAuth>} />
     </Routes>
   </BrowserRouter>,

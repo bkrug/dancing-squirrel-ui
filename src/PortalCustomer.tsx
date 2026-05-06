@@ -1,7 +1,7 @@
-import './CustomerPortal.css';
+import './Portal.css';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 
-function App() {
+function PortalCustomer() {
   return (
     <div className="App">
       <header className="App-header">
@@ -19,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default PortalCustomer;
