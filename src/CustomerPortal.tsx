@@ -1,4 +1,4 @@
-import './App.css';
+import './CustomerPortal.css';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 
 function App() {

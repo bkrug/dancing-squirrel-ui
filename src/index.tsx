@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './CustomerPortal';
 import Employee from './Pages/Employee/Employee';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import reportWebVitals from './reportWebVitals';
