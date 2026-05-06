@@ -14,9 +14,23 @@
   justify-content: center;  
   font-size: calc(18px);
   color: white;
+  padding-bottom: 1em;
   margin-bottom: 1em;
 }
 
-.App-link {
+.App-header h1,
+.App-header h2 {
+  margin: .5em 2em;
+}
+
+.App-header p {
+  margin: 0em 2em;
+}
+
+.App-header a {
   color: #61dafb;
+}
+
+.App-header a:visited {
+  color: violet;
 }
