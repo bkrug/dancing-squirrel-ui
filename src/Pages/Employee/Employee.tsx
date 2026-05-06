@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getJson } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import TrainingRequest from '../../DbModels/TrainingRequest';
+import { CaretakerType } from '../../Enums';
 
 const columns: TableColumn<TrainingRequest>[] = [
   {
@@ -15,13 +16,13 @@ const columns: TableColumn<TrainingRequest>[] = [
   },
 	{
 		name: 'Caretaker Type',
-		selector: row => row.organizationName === null ? 'individual' : 'organization',
+		selector: row => row.caretakerType === CaretakerType.Person ? 'individual' : 'organization',
 	},
 	{
 		name: 'Caretaker Name',
-		selector: row => row.organizationName === null
-      ? row.ownerLastName + ', ' + row.ownerFirstName
-      : row.organizationName
+		selector: row => row.caretakerType === CaretakerType.Person
+      ? `${row.ownerLastName || ''}, ${row.ownerFirstName || ''}`
+      : row.organizationName || ''
 	},
   {
     name: 'Email',

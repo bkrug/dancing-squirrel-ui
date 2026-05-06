@@ -1,7 +1,10 @@
+import { CaretakerType } from "../Enums";
+
 export default class TrainingRequest
   {
     trainingRequestId: number = 0;
     squirrelName: string = '';
+    caretakerType: CaretakerType = CaretakerType.Empty;
     organizationName: string | null = null;
     ownerLastName: string | null = null;
     ownerFirstName: string | null = null;
