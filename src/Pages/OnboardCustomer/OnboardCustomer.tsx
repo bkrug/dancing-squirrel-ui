@@ -16,18 +16,11 @@ export default function OnboardCustomer() {
     [ trainingRequestId ]
   );
 
-  const someMemo = useMemo(() => {
-    console.log('calling useMemo');
-    return `viewing training request ${trainingRequestId}`;
-  }, [trainingRequestId])
-  console.log(someMemo);
-
   const isOnboarded = record !== null && record.squirrelId !== null;
 
   const onOnboardClick = () => {
     getJsonWithConstructor(`squirrel/trainingRequest/${trainingRequestId}`, TrainingRequest, 'POST')
       .then(json => setRecord(json as TrainingRequest))
-    console.log('button clicked');
   };
 
   return record === null

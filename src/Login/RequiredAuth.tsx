@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useState } from 'react';
+import { PropsWithChildren, useCallback, useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
@@ -32,8 +32,10 @@ let logoutUser = function () {
 //TODO: Store the state at a higher level like index.tsx so that we don't have to keep re-running this checkAuthentication() method.
 export default function RequiredAuth({ children }: PropsWithChildren) {
   const [authed, setAuth] = useState(null as boolean | null);
-  if (authed === null)
+
+  useEffect(() => {
     checkAuthentication().then(isAuthenticated => setAuth(isAuthenticated));
+  }, [authed]);  
   
   const makeLogoutRequest = function() {
     logoutUser().then(logoutSuccessful => setAuth(!logoutSuccessful));
