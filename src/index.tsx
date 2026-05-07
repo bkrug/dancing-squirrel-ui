@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import PortalCustomer from './PortalCustomer';
-import PortalEmployee from './PortalEmployee';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router';
@@ -16,8 +15,8 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<PortalCustomer child={<CustomerSignup />} />} />
-      <Route path="employee" element={<RequiredAuth><PortalEmployee child={<Employee />}/></RequiredAuth>} />
-      <Route path="onboard/:trainingRequestId" element={<RequiredAuth><PortalEmployee child={<OnboardCustomer />}/></RequiredAuth>} />
+      <Route path="employee" element={<RequiredAuth><Employee /></RequiredAuth>} />
+      <Route path="onboard/:trainingRequestId" element={<RequiredAuth><OnboardCustomer /></RequiredAuth>} />
     </Routes>
   </BrowserRouter>,
 );
