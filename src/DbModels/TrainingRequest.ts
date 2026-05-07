@@ -15,7 +15,3 @@ export default class TrainingRequest
     onboardingDateTimeUnix: number | null = null;
     descriptionOfNeeds: string | null = null;
   }
-
-export function unixSecondsToString(unixSeconds: number | null) {
-  return unixSeconds === null ? '' : new Date(unixSeconds*1000).toISOString();
-}

@@ -1,5 +1,6 @@
 import { useParams } from 'react-router';
-import TrainingRequest, { unixSecondsToString } from '../../DbModels/TrainingRequest';
+import TrainingRequest from '../../DbModels/TrainingRequest';
+import { unixSecondsToString, formatPhoneNumber } from '../../fieldTransformers';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { useEffect, useState } from 'react';
 import { Effect } from 'effect';
@@ -59,7 +60,7 @@ export default function OnboardCustomer() {
             </tr>
             <tr>
               <td>Phone</td>
-              <td>{record.phone}</td>
+              <td>{formatPhoneNumber(record.phone)}</td>
             </tr>
             <tr>
               <td>Description of Needs</td>

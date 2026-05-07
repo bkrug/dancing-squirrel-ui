@@ -5,6 +5,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../Enums';
 import { Effect } from 'effect';
+import { formatPhoneNumber } from '../../fieldTransformers';
 
 const columns: TableColumn<TrainingRequest>[] = [
   {
@@ -31,7 +32,7 @@ const columns: TableColumn<TrainingRequest>[] = [
   },
   {
     name: 'Phone',
-    selector: row => row.phone || ''
+    selector: row => formatPhoneNumber(row.phone)
   }
 ];
 
