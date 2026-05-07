@@ -1,7 +1,11 @@
 import './Portal.css';
 import { ReactNode } from 'react';
 
-function PortalEmployee({ child } : { child: ReactNode }) {
+interface PortalEmployeeProps {
+  child: ReactNode
+}
+
+function PortalEmployee({ child } : PortalEmployeeProps) {
   return (
     <div className="App">
       <header className="App-header">

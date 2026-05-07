@@ -27,7 +27,11 @@ class TrainingRequestValidationFailures {
   descriptionOfNeeds: string = '';
 }
 
-export default function TrainingRequestForm({ onSuccess }: { onSuccess: () => void }) {
+interface TrainingRequestFormProps {
+  onSuccess: () => void
+}
+
+export default function TrainingRequestForm({ onSuccess }: TrainingRequestFormProps) {
   return (
     <Formik
       initialValues={new TrainingRequestFormValues()}
