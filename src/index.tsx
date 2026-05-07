@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import PortalCustomer from './PortalCustomer';
+import PortalCustomer from './PageHeaders/PortalCustomer';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router';
-import RequiredAuth from './Login/RequiredAuth';
+import RequiredAuth from './PageHeaders/RequiredAuth';
 import Employee from './Pages/Employee/Employee';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 

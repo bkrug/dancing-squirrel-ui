@@ -1,6 +1,6 @@
 import { PropsWithChildren, useCallback, useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
-import './RequiredAuth.css';
+import './Portal.css';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
