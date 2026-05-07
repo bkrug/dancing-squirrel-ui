@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import TrainingRequest from '../../DbModels/TrainingRequest';
-import { getJsonWithConstructor } from '../../Forms/Submission/formikSubmission';
+import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { useEffect, useState } from 'react';
 import './OnboardCustomer.css';
 
@@ -10,7 +10,7 @@ export default function OnboardCustomer() {
   let [ failureMsg, setFailureMsg ] = useState('');
 
   const loadTrainingRequest = () => {
-    getJsonWithConstructor(`requests/${trainingRequestId}`, TrainingRequest)
+    getParsedResponse(`requests/${trainingRequestId}`, TrainingRequest)
       .then(tuple => {
         let [trainingRequest, failureResponse] = tuple;
         if (trainingRequest !== null)

@@ -107,10 +107,10 @@ export async function getPagedData<TParsed extends object>(endpoint: string )
       GenericModelResponse<string> | null
     ]>
 {
-  return await getJsonWithConstructor(endpoint, PagedData<TParsed>);
+  return await getParsedResponse(endpoint, PagedData<TParsed>);
 };
 
-export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) 
+export async function getParsedResponse<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) 
   : Promise<[
       TParsed | null,
       GenericModelResponse<string> | null
