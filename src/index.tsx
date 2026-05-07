@@ -6,6 +6,8 @@ import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import RequiredAuth from './Login/RequiredAuth';
+import Employee from './Pages/Employee/Employee';
+import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -13,9 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<PortalCustomer />} />
-      <Route path="employee" element={<RequiredAuth><PortalEmployee /></RequiredAuth>} />
-      <Route path="onboard/:trainingRequestId" element={<RequiredAuth><OnboardCustomer /></RequiredAuth>} />
+      <Route path="/" element={<PortalCustomer child={<CustomerSignup />} />} />
+      <Route path="employee" element={<RequiredAuth><PortalEmployee child={<Employee />}/></RequiredAuth>} />
+      <Route path="onboard/:trainingRequestId" element={<RequiredAuth><PortalEmployee child={<OnboardCustomer />}/></RequiredAuth>} />
     </Routes>
   </BrowserRouter>,
 );

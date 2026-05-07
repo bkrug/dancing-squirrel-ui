@@ -1,7 +1,7 @@
 import './Portal.css';
-import Employee from './Pages/Employee/Employee';
+import { ReactNode } from 'react';
 
-function PortalEmployee() {
+function PortalEmployee({ child } : { child: ReactNode }) {
   return (
     <div className="App">
       <header className="App-header">
@@ -11,7 +11,7 @@ function PortalEmployee() {
           <p><a href="/">Switch to Customer Portal</a></p>
         </div>
       </header>
-      <Employee />
+      {child}
     </div>
   );
 }
