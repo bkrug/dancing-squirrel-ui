@@ -1,11 +1,11 @@
-import './Portal.css';
+import './PageHeader.css';
 import { ReactNode } from 'react';
 
-interface PortalCustomerProps {
+interface CustomerPortalProps {
   child: ReactNode
 }
 
-function PortalCustomer({ child } : PortalCustomerProps) {
+function CustomerPortal({ child } : CustomerPortalProps) {
   return (
     <div className="App">
       <header className="App-header">
@@ -23,4 +23,4 @@ function PortalCustomer({ child } : PortalCustomerProps) {
   );
 }
 
-export default PortalCustomer;
+export default CustomerPortal;
