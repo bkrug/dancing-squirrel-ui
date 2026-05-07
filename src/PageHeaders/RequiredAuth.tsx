@@ -48,18 +48,28 @@ export default function RequiredAuth({ children }: PropsWithChildren) {
     <div className="App">
       <header className="App-header">
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
-        <div>
-          <h2>Great Dancing Squirrel Corporation of North America</h2>
-          <p><a href="/">Switch to Customer Portal</a></p>
-        </div>
+        <h2>Great Dancing Squirrel Corporation of North America</h2>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>
       {children}
     </div>
   )
 
+  const nodeWhenNotAuthorized = (
+    <div className="App">
+      <header className="App-header">
+        <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
+        <div>
+          <h2>Great Dancing Squirrel Corporation of North America</h2>
+          <p><a href="/">Switch to Customer Portal</a></p>
+        </div>
+      </header>
+      <LoginForm onSuccess={recordSuccessfulLogin} />
+    </div>
+  )
+
   return (
     authed
     ? nodeWhenAuthorized
-    : <LoginForm onSuccess={recordSuccessfulLogin} />);
+    : nodeWhenNotAuthorized);
 }
