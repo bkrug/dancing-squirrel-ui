@@ -12,6 +12,10 @@ export default class TrainingRequest
     phone: string | null = null;
     squirrelId: number | null = null;
     onboardUsername: string | null = null;
-    onboardingDateTime: string | null = null;
+    onboardingDateTimeUnix: number | null = null;
     descriptionOfNeeds: string | null = null;
   }
+
+export function unixSecondsToString(unixSeconds: number | null) {
+  return unixSeconds === null ? '' : new Date(unixSeconds*1000).toISOString();
+}

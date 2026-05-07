@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import TrainingRequest from '../../DbModels/TrainingRequest';
+import TrainingRequest, { unixSecondsToString } from '../../DbModels/TrainingRequest';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { useEffect, useState } from 'react';
 import { Effect } from 'effect';
@@ -70,7 +70,7 @@ export default function OnboardCustomer() {
                 </tr>          
                 <tr>
                   <td>Date of Onboarding</td>
-                  <td>{record.onboardingDateTime}</td>
+                  <td>{unixSecondsToString(record.onboardingDateTimeUnix)}</td>
                 </tr>          
               </>
               : <></>
