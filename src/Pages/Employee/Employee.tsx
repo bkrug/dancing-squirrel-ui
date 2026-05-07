@@ -42,7 +42,7 @@ export default function Employee() {
   const [totalRows, setTotalRows] = useState(0);
 
   const refreshGridData = (page : number) => 
-    getPagedData<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
+    getPagedData<TrainingRequest>(`trainingRequest?page=${page}&length=${pageLength}`)
       .then(result =>
         Effect.runPromise(Effect.match(result, {
           onSuccess: (parsedResponse) => {

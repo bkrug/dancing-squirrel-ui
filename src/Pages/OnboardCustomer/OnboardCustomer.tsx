@@ -20,7 +20,7 @@ export default function OnboardCustomer() {
       );
   }
 
-  useEffect(() => loadTrainingRequest(`requests/${trainingRequestId}`, 'GET'), [trainingRequestId]);
+  useEffect(() => loadTrainingRequest(`trainingRequest/${trainingRequestId}`, 'GET'), [trainingRequestId]);
 
   const onboardFromTrainingRequest = () => loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST');
 
