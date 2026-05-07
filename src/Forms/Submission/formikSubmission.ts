@@ -150,13 +150,13 @@ export default async function submitFormikForm<TValues extends object, TValidati
   }
 };
 
-export async function getPagedData<TParsed extends object>(endpoint: string ) : Promise<PagedData<TParsed>>
+export async function getPagedData<TParsed extends object>(endpoint: string )
+  : Promise<[
+      PagedData<TParsed> | null,
+      GenericModelResponse<string> | null
+    ]>
 {
-  let [parsedResponse, _] = await getJsonWithConstructor(endpoint, PagedData<TParsed>);
-  if (parsedResponse !== null)
-    return parsedResponse;
-  else
-    throw 'Parsing error';
+  return await getJsonWithConstructor(endpoint, PagedData<TParsed>);
 };
 
 export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) 
@@ -179,10 +179,9 @@ export async function getJsonWithConstructor<TParsed extends object>(endpoint: s
     const jsonString = await response.text();
     if (response.ok) {
       let parsedResponse = parseToCamelCase(constructor, jsonString);
-      if (!parsedResponse) {
-        alert('A malformed response was received from the server.');
-      }
-      return [parsedResponse, null];
+      return !parsedResponse
+        ? [null, getInternalError('A malformed response was received from the server.')]
+        : [parsedResponse, null];
     }
     else {
       let parsedFailure = parseToCamelCase(GenericModelResponse<string>, jsonString);
@@ -190,11 +189,14 @@ export async function getJsonWithConstructor<TParsed extends object>(endpoint: s
     }
   } catch (httpErrors) {
     console.error(httpErrors);
-    let failureObject = {
-      isSuccess: false,
-      isInternalError: true,
-      validationFailures: null
-    };
-    return [null, failureObject];
+    return [null, getInternalError('An Http Request Failed')];
   }
 };
+
+function getInternalError(failureMsg: string) {
+  return {
+    isSuccess: false,
+    isInternalError: true,
+    validationFailures: failureMsg
+  } as GenericModelResponse<string>;
+}
