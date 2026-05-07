@@ -12,12 +12,12 @@ export default function OnboardCustomer() {
 
   const loadTrainingRequest = () => {
     getParsedResponse(`requests/${trainingRequestId}`, TrainingRequest)
-      .then(result => {
+      .then(result =>
         Effect.runPromise(Effect.match(result, {
           onSuccess: (trainingRequest) => setRecord(trainingRequest),
           onFailure: (failureResponse) => setFailureMsg(failureResponse.validationFailures || '')
         }))
-      });    
+      );
   }
 
   useEffect(loadTrainingRequest, [ trainingRequestId ]);
