@@ -55,55 +55,6 @@ export async function submitUserCredentials<TValues extends object, TValidationF
   }
 };
 
-//TODO: remove duplicate code
-export async function submitFormikJson<TValues extends object, TValidationFailures extends object>
-  (
-    endpoint: string,
-    values: TValues,
-    actions: FormikHelpers<TValues>
-  )
-  : Promise<FormResponse<TValidationFailures>>
-{
-  const fullUrl = new URL(endpoint, baseUrl)
-  const headers = new Headers();
-  headers.set('Content-Type', 'application/json');
-
-  try {
-    const response = await fetch(fullUrl, {
-      method: 'POST',
-      headers: headers,
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(values)
-    });
-    const jsonString = await response.text();
-    let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
-    if (parsedResponse.isSuccess) {
-      actions.resetForm();
-    }
-    else if (parsedResponse.validationFailuresStrict) {
-      actions.setErrors(parsedResponse.validationFailuresStrict);
-    }
-    else if (parsedResponse.isInternalError) {
-      alert('An internal error occurred.');
-    }
-    else {
-      alert('A malformed response was received from the server.');
-    }
-    actions.setSubmitting(false);
-    return parsedResponse;
-  } catch (httpErrors) {
-    console.error(httpErrors);
-    alert('An HTTP error occurred.');
-    actions.setSubmitting(false);
-    return {
-      isSuccess: false,
-      isInternalError: true,
-      validationFailures: {}
-    } as FormResponse<TValidationFailures>;
-  }
-};
-
 export default async function submitFormikForm<TValues extends object, TValidationFailures extends object>
   (
     endpoint: string,
