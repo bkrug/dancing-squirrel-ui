@@ -15,8 +15,8 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<PortalCustomer child={<CustomerSignup />} />} />
-      <Route path="employee" element={<RequiredAuth><Employee /></RequiredAuth>} />
-      <Route path="onboard/:trainingRequestId" element={<RequiredAuth><OnboardCustomer /></RequiredAuth>} />
+      <Route path="employee" element={<RequiredAuth child={<Employee />} />} />
+      <Route path="onboard/:trainingRequestId" element={<RequiredAuth child={<OnboardCustomer />} />} />
     </Routes>
   </BrowserRouter>,
 );

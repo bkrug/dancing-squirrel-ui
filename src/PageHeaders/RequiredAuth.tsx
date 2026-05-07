@@ -1,37 +1,47 @@
-import { PropsWithChildren, useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, ReactNode } from 'react';
 import LoginForm from './LoginForm';
 import './Portal.css';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
 
-let checkAuthentication = function () {
+let checkAuthentication = async function () {
   let fullUrl = new URL('authentication', baseUrl);
-  return fetch(fullUrl, {
-    method: 'GET',
-    mode: 'cors',
-    credentials: 'include'
-  })
-  .then(response => {
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include'
+    });
     console.log(response);
     return response.ok;
-  })
-  .catch(() => false);
+  } catch {
+    return false;
+  }
 };
 
-let logoutUser = function () {
+let logoutUser = async function () {
   let fullUrl = new URL('authentication', baseUrl);  
-  return fetch(fullUrl, {
-    method: 'DELETE',
-    mode: 'cors',
-    credentials: 'include'
-  })
-  .then(response => response.ok)
-  .catch(() => false);
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'DELETE',
+      mode: 'cors',
+      credentials: 'include'
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+//Note that an alternative is to use the built-in react PropsWithChildren type.
+//I just like this approach better because I think it results in less code in index.tsx
+interface RequiredAuthProps {
+  child: ReactNode
 }
 
 //TODO: Store the state at a higher level like index.tsx so that we don't have to keep re-running this checkAuthentication() method.
-export default function RequiredAuth({ children }: PropsWithChildren) {
+export default function RequiredAuth({ child }: RequiredAuthProps) {
   const [authed, setAuth] = useState(null as boolean | null);
 
   useEffect(() => {
@@ -51,7 +61,7 @@ export default function RequiredAuth({ children }: PropsWithChildren) {
         <h2>Great Dancing Squirrel Corporation of North America</h2>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>
-      {children}
+      {child}
     </div>
   )
 

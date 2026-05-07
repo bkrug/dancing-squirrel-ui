@@ -26,11 +26,15 @@ export default function OnboardCustomer() {
 
   const isOnboarded = record !== null && record.squirrelId !== null;
 
-  return record === null
+  console.log('failureMsg', failureMsg);
+
+  const failureMsgDisplay = (
+    <span>{failureMsg}</span>
+  )
+  const recordDisplay = record === null
     ? (<></>)
     : (
       <>
-        <span>{failureMsg}</span>
         <table>
           <tbody>
             <tr>
@@ -80,4 +84,11 @@ export default function OnboardCustomer() {
         <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
       </>
     );
+
+  return (
+    <>
+      {failureMsgDisplay}
+      {recordDisplay}
+    </>
+  )
 }
