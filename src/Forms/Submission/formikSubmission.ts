@@ -107,7 +107,7 @@ export async function getPagedData<TParsed extends object>(endpoint: string )
   return await getParsedResponse(endpoint, PagedData<TParsed>);
 };
 
-export async function getParsedResponse<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) 
+export async function getParsedResponse<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string )
 {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();

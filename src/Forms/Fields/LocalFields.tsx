@@ -61,7 +61,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
                   {...field}
                   {...props}
                 />
-                <label>{option.label}</label>              
+                <label>{option.label}</label>
               </>
             )
           })

@@ -21,7 +21,7 @@ let checkAuthentication = async function () {
 };
 
 let logoutUser = async function () {
-  let fullUrl = new URL('authentication', baseUrl);  
+  let fullUrl = new URL('authentication', baseUrl);
   try {
     const response = await fetch(fullUrl, {
       method: 'DELETE',
@@ -46,8 +46,8 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
 
   useEffect(() => {
     checkAuthentication().then(isAuthenticated => setAuth(isAuthenticated));
-  }, [authed]);  
-  
+  }, [authed]);
+
   const makeLogoutRequest = function() {
     logoutUser().then(logoutSuccessful => setAuth(!logoutSuccessful));
   }

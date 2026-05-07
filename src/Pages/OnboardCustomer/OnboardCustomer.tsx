@@ -71,11 +71,11 @@ export default function OnboardCustomer() {
                 <tr>
                   <td>Employee who did Onboarding</td>
                   <td>{record.onboardUsername}</td>
-                </tr>          
+                </tr>
                 <tr>
                   <td>Date of Onboarding</td>
                   <td>{unixSecondsToString(record.onboardingDateTimeUnix)}</td>
-                </tr>          
+                </tr>
               </>
               : <></>
             }

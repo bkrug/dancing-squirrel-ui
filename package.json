@@ -48,7 +48,8 @@
       "quotes": [
         "error",
         "single"
-      ]
+      ],
+      "no-trailing-spaces": "warn"
     }
   },
   "browserslist": {
