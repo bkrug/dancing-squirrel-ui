@@ -1,6 +1,6 @@
 import { FormikHelpers } from 'formik';
 import parseToCamelCase from '../Submission/jsonParsing';
-import FormResponse, { PagedData } from '../Submission/formResponse';
+import FormResponse, { PagedData, GenericModelResponse } from '../Submission/formResponse';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
@@ -150,12 +150,20 @@ export default async function submitFormikForm<TValues extends object, TValidati
   }
 };
 
-export function getJson<TParsed extends object>(endpoint: string ) : Promise<PagedData<TParsed>>
+export async function getPagedData<TParsed extends object>(endpoint: string ) : Promise<PagedData<TParsed>>
 {
-  return getJsonWithConstructor(endpoint, PagedData<TParsed>);
+  let [parsedResponse, _] = await getJsonWithConstructor(endpoint, PagedData<TParsed>);
+  if (parsedResponse !== null)
+    return parsedResponse;
+  else
+    throw 'Parsing error';
 };
 
-export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) : Promise<TParsed>
+export async function getJsonWithConstructor<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) 
+  : Promise<[
+      TParsed | null,
+      GenericModelResponse<string> | null
+    ]>
 {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();
@@ -169,14 +177,24 @@ export async function getJsonWithConstructor<TParsed extends object>(endpoint: s
       credentials: 'include'
     });
     const jsonString = await response.text();
-    let parsedResponse = parseToCamelCase(constructor, jsonString);
-    if (!parsedResponse) {
-      alert('A malformed response was received from the server.');
+    if (response.ok) {
+      let parsedResponse = parseToCamelCase(constructor, jsonString);
+      if (!parsedResponse) {
+        alert('A malformed response was received from the server.');
+      }
+      return [parsedResponse, null];
     }
-    return parsedResponse;
+    else {
+      let parsedFailure = parseToCamelCase(GenericModelResponse<string>, jsonString);
+      return [null, parsedFailure];
+    }
   } catch (httpErrors) {
     console.error(httpErrors);
-    alert('An HTTP error occurred.');
-    return new constructor();
+    let failureObject = {
+      isSuccess: false,
+      isInternalError: true,
+      validationFailures: null
+    };
+    return [null, failureObject];
   }
 };

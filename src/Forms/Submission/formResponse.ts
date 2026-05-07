@@ -12,3 +12,9 @@ export class PagedData<T extends object> {
   totalRecords: number = 0;
   data: T[] = [];
 }
+
+export class GenericModelResponse<TFail> {
+  isSuccess: boolean = false;
+  isInternalError: boolean = false;
+  validationFailures: TFail | null = null;
+}

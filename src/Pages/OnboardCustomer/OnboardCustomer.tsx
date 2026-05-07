@@ -1,29 +1,32 @@
 import { useParams } from 'react-router';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { getJsonWithConstructor } from '../../Forms/Submission/formikSubmission';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import './OnboardCustomer.css';
 
 export default function OnboardCustomer() {
   let { trainingRequestId } = useParams();
   let [ record, setRecord ] = useState(null as (TrainingRequest | null));
+  let [ failureMsg, setFailureMsg ] = useState('');
 
-  useEffect(
-    () => {
-      getJsonWithConstructor(`requests/${trainingRequestId}`, TrainingRequest)
-        .then(json => setRecord(json as TrainingRequest))
-    },
-    [ trainingRequestId ]
-  );
+  const loadTrainingRequest = () => {
+    getJsonWithConstructor(`requests/${trainingRequestId}`, TrainingRequest)
+      .then(tuple => {
+        let [trainingRequest, failureResponse] = tuple;
+        if (trainingRequest !== null)
+          setRecord(trainingRequest);
+        else if (failureResponse !== null && failureResponse.validationFailures !== null)
+          setFailureMsg(failureResponse.validationFailures);
+      });    
+  }
+
+  useEffect(loadTrainingRequest, [ trainingRequestId ]);
 
   const isOnboarded = record !== null && record.squirrelId !== null;
 
-  const onOnboardClick = () => {
-    getJsonWithConstructor(`squirrel/trainingRequest/${trainingRequestId}`, TrainingRequest, 'POST')
-      .then(json => setRecord(json as TrainingRequest))
-  };
-
-  return record === null
+  return failureMsg.length > 0
+    ? (<span>{failureMsg}</span>)
+    : record === null
     ? (<></>)
     : (
       <>
@@ -73,7 +76,7 @@ export default function OnboardCustomer() {
             }
           </tbody>
         </table>
-        <button onClick={onOnboardClick}>Onboard Squirrel and Caretaker</button>
+        <button onClick={loadTrainingRequest}>Onboard Squirrel and Caretaker</button>
       </>
     );
 }

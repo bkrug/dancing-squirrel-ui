@@ -1,6 +1,6 @@
 import './Employee.css';
 import { useEffect, useState } from 'react';
-import { getJson } from '../../Forms/Submission/formikSubmission';
+import { getPagedData } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../Enums';
@@ -41,7 +41,7 @@ export default function Employee() {
   let [totalRows, setTotalRows] = useState(0);
 
   const refreshGridData = (page : number) => 
-    getJson<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
+    getPagedData<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
     .then(parsedResponse => {
       setRows(parsedResponse.data);
       setTotalRows(parsedResponse.totalRecords);
