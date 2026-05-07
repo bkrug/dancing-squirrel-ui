@@ -1,6 +1,7 @@
 import { FormikHelpers } from 'formik';
 import parseToCamelCase from '../Submission/jsonParsing';
 import FormResponse, { PagedData, GenericModelResponse } from '../Submission/formResponse';
+import { Effect } from 'effect';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
@@ -102,19 +103,11 @@ export default async function submitFormikForm<TValues extends object, TValidati
 };
 
 export async function getPagedData<TParsed extends object>(endpoint: string )
-  : Promise<[
-      PagedData<TParsed> | null,
-      GenericModelResponse<string> | null
-    ]>
 {
   return await getParsedResponse(endpoint, PagedData<TParsed>);
 };
 
 export async function getParsedResponse<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string ) 
-  : Promise<[
-      TParsed | null,
-      GenericModelResponse<string> | null
-    ]>
 {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();
@@ -131,16 +124,15 @@ export async function getParsedResponse<TParsed extends object>(endpoint: string
     if (response.ok) {
       let parsedResponse = parseToCamelCase(constructor, jsonString);
       return !parsedResponse
-        ? [null, getInternalError('A malformed response was received from the server.')]
-        : [parsedResponse, null];
+        ? Effect.fail(getInternalError('A malformed response was received from the server.')) as Effect.Effect<TParsed, GenericModelResponse<string>, never>
+        : Effect.succeed(parsedResponse) as Effect.Effect<TParsed, GenericModelResponse<string>, never>;
     }
     else {
-      let parsedFailure = parseToCamelCase(GenericModelResponse<string>, jsonString);
-      return [null, parsedFailure];
+      return Effect.fail(parseToCamelCase(GenericModelResponse<string>, jsonString)) as Effect.Effect<TParsed, GenericModelResponse<string>, never>;
     }
   } catch (httpErrors) {
     console.error(httpErrors);
-    return [null, getInternalError('An Http Request Failed')];
+    return Effect.fail(getInternalError('An Http Request Failed')) as Effect.Effect<TParsed, GenericModelResponse<string>, never>;
   }
 };
 

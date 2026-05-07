@@ -4,6 +4,7 @@ import { getPagedData } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../Enums';
+import { Effect } from 'effect';
 
 const columns: TableColumn<TrainingRequest>[] = [
   {
@@ -37,21 +38,20 @@ const columns: TableColumn<TrainingRequest>[] = [
 const pageLength = 10;
 
 export default function Employee() {
-  let [gridRows, setRows] = useState(null as (TrainingRequest[] | null));
-  let [totalRows, setTotalRows] = useState(0);
+  const [gridRows, setRows] = useState(null as (TrainingRequest[] | null));
+  const [totalRows, setTotalRows] = useState(0);
 
   const refreshGridData = (page : number) => 
     getPagedData<TrainingRequest>(`requests?page=${page}&length=${pageLength}`)
-    .then(tuple => {
-      const [parsedResponse, failureResponse] = tuple;
-      if (parsedResponse !== null) {
-        setRows(parsedResponse.data);
-        setTotalRows(parsedResponse.totalRecords);
-      }
-      else {
-        console.log(failureResponse);
-      }
-    });
+      .then(result => {
+        Effect.runPromise(Effect.match(result, {
+          onSuccess: (parsedResponse) => {
+            setRows(parsedResponse.data);
+            setTotalRows(parsedResponse.totalRecords);
+          },
+          onFailure: (failureResponse) => console.log(failureResponse)
+        }));
+      });   
 
   useEffect(() => { refreshGridData(1); }, []);
 

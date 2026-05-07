@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { useEffect, useState } from 'react';
+import { Effect } from 'effect';
 import './OnboardCustomer.css';
 
 export default function OnboardCustomer() {
@@ -11,12 +12,11 @@ export default function OnboardCustomer() {
 
   const loadTrainingRequest = () => {
     getParsedResponse(`requests/${trainingRequestId}`, TrainingRequest)
-      .then(tuple => {
-        let [trainingRequest, failureResponse] = tuple;
-        if (trainingRequest !== null)
-          setRecord(trainingRequest);
-        else if (failureResponse !== null && failureResponse.validationFailures !== null)
-          setFailureMsg(failureResponse.validationFailures);
+      .then(result => {
+        Effect.runPromise(Effect.match(result, {
+          onSuccess: (trainingRequest) => setRecord(trainingRequest),
+          onFailure: (failureResponse) => setFailureMsg(failureResponse.validationFailures || '')
+        }))
       });    
   }
 
