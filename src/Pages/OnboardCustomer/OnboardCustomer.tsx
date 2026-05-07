@@ -10,8 +10,8 @@ export default function OnboardCustomer() {
   let [ record, setRecord ] = useState(null as (TrainingRequest | null));
   let [ failureMsg, setFailureMsg ] = useState('');
 
-  const loadTrainingRequest = () => {
-    getParsedResponse(`requests/${trainingRequestId}`, TrainingRequest)
+  const loadTrainingRequest = (url: string, verb: 'GET' | 'POST') => {
+    getParsedResponse(url, TrainingRequest, verb)
       .then(result =>
         Effect.runPromise(Effect.match(result, {
           onSuccess: (trainingRequest) => setRecord(trainingRequest),
@@ -20,16 +20,17 @@ export default function OnboardCustomer() {
       );
   }
 
-  useEffect(loadTrainingRequest, [ trainingRequestId ]);
+  useEffect(() => loadTrainingRequest(`requests/${trainingRequestId}`, 'GET'), [trainingRequestId]);
+
+  const onboardFromTrainingRequest = () => loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST');
 
   const isOnboarded = record !== null && record.squirrelId !== null;
 
-  return failureMsg.length > 0
-    ? (<span>{failureMsg}</span>)
-    : record === null
+  return record === null
     ? (<></>)
     : (
       <>
+        <span>{failureMsg}</span>
         <table>
           <tbody>
             <tr>
@@ -76,7 +77,7 @@ export default function OnboardCustomer() {
             }
           </tbody>
         </table>
-        <button onClick={loadTrainingRequest}>Onboard Squirrel and Caretaker</button>
+        <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
       </>
     );
 }
