@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getPagedData } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import TrainingRequest from '../../DbModels/TrainingRequest';
-import { CaretakerType } from '../../Enums';
+import { CaretakerType } from '../../enums';
 import { Effect } from 'effect';
 import { formatPhoneNumber } from '../../fieldTransformers';
 
