@@ -2,51 +2,19 @@ import { render, screen } from '@testing-library/react';
 import { Effect } from 'effect';
 import { act } from 'react';
 import TrainingRequest from '../../DbModels/TrainingRequest';
+import { CaretakerType } from '../../enums';
+import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { GenericModelResponse } from '../../Forms/Submission/formResponse';
+import { getSiblingByText } from '../../testhelpers';
 import OnboardCustomer from './OnboardCustomer';
 
-// Given a big of text that exists in one element in the document,
-// return the element's sibling that comes directly after the element.
-function getSiblingByText(selfContents: RegExp | string) {
-  const linkElement = screen.getByText(selfContents);
-  const siblings = linkElement.parentElement && linkElement.parentElement.childNodes
-    ? Array.from(linkElement.parentElement.childNodes)
-    : [];
-  const selfIndex = siblings.indexOf(linkElement);
-  const siblingIndex = selfIndex >= 0 ? selfIndex + 1 : -1;
-  return siblingIndex >= 0 && siblingIndex < siblings.length
-    ? siblings[selfIndex + 1]
-    : null;
-}
-
 jest.mock('../../Forms/Submission/formikSubmission', () => {
-  const effectModule = jest.requireActual('effect');
-  const enumModule = jest.requireActual('../../enums');
-
-  const recFromDb: TrainingRequest = {
-    trainingRequestId: 5,
-    squirrelName: 'Mittens',
-    caretakerType: enumModule.CaretakerType.Person,
-    organizationName: null,
-    ownerLastName: 'Robinson',
-    ownerFirstName: 'Mrs.',
-    email: 'song@beatles.com',
-    phone: '12125550000',
-    squirrelId: null,
-    onboardUsername: null,
-    onboardingDateTimeUnix: null,
-    descriptionOfNeeds: 'This squirrel has potential to exploit'
-  };
-
   return {
-    getParsedResponse: async <TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
-      const retVal = effectModule.Effect.succeed(recFromDb);
-      return retVal as Effect.Effect<TrainingRequest, GenericModelResponse<string>, never>
-    }
+    getParsedResponse: jest.fn()
   }
 });
 
-test('renders learn react link', async () => {
+test('Given a training request id that exists (the client has not yet been onboarded), renders a description of that training request.', async () => {
   //Arrange
   const mockedUseNavigate = jest.fn();
   jest.mock('react-router', () => ({
@@ -54,6 +22,26 @@ test('renders learn react link', async () => {
     useNavigate: () => mockedUseNavigate,
     useParams: () => ({ trainingRequestId: '5' }),
   }));
+
+  (getParsedResponse as jest.Mock).mockImplementation(
+    async <TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
+      const recFromDb: TrainingRequest = {
+        trainingRequestId: 5,
+        squirrelName: 'Mittens',
+        caretakerType: CaretakerType.Person,
+        organizationName: null,
+        ownerLastName: 'Robinson',
+        ownerFirstName: 'Mrs.',
+        email: 'song@beatles.com',
+        phone: '12125550000',
+        squirrelId: null,
+        onboardUsername: null,
+        onboardingDateTimeUnix: null,
+        descriptionOfNeeds: 'This squirrel has potential to exploit'
+      };
+      const retVal = Effect.succeed(recFromDb);
+      return retVal as Effect.Effect<TrainingRequest, GenericModelResponse<string>, never>
+    });
 
   //Act
   await act(async () => {
