@@ -1,9 +1,9 @@
-import { act } from 'react';
 import { render, screen } from '@testing-library/react';
-import OnboardCustomer from './OnboardCustomer';
 import { Effect } from 'effect';
+import { act } from 'react';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { GenericModelResponse } from '../../Forms/Submission/formResponse';
+import OnboardCustomer from './OnboardCustomer';
 
 // Given a big of text that exists in one element in the document,
 // return the element's sibling that comes directly after the element.

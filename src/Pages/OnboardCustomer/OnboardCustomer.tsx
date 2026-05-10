@@ -1,9 +1,9 @@
+import { Effect } from 'effect';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import TrainingRequest from '../../DbModels/TrainingRequest';
-import { unixSecondsToString, formatPhoneNumber } from '../../fieldTransformers';
+import { formatPhoneNumber, unixSecondsToString } from '../../fieldTransformers';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
-import { useEffect, useState } from 'react';
-import { Effect } from 'effect';
 import './OnboardCustomer.css';
 
 export default function OnboardCustomer() {
