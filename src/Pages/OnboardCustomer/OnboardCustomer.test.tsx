@@ -4,7 +4,6 @@ import { act } from 'react';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../enums';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
-import { GenericModelResponse } from '../../Forms/Submission/formResponse';
 import { getSiblingByText } from '../../testhelpers';
 import OnboardCustomer from './OnboardCustomer';
 
@@ -23,25 +22,22 @@ test('Given a training request id that exists (the client has not yet been onboa
     useParams: () => ({ trainingRequestId: '5' }),
   }));
 
-  (getParsedResponse as jest.Mock).mockImplementation(
-    async <TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
-      const recFromDb: TrainingRequest = {
-        trainingRequestId: 5,
-        squirrelName: 'Mittens',
-        caretakerType: CaretakerType.Person,
-        organizationName: null,
-        ownerLastName: 'Robinson',
-        ownerFirstName: 'Mrs.',
-        email: 'song@beatles.com',
-        phone: '12125550000',
-        squirrelId: null,
-        onboardUsername: null,
-        onboardingDateTimeUnix: null,
-        descriptionOfNeeds: 'This squirrel has potential to exploit'
-      };
-      const retVal = Effect.succeed(recFromDb);
-      return retVal as Effect.Effect<TrainingRequest, GenericModelResponse<string>, never>
-    });
+  const recFromDb: TrainingRequest = {
+    trainingRequestId: 5,
+    squirrelName: 'Mittens',
+    caretakerType: CaretakerType.Person,
+    organizationName: null,
+    ownerLastName: 'Robinson',
+    ownerFirstName: 'Mrs.',
+    email: 'song@beatles.com',
+    phone: '12125550000',
+    squirrelId: null,
+    onboardUsername: null,
+    onboardingDateTimeUnix: null,
+    descriptionOfNeeds: 'This squirrel has potential to exploit'
+  };
+  const responseFromHttpGetRequest = Promise.resolve(Effect.succeed(recFromDb));
+  (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
 
   //Act
   await act(async () => {
