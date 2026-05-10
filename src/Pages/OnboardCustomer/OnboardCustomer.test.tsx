@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Effect } from 'effect';
 import { act } from 'react';
+import { useParams } from 'react-router';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../enums';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
@@ -8,21 +9,18 @@ import { GenericModelResponse } from '../../Forms/Submission/formResponse';
 import { getSiblingByText } from '../../testhelpers';
 import OnboardCustomer from './OnboardCustomer';
 
-jest.mock('../../Forms/Submission/formikSubmission', () => {
-  return {
-    getParsedResponse: jest.fn()
-  }
-});
+jest.mock('../../Forms/Submission/formikSubmission', () => ({
+  getParsedResponse: jest.fn()
+}));
 
-const mockedUserParams = jest.fn();
 jest.mock('react-router', () => ({
-  useParams: () => mockedUserParams,
+  useParams: jest.fn()
 }));
 
 //TODO: Assert that the 'Onboard' button is included in the DOM.
 test('Given a training request id that exists, with a person as a caretaker, and the client has not yet been onboarded. Expect rendering a description of that training request.', async () => {
   //Arrange
-  mockedUserParams.mockReturnValue({ trainingRequestId: '5' });
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: '5' });
 
   const recFromDb: TrainingRequest = {
     trainingRequestId: 5,
@@ -58,7 +56,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
 
 test('Given a training request id that exists, with a company as a caretaker, and the client has not yet been onboarded. Expect rendering a description of that training request.', async () => {
   //Arrange
-  mockedUserParams.mockReturnValue({ trainingRequestId: '7' });
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: '7' });
 
   const recFromDb: TrainingRequest = {
     trainingRequestId: 7,
@@ -95,7 +93,7 @@ test('Given a training request id that exists, with a company as a caretaker, an
 //TODO: Assert that the 'Onboard' button is omitted or invisible
 test('Given a training request id that exists, with a person as a caretaker, and the client has already been onboarded. Expect rendering a description of that training request.', async () => {
   //Arrange
-  mockedUserParams.mockReturnValue({ trainingRequestId: '6' });
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: '6' });
 
   const recFromDb: TrainingRequest = {
     trainingRequestId: 6,
@@ -131,7 +129,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
 
 test('Given a training request with a phone number that is missing the area code. Expect the phone number to be rendered correctly, but omitting the area code.', async () => {
   //Arrange
-  mockedUserParams.mockReturnValue({ trainingRequestId: '5' });
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: '5' });
 
   const recFromDb: TrainingRequest = {
     trainingRequestId: 5,
@@ -159,7 +157,7 @@ test('Given a training request with a phone number that is missing the area code
 
 test('Given a training request id that does not exist. Expect a failure message to be displayed to the user.', async () => {
   //Arrange
-  mockedUserParams.mockReturnValue({ trainingRequestId: '1001' });
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: '1001' });
 
   const failureObj : GenericModelResponse<string> = {
     isSuccess: false,
@@ -188,7 +186,7 @@ test('Given a training request id that does not exist. Expect a failure message 
 
 test('When a user presses the "Onboard" button, a POST request should be made.', async () => {
   //Arrange
-  mockedUserParams.mockReturnValue({ trainingRequestId: '13' });
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: '13' });
 
   const recBeforeOnboarding: TrainingRequest = {
     trainingRequestId: 13,
