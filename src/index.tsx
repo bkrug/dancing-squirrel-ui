@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import './index.css';
 import CustomerPortal from './PageHeaders/CustomerPortal';
-import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router';
 import EmployeePortal from './PageHeaders/EmployeePortal';
-import Employee from './Pages/Employee/Employee';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
+import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
+import TrainingRequestGrid from './Pages/TrainingRequestGrid/TrainingRequestGrid';
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -15,7 +15,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<CustomerPortal child={<CustomerSignup />} />} />
-      <Route path="employee" element={<EmployeePortal child={<Employee />} />} />
+      <Route path="employee" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
       <Route path="onboard/:trainingRequestId" element={<EmployeePortal child={<OnboardCustomer />} />} />
     </Routes>
   </BrowserRouter>,

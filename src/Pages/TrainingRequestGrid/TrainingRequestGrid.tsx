@@ -1,11 +1,11 @@
-import './Employee.css';
+import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
-import { getPagedData } from '../../Forms/Submission/formikSubmission';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../enums';
-import { Effect } from 'effect';
 import { formatPhoneNumber } from '../../fieldTransformers';
+import { getPagedData } from '../../Forms/Submission/formikSubmission';
+import './TrainingRequestGrid.css';
 
 const columns: TableColumn<TrainingRequest>[] = [
   {
@@ -36,9 +36,9 @@ const columns: TableColumn<TrainingRequest>[] = [
   }
 ];
 
-const pageLength = 10;
+const pageLength = 20;
 
-export default function Employee() {
+export default function TrainingRequestGrid() {
   const [gridRows, setRows] = useState(null as (TrainingRequest[] | null));
   const [totalRows, setTotalRows] = useState(0);
 
