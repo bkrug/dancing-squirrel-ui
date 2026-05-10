@@ -40,9 +40,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
   (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
 
   //Act
-  await act(async () => {
-    render(<OnboardCustomer />);
-  });
+  await act(async () => render(<OnboardCustomer />));
 
   //Asert that child element was rendered
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
@@ -83,9 +81,7 @@ test('Given a training request id that exists, with a company as a caretaker, an
   (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
 
   //Act
-  await act(async () => {
-    render(<OnboardCustomer />);
-  });
+  await act(async () => render(<OnboardCustomer />));
 
   //Asert that child element was rendered
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
@@ -126,9 +122,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
   (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
 
   //Act
-  await act(async () => {
-    render(<OnboardCustomer />);
-  });
+  await act(async () => render(<OnboardCustomer />));
 
   //Asert that child element was rendered
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('Yes');
