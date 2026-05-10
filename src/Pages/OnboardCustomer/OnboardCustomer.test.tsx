@@ -6,7 +6,7 @@ import TrainingRequest from '../../DbModels/TrainingRequest';
 import { CaretakerType } from '../../enums';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { GenericModelResponse } from '../../Forms/Submission/formResponse';
-import { getSiblingByText } from '../../testhelpers';
+import { getSiblingByText } from '../../testHelpers';
 import OnboardCustomer from './OnboardCustomer';
 
 jest.mock('../../Forms/Submission/formikSubmission', () => ({
@@ -48,7 +48,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
   expect(getSiblingByText(/Caretaker Type/i)?.textContent).toEqual('individual');
   expect(getSiblingByText(/Caretaker Name/i)?.textContent).toEqual('Robinson, Mrs.');
   expect(getSiblingByText(/Email/i)?.textContent).toEqual('song@beatles.com');
-  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1(212) 555-0000');
+  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1 (212) 555-0000');
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('This squirrel has potential to exploit');
   expect(screen.queryByText(/Employee who did Onboarding/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/Date of Onboarding/i)).not.toBeInTheDocument();
@@ -84,7 +84,7 @@ test('Given a training request id that exists, with a company as a caretaker, an
   expect(getSiblingByText(/Caretaker Type/i)?.textContent).toEqual('organization');
   expect(getSiblingByText(/Caretaker Name/i)?.textContent).toEqual('Acme Overloards, Inc.');
   expect(getSiblingByText(/Email/i)?.textContent).toEqual('song@beatles.com');
-  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1(212) 555-0000');
+  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1 (212) 555-0000');
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('This squirrel has potential to exploit');
   expect(screen.queryByText(/Employee who did Onboarding/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/Date of Onboarding/i)).not.toBeInTheDocument();
@@ -121,7 +121,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
   expect(getSiblingByText(/Caretaker Type/i)?.textContent).toEqual('individual');
   expect(getSiblingByText(/Caretaker Name/i)?.textContent).toEqual('Robinson, Susan');
   expect(getSiblingByText(/Email/i)?.textContent).toEqual('song@beatles.com');
-  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1(212) 555-0000');
+  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1 (212) 555-0000');
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('This squirrel has potential to exploit');
   expect(getSiblingByText(/Employee who did Onboarding/i)?.textContent).toEqual('someUser');
   expect(getSiblingByText(/Date of Onboarding/i)?.textContent).toEqual('1970-01-01T01:02:00.000Z');
@@ -240,7 +240,7 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   expect(getSiblingByText(/Caretaker Type/i)?.textContent).toEqual('individual');
   expect(getSiblingByText(/Caretaker Name/i)?.textContent).toEqual('Robinson, Christopher');
   expect(getSiblingByText(/Email/i)?.textContent).toEqual('song@beatles.com');
-  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1(212) 555-0000');
+  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1 (212) 555-0000');
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('Squirrel is easily distracted by honey');
 
   //Act to press the 'Onboard' button
@@ -260,6 +260,6 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   expect(getSiblingByText(/Caretaker Type/i)?.textContent).toEqual('individual');
   expect(getSiblingByText(/Caretaker Name/i)?.textContent).toEqual('Robinson, Christopher');
   expect(getSiblingByText(/Email/i)?.textContent).toEqual('song@beatles.com');
-  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1(212) 555-0000');
+  expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1 (212) 555-0000');
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('Squirrel is easily distracted by honey');
 });
