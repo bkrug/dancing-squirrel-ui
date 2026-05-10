@@ -15,8 +15,8 @@ export default function OnboardCustomer() {
     getParsedResponse(url, TrainingRequest, verb)
       .then(result =>
         Effect.runPromise(Effect.match(result, {
-          onSuccess: (trainingRequest) => setRecord(trainingRequest),
-          onFailure: (failureResponse) => setFailureMsg(failureResponse.validationFailures || '')
+          onSuccess: trainingRequest => setRecord(trainingRequest),
+          onFailure: failureResponse => setFailureMsg(failureResponse.validationFailures || '')
         }))
       );
   }
@@ -26,8 +26,6 @@ export default function OnboardCustomer() {
   const onboardFromTrainingRequest = () => loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST');
 
   const isOnboarded = record !== null && record.squirrelId !== null;
-
-  console.log('failureMsg', failureMsg);
 
   const failureMsgDisplay = (
     <span>{failureMsg}</span>
