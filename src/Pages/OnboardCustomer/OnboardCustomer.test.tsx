@@ -249,7 +249,7 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
     fireEvent.click(onboardButton);
   });
 
-  //Assert that client has not yet been onboarded
+  //Assert that client has now been onboarded
   expect(actualHttpVerbs).toEqual(['GET', 'POST']);
 
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('Yes');
