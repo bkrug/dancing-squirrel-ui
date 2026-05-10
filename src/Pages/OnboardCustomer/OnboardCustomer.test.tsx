@@ -26,7 +26,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
     trainingRequestId: 5,
     squirrelName: 'Mittens',
     caretakerType: CaretakerType.Person,
-    organizationName: 'This value would be null in real life.',
+    organizationName: 'This value would be null in real life. But even if it is non-null, we should not render the company name.',
     ownerLastName: 'Robinson',
     ownerFirstName: 'Mrs.',
     email: 'song@beatles.com',

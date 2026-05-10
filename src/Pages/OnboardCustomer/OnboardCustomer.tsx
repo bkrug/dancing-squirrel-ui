@@ -2,6 +2,7 @@ import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import TrainingRequest from '../../DbModels/TrainingRequest';
+import { CaretakerType } from '../../enums';
 import { formatPhoneNumber, unixSecondsToString } from '../../fieldTransformers';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import './OnboardCustomer.css';
@@ -46,11 +47,11 @@ export default function OnboardCustomer() {
             </tr>
             <tr>
               <td>Caretaker Type</td>
-              <td>{record.organizationName === null ? 'individual' : 'organization'}</td>
+              <td>{record.caretakerType === CaretakerType.Person ? 'individual' : 'organization'}</td>
             </tr>
             <tr>
               <td>Caretaker Name</td>
-              <td>{record.organizationName === null ? record.ownerLastName + ', ' + record.ownerFirstName : record.organizationName}</td>
+              <td>{record.caretakerType === CaretakerType.Person ? record.ownerLastName + ', ' + record.ownerFirstName : record.organizationName}</td>
             </tr>
             <tr>
               <td>Email</td>
