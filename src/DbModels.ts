@@ -1,4 +1,4 @@
-import { CaretakerType } from '../enums';
+import { CaretakerType } from './enums';
 
 export default class TrainingRequest
   {

@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import TrainingRequest from '../../DbModels/TrainingRequest';
+import TrainingRequest from '../../DbModels';
 import { CaretakerType } from '../../enums';
 import { formatPhoneNumber, unixSecondsToString } from '../../fieldTransformers';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';

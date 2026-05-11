@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react';
-import { CaretakerType } from '../../enums';
 import submitFormikForm from '../../Forms/Submission/formikSubmission';
 import FormResponse, { GenericModelResponse } from '../../Forms/Submission/formResponse';
 import { getInputOrTextArea } from '../../testHelpers';
