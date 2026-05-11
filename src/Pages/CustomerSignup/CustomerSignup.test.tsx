@@ -59,7 +59,7 @@ test('User submitted a form and the backend reported success. Expect the form to
 });
 
 test('The backend reports a validation failure. Expect the form to remain visible.', async () => {
-  //Arrange: When user clicks the form's submit button, report that the form was submitted successfully.
+  //Arrange: When user clicks the form's submit button, report that there is a validation failure.
   const responseFromHttpGetRequest = Promise.resolve({
     isSuccess: false,
     isInternalError: false,
