@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { LocalRadioInput, LocalTextArea, LocalTextInput } from '../../../Forms/Fields/LocalFields';
-import submitFormikForm from '../../../Forms/Submission/formikSubmission';
+import { submitFormikForm } from '../../../Forms/Submission/formikSubmission';
 import { CaretakerType } from '../../../enums';
 import './TrainingRequestForm.css';
 

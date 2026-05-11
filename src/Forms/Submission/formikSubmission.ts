@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 import { FormikHelpers } from 'formik';
-import FormResponse, { GenericModelResponse, PagedData } from '../Submission/formResponse';
+import { FormResponse, GenericModelResponse, PagedData } from '../Submission/formResponse';
 import parseToCamelCase from '../Submission/jsonParsing';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
@@ -56,7 +56,7 @@ export async function submitUserCredentials<TValues extends object, TValidationF
   }
 };
 
-export default async function submitFormikForm<TValues extends object, TValidationFailures extends object>
+export async function submitFormikForm<TValues extends object, TValidationFailures extends object>
   (
     endpoint: string,
     values: TValues,

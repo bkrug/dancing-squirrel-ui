@@ -1,15 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react';
-import submitFormikForm from '../../Forms/Submission/formikSubmission';
-import FormResponse, { GenericModelResponse } from '../../Forms/Submission/formResponse';
+import { submitFormikForm } from '../../Forms/Submission/formikSubmission';
+import { FormResponse } from '../../Forms/Submission/formResponse';
 import { getInputOrTextArea } from '../../testHelpers';
 import CustomerSignup from './CustomerSignup';
 import { TrainingRequestValidationFailures } from './TrainingRequest/TrainingRequestForm';
 
-// jest.mock('../../Forms/Submission/formikSubmission', () => ({
-//   submitFormikForm: jest.fn()
-// }));
-jest.mock('../../Forms/Submission/formikSubmission', () => jest.fn());
+jest.mock('../../Forms/Submission/formikSubmission', () => ({
+  submitFormikForm: jest.fn()
+}));
 
 jest.mock('react-router', () => ({
   useParams: jest.fn()

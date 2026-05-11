@@ -1,4 +1,4 @@
-export default class FormResponse<T extends object> {
+export class FormResponse<T extends object> {
   isSuccess: boolean = false;
   isInternalError: boolean = false;
   validationFailures: any = {};
