@@ -49,7 +49,9 @@
         "error",
         "single"
       ],
-      "no-trailing-spaces": "warn"
+      "no-trailing-spaces": "warn",
+      "testing-library/prefer-presence-queries": "off",
+      "__I think that expect(queryByText(...)).toBeInDocument() gives a clearer failure message than getByText() when an expected element is missing.__": "off"
     }
   },
   "browserslist": {

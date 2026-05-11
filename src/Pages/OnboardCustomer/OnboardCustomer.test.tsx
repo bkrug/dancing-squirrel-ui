@@ -40,7 +40,8 @@ test('Given a training request id that exists, with a person as a caretaker, and
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
-  await act(async () => render(<OnboardCustomer />));
+  render(<OnboardCustomer />);
+  await act(async () => responseFromHttpGetRequest);
 
   //Assert
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
@@ -76,7 +77,8 @@ test('Given a training request id that exists, with a company as a caretaker, an
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
-  await act(async () => render(<OnboardCustomer />));
+  render(<OnboardCustomer />);
+  await act(async () => responseFromHttpGetRequest);
 
   //Assert
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
@@ -113,7 +115,8 @@ test('Given a training request id that exists, with a person as a caretaker, and
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
-  await act(async () => render(<OnboardCustomer />));
+  render(<OnboardCustomer />);
+  await act(async () => responseFromHttpGetRequest);
 
   //Assert
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('Yes');
@@ -149,7 +152,8 @@ test('Given a training request with a phone number that is missing the area code
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
-  await act(async () => render(<OnboardCustomer />));
+  render(<OnboardCustomer />);
+  await act(async () => responseFromHttpGetRequest);
 
   //Assert
   expect(getSiblingByText(/Phone/i)?.textContent).toEqual('(414) 555-2222');
@@ -168,7 +172,8 @@ test('Given a training request id that does not exist. Expect a failure message 
   (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
 
   //Act
-  await act(async () => render(<OnboardCustomer />));
+  render(<OnboardCustomer />);
+  await act(async () => responseFromHttpGetRequest);
 
   //Assert
   expect(screen.queryByText(/Not Found/i)).toBeInTheDocument();
@@ -225,9 +230,8 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recBeforeOnboarding.trainingRequestId.toString() });
 
   //Act
-  await act(async () => {
-    render(<OnboardCustomer />);
-  });
+  render(<OnboardCustomer />);
+  await act(async () => getParsedResponse);
 
   //Assert that client has not yet been onboarded
   expect(actualHttpVerbs).toEqual(['GET']);
@@ -244,10 +248,9 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('Squirrel is easily distracted by honey');
 
   //Act to press the 'Onboard' button
-  await act(async () => {
-    const onboardButton = screen.getByText(/Onboard Squirrel/i);
-    fireEvent.click(onboardButton);
-  });
+  const onboardButton = screen.getByText(/Onboard Squirrel/i);
+  fireEvent.click(onboardButton);
+  await act(async () => getParsedResponse);
 
   //Assert that client has now been onboarded
   expect(actualHttpVerbs).toEqual(['GET', 'POST']);
