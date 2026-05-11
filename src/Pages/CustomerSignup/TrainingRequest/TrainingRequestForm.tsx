@@ -1,9 +1,9 @@
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import './TrainingRequestForm.css';
+import { LocalRadioInput, LocalTextArea, LocalTextInput } from '../../../Forms/Fields/LocalFields';
 import submitFormikForm from '../../../Forms/Submission/formikSubmission';
-import { LocalTextInput, LocalTextArea, LocalRadioInput } from '../../../Forms/Fields/LocalFields';
 import { CaretakerType } from '../../../enums';
+import './TrainingRequestForm.css';
 
 class TrainingRequestFormValues {
   caretakerType: CaretakerType = CaretakerType.Person;
@@ -16,7 +16,7 @@ class TrainingRequestFormValues {
   descriptionOfNeeds: string = '';
 }
 
-class TrainingRequestValidationFailures {
+export class TrainingRequestValidationFailures {
   caretakerType: string = '';
   caretakerFirstName: string = '';
   caretakerLastName: string = '';
