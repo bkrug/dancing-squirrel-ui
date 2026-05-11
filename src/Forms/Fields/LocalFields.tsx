@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import { useField } from 'formik';
+import { FC } from 'react';
 import './LocalFields.css';
 
 interface TextInputProps {
@@ -52,7 +52,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
         {
           options.map((option) => {
             return (
-              <>
+              <div key={'radio'+option.value.toString()}>
                 <input
                   id="company"
                   type="radio"
@@ -62,7 +62,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
                   {...props}
                 />
                 <label>{option.label}</label>
-              </>
+              </div>
             )
           })
         }
