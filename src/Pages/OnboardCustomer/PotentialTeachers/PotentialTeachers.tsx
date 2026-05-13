@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 import { DanceType, Teacher } from '../../../DbModels';
 import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
 
-export default function PotentialTeachers() {
+interface Props {
+  onCheckedTeachersChange: (checkedIds: Set<number>) => void;
+}
+
+export default function PotentialTeachers({ onCheckedTeachersChange }: Props) {
   const [danceTypes, setDanceTypes] = useState([] as DanceType[]);
   const [selectedDanceTypeId, setSelectedDanceTypeId] = useState('');
   const [teachers, setTeachers] = useState([] as Teacher[]);
@@ -41,6 +45,7 @@ export default function PotentialTeachers() {
     if (checked) next.add(teacherId);
     else next.delete(teacherId);
     setCheckedTeacherIds(next);
+    onCheckedTeachersChange(next);
   };
 
   return (

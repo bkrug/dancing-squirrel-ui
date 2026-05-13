@@ -10,6 +10,7 @@ export default function OnboardCustomer() {
   let { trainingRequestId } = useParams();
   let [ record, setRecord ] = useState(null as (TrainingRequest | null));
   let [ failureMsg, setFailureMsg ] = useState('');
+  let [ checkedTeacherIds, setCheckedTeacherIds ] = useState(new Set<number>());
 
   const loadTrainingRequest = (url: string, verb: 'GET' | 'POST') => {
     getParsedResponse(url, TrainingRequest, verb)
@@ -30,7 +31,7 @@ export default function OnboardCustomer() {
     : (
       <>
         <TrainingRequestView record={record} />
-        <PotentialTeachers />
+        <PotentialTeachers onCheckedTeachersChange={setCheckedTeacherIds} />
         <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
       </>
     );
