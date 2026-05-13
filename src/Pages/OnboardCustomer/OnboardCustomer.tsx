@@ -2,10 +2,8 @@ import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { TrainingRequest } from '../../DbModels';
-import { CaretakerType } from '../../enums';
-import { formatPhoneNumber, unixSecondsToString } from '../../fieldTransformers';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
-import './OnboardCustomer.css';
+import TrainingRequestView from './TrainingRequestView/TrainingRequestView';
 
 export default function OnboardCustomer() {
   let { trainingRequestId } = useParams();
@@ -26,8 +24,6 @@ export default function OnboardCustomer() {
 
   const onboardFromTrainingRequest = () => loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST');
 
-  const isOnboarded = record !== null && record.squirrelId !== null;
-
   const failureMsgDisplay = (
     <span>{failureMsg}</span>
   )
@@ -35,52 +31,7 @@ export default function OnboardCustomer() {
     ? (<></>)
     : (
       <>
-        <table>
-          <tbody>
-            <tr>
-              <td>Is Onboarded?</td>
-              <td>{isOnboarded ? 'Yes' : 'No'}</td>
-            </tr>
-            <tr>
-              <td>Squrriel Name</td>
-              <td>{record.squirrelName}</td>
-            </tr>
-            <tr>
-              <td>Caretaker Type</td>
-              <td>{record.caretakerType === CaretakerType.Person ? 'individual' : 'organization'}</td>
-            </tr>
-            <tr>
-              <td>Caretaker Name</td>
-              <td>{record.caretakerType === CaretakerType.Person ? record.ownerLastName + ', ' + record.ownerFirstName : record.organizationName}</td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>{record.email}</td>
-            </tr>
-            <tr>
-              <td>Phone</td>
-              <td>{formatPhoneNumber(record.phone)}</td>
-            </tr>
-            <tr>
-              <td>Description of Needs</td>
-              <td>{record.descriptionOfNeeds}</td>
-            </tr>
-            {
-              isOnboarded
-              ? <>
-                <tr>
-                  <td>Employee who did Onboarding</td>
-                  <td>{record.onboardUsername}</td>
-                </tr>
-                <tr>
-                  <td>Date of Onboarding</td>
-                  <td>{unixSecondsToString(record.onboardingDateTimeUnix)}</td>
-                </tr>
-              </>
-              : <></>
-            }
-          </tbody>
-        </table>
+        <TrainingRequestView record={record} />
         <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
       </>
     );
