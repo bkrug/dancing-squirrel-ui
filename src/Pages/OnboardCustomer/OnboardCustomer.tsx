@@ -36,7 +36,7 @@ export default function OnboardCustomer() {
       (<>
         <TrainingRequestView record={record} />
         {
-          !isOnboarded && 
+          !isOnboarded &&
           <>
             <PotentialTeachers onCheckedTeachersChange={setCheckedTeacherIds} />
             <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
