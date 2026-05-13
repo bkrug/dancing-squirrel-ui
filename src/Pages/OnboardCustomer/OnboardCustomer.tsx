@@ -3,13 +3,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { TrainingRequest } from '../../DbModels';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
+import { OnboardingRequest } from '../../requestModels';
 import PotentialTeachers from './PotentialTeachers/PotentialTeachers';
 import TrainingRequestView from './TrainingRequestView/TrainingRequestView';
-
-class OnboardingRequest
-{
-  danceTeachers: number[] = [];
-}
 
 export default function OnboardCustomer() {
   let { trainingRequestId } = useParams();

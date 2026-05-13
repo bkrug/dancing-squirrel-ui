@@ -2,10 +2,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Effect } from 'effect';
 import { act } from 'react';
 import { useParams } from 'react-router';
-import { DanceType, TrainingRequest } from '../../DbModels';
+import { DanceType, Teacher, TrainingRequest } from '../../DbModels';
 import { CaretakerType } from '../../enums';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { GenericModelResponse } from '../../Forms/Submission/formResponse';
+import { OnboardingRequest } from '../../requestModels';
 import { getSiblingByText } from '../../testHelpers';
 import OnboardCustomer from './OnboardCustomer';
 
@@ -300,4 +301,86 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   expect(getSiblingByText(/Email/i)?.textContent).toEqual('song@beatles.com');
   expect(getSiblingByText(/Phone/i)?.textContent).toEqual('1 (212) 555-0000');
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('Squirrel is easily distracted by honey');
+});
+
+test('When a user selects a dance type, checks two teachers, and presses the "Onboard" button, the POST request body should contain the selected teacher IDs.', async () => {
+  //Arrange
+  const recBeforeOnboarding: TrainingRequest = {
+    trainingRequestId: 14,
+    squirrelName: 'Acornia',
+    caretakerType: CaretakerType.Person,
+    organizationName: null,
+    ownerLastName: 'Park',
+    ownerFirstName: 'Sun',
+    email: 'sun@example.com',
+    phone: '12125550000',
+    squirrelId: null,
+    onboardUsername: null,
+    onboardingDateTimeUnix: null,
+    descriptionOfNeeds: 'Needs dance training'
+  };
+  const recAfterOnboarding: TrainingRequest = {
+    trainingRequestId: 14,
+    squirrelName: 'Acornia',
+    caretakerType: CaretakerType.Person,
+    organizationName: null,
+    ownerLastName: 'Park',
+    ownerFirstName: 'Sun',
+    email: 'sun@example.com',
+    phone: '12125550000',
+    squirrelId: 5001,
+    onboardUsername: 'staffUser',
+    onboardingDateTimeUnix: 60 * 60,
+    descriptionOfNeeds: 'Needs dance training'
+  };
+  const danceTypes: DanceType[] = [
+    { danceTypeId: 1, name: 'Waltz' },
+    { danceTypeId: 2, name: 'Tango' },
+    { danceTypeId: 3, name: 'Foxtrot' }
+  ];
+  const teachers: Teacher[] = [
+    { teacherId: 201, firstName: 'Alice', lastName: 'Smith' },
+    { teacherId: 202, firstName: 'Bob', lastName: 'Jones' },
+    { teacherId: 203, firstName: 'Carol', lastName: 'Brown' }
+  ];
+
+  let capturedPostBody: object | undefined;
+  (getParsedResponse as jest.Mock).mockImplementation(
+    async <TParsed extends object>(endpoint: string, _constructor: { new (): TParsed }, _methodVerb?: string, body?: object) => {
+      if (endpoint.startsWith('danceType/'))
+        return Effect.succeed(teachers);
+      else if (endpoint.startsWith('danceType'))
+        return Effect.succeed(danceTypes);
+      else if (endpoint.startsWith('trainingRequest'))
+        return Effect.succeed(recBeforeOnboarding);
+      else {
+        capturedPostBody = body;
+        return Effect.succeed(recAfterOnboarding);
+      }
+    }
+  );
+
+  (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recBeforeOnboarding.trainingRequestId.toString() });
+
+  //Act - render and load initial data
+  render(<OnboardCustomer />);
+  await act(async () => getParsedResponse);
+
+  //Act - select a dance type
+  const select = screen.getByRole('combobox');
+  fireEvent.change(select, { target: { value: '2' } });
+  await act(async () => getParsedResponse);
+
+  //Act - check two teachers
+  fireEvent.click(screen.getByLabelText('Alice Smith'));
+  fireEvent.click(screen.getByLabelText('Bob Jones'));
+
+  //Act - press the 'Onboard' button
+  fireEvent.click(screen.getByText(/Onboard Squirrel/i));
+  await act(async () => getParsedResponse);
+
+  //Assert the POST body contains exactly the two selected teacher IDs
+  expect(capturedPostBody).toBeDefined();
+  expect((capturedPostBody as OnboardingRequest).danceTeachers).toHaveLength(2);
+  expect((capturedPostBody as OnboardingRequest).danceTeachers).toEqual(expect.arrayContaining([201, 202]));
 });
