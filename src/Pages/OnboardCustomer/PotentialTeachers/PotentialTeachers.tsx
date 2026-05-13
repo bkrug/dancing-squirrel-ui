@@ -2,6 +2,7 @@ import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import { DanceType, Teacher } from '../../../DbModels';
 import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
+import './PotentialTeachers.css';
 
 interface Props {
   onCheckedTeachersChange: (checkedIds: Set<number>) => void;
