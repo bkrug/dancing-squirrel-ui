@@ -24,9 +24,6 @@ export default function OnboardCustomer() {
 
   const onboardFromTrainingRequest = () => loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST');
 
-  const failureMsgDisplay = (
-    <span>{failureMsg}</span>
-  )
   const recordDisplay = record === null
     ? (<></>)
     : (
@@ -38,7 +35,7 @@ export default function OnboardCustomer() {
 
   return (
     <>
-      {failureMsgDisplay}
+      <span>{failureMsg}</span>
       {recordDisplay}
     </>
   )
