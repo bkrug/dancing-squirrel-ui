@@ -31,15 +31,18 @@ export default function OnboardCustomer() {
     loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST', requestBody);
   };
 
-  const recordDisplay = record === null
-    ? (<></>)
-    : (
-      <>
+  const isOnboarded = record !== null && record.squirrelId !== null;
+  const recordDisplay = record !== null &&
+      (<>
         <TrainingRequestView record={record} />
-        <PotentialTeachers onCheckedTeachersChange={setCheckedTeacherIds} />
-        {record.squirrelId === null && <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>}
-      </>
-    );
+        {
+          !isOnboarded && 
+          <>
+            <PotentialTeachers onCheckedTeachersChange={setCheckedTeacherIds} />
+            <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
+          </>
+        }
+      </>);
 
   return (
     <>
