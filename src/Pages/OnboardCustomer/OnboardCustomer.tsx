@@ -6,14 +6,19 @@ import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import PotentialTeachers from './PotentialTeachers/PotentialTeachers';
 import TrainingRequestView from './TrainingRequestView/TrainingRequestView';
 
+class OnboardingRequest
+{
+  danceTeachers: number[] = [];
+}
+
 export default function OnboardCustomer() {
   let { trainingRequestId } = useParams();
   let [ record, setRecord ] = useState(null as (TrainingRequest | null));
   let [ failureMsg, setFailureMsg ] = useState('');
   let [ checkedTeacherIds, setCheckedTeacherIds ] = useState(new Set<number>());
 
-  const loadTrainingRequest = (url: string, verb: 'GET' | 'POST') => {
-    getParsedResponse(url, TrainingRequest, verb)
+  const loadTrainingRequest = (url: string, verb: 'GET' | 'POST', body?: object) => {
+    getParsedResponse(url, TrainingRequest, verb, body)
       .then(result =>
         Effect.runPromise(Effect.match(result, {
           onSuccess: trainingRequest => setRecord(trainingRequest),
@@ -24,7 +29,11 @@ export default function OnboardCustomer() {
 
   useEffect(() => loadTrainingRequest(`trainingRequest/${trainingRequestId}`, 'GET'), [trainingRequestId]);
 
-  const onboardFromTrainingRequest = () => loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST');
+  const onboardFromTrainingRequest = () => {
+    const requestBody = new OnboardingRequest();
+    requestBody.danceTeachers = Array.from(checkedTeacherIds);
+    loadTrainingRequest(`squirrel/trainingRequest/${trainingRequestId}`, 'POST', requestBody);
+  };
 
   const recordDisplay = record === null
     ? (<></>)
