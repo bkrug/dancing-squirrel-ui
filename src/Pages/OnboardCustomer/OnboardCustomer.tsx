@@ -41,7 +41,7 @@ export default function OnboardCustomer() {
       <>
         <TrainingRequestView record={record} />
         <PotentialTeachers onCheckedTeachersChange={setCheckedTeacherIds} />
-        <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
+        {record.squirrelId === null && <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>}
       </>
     );
 

@@ -17,7 +17,6 @@ jest.mock('react-router', () => ({
   useParams: jest.fn()
 }));
 
-//TODO: Assert that the 'Onboard' button is included in the DOM.
 test('Given a training request id that exists, with a person as a caretaker, and the client has not yet been onboarded. Expect rendering a description of that training request.', async () => {
   //Arrange
   const recFromDb: TrainingRequest = {
@@ -58,6 +57,8 @@ test('Given a training request id that exists, with a person as a caretaker, and
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('This squirrel has potential to exploit');
   expect(screen.queryByText(/Employee who did Onboarding/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/Date of Onboarding/i)).not.toBeInTheDocument();
+  //Assert the onboard button is visible
+  expect(screen.queryByText(/Onboard Squirrel/i)).toBeInTheDocument();
 });
 
 test('Given a training request id that exists, with a company as a caretaker, and the client has not yet been onboarded. Expect rendering a description of that training request.', async () => {
@@ -102,7 +103,6 @@ test('Given a training request id that exists, with a company as a caretaker, an
   expect(screen.queryByText(/Date of Onboarding/i)).not.toBeInTheDocument();
 });
 
-//TODO: Assert that the 'Onboard' button is omitted or invisible
 test('Given a training request id that exists, with a person as a caretaker, and the client has already been onboarded. Expect rendering a description of that training request.', async () => {
   //Arrange
   const recFromDb: TrainingRequest = {
@@ -143,6 +143,7 @@ test('Given a training request id that exists, with a person as a caretaker, and
   expect(getSiblingByText(/Description of Needs/i)?.textContent).toEqual('This squirrel has potential to exploit');
   expect(getSiblingByText(/Employee who did Onboarding/i)?.textContent).toEqual('someUser');
   expect(getSiblingByText(/Date of Onboarding/i)?.textContent).toEqual('1970-01-01T01:02:00.000Z');
+  expect(screen.queryByText(/Onboard Squirrel/i)).not.toBeInTheDocument();
 });
 
 test('Given a training request with a phone number that is missing the area code. Expect the phone number to be rendered correctly, but omitting the area code.', async () => {
