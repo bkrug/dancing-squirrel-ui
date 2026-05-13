@@ -15,3 +15,16 @@ export class TrainingRequest
   onboardingDateTimeUnix: number | null = null;
   descriptionOfNeeds: string | null = null;
 }
+
+export class DanceType
+{
+  danceTypeId: number = 0;
+  name: string = ''
+}
+
+export class Teacher
+{
+  teacherId: number = 0;
+  firstName: string = '';
+  lastName: string = '';
+}

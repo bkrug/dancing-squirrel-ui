@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { TrainingRequest } from '../../DbModels';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
+import PotentialTeachers from './PotentialTeachers/PotentialTeachers';
 import TrainingRequestView from './TrainingRequestView/TrainingRequestView';
 
 export default function OnboardCustomer() {
@@ -29,6 +30,7 @@ export default function OnboardCustomer() {
     : (
       <>
         <TrainingRequestView record={record} />
+        <PotentialTeachers />
         <button onClick={onboardFromTrainingRequest}>Onboard Squirrel and Caretaker</button>
       </>
     );
