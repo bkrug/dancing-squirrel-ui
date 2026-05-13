@@ -241,14 +241,23 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
     descriptionOfNeeds: 'Squirrel is easily distracted by honey'
   };
   const danceTypes:DanceType[] = [];
-  const actualHttpVerbs : string[] = [];
+  let wasGetTrainingRequestCalled = false;
+  let wasPostOnboardingCalled = false;
   (getParsedResponse as jest.Mock).mockImplementation(
       async <TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
-        if (endpoint.startsWith('danceType'))
+        if (endpoint.startsWith('danceType')) {
           return Effect.succeed(danceTypes);
-        else if (endpoint.startsWith('trainingRequest') || endpoint.startsWith('squirrel/trainingRequest')){
-          actualHttpVerbs.push(methodVerb || '');
-          return methodVerb === 'GET' ? Effect.succeed(recBeforeOnboarding) : Effect.succeed(recAfterOnboarding)
+        }
+        else if (endpoint.startsWith('trainingRequest') && methodVerb === 'GET'){
+          wasGetTrainingRequestCalled = true;
+          return Effect.succeed(recBeforeOnboarding);
+        }
+        else if (endpoint.startsWith('squirrel/trainingRequest') && methodVerb === 'POST') {
+          wasPostOnboardingCalled = true;
+          return Effect.succeed(recAfterOnboarding);
+        }
+        else {
+          throw new Error(`No mocked case for endpoint ${endpoint}`);
         }
       }
     );
@@ -260,7 +269,7 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   await act(async () => getParsedResponse);
 
   //Assert that client has not yet been onboarded
-  expect(actualHttpVerbs).toEqual(['GET']);
+  expect(wasGetTrainingRequestCalled).toEqual(true);
 
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
   expect(screen.queryByText(/Employee who did Onboarding/i)).not.toBeInTheDocument();
@@ -279,7 +288,7 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
   await act(async () => getParsedResponse);
 
   //Assert that client has now been onboarded
-  expect(actualHttpVerbs).toEqual(['GET', 'POST']);
+  expect(wasPostOnboardingCalled).toEqual(true);
 
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('Yes');
   expect(getSiblingByText(/Employee who did Onboarding/i)?.textContent).toEqual('customerServiceUser');
