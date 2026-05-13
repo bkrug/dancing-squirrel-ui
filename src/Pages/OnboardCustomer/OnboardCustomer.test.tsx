@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Effect } from 'effect';
 import { act } from 'react';
 import { useParams } from 'react-router';
-import { TrainingRequest } from '../../DbModels';
+import { DanceType, TrainingRequest } from '../../DbModels';
 import { CaretakerType } from '../../enums';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { GenericModelResponse } from '../../Forms/Submission/formResponse';
@@ -34,14 +34,19 @@ test('Given a training request id that exists, with a person as a caretaker, and
     onboardingDateTimeUnix: null,
     descriptionOfNeeds: 'This squirrel has potential to exploit'
   };
-  const responseFromHttpGetRequest = Promise.resolve(Effect.succeed(recFromDb));
-  (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
+  const danceTypes:DanceType[] = [];
+  (getParsedResponse as jest.Mock).mockImplementation(<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
+    if (endpoint.startsWith('trainingRequest'))
+      return Promise.resolve(Effect.succeed(recFromDb));
+    else
+      return Promise.resolve(Effect.succeed(danceTypes));
+  });
 
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
   render(<OnboardCustomer />);
-  await act(async () => responseFromHttpGetRequest);
+  await act(async () => getParsedResponse);
 
   //Assert
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
@@ -71,14 +76,19 @@ test('Given a training request id that exists, with a company as a caretaker, an
     onboardingDateTimeUnix: null,
     descriptionOfNeeds: 'This squirrel has potential to exploit'
   };
-  const responseFromHttpGetRequest = Promise.resolve(Effect.succeed(recFromDb));
-  (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
+  const danceTypes:DanceType[] = [];
+  (getParsedResponse as jest.Mock).mockImplementation(<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
+    if (endpoint.startsWith('trainingRequest'))
+      return Promise.resolve(Effect.succeed(recFromDb));
+    else
+      return Promise.resolve(Effect.succeed(danceTypes));
+  });
 
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
   render(<OnboardCustomer />);
-  await act(async () => responseFromHttpGetRequest);
+  await act(async () => getParsedResponse);
 
   //Assert
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('No');
@@ -109,14 +119,19 @@ test('Given a training request id that exists, with a person as a caretaker, and
     onboardingDateTimeUnix: 62*60,
     descriptionOfNeeds: 'This squirrel has potential to exploit'
   };
-  const responseFromHttpGetRequest = Promise.resolve(Effect.succeed(recFromDb));
-  (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
+  const danceTypes:DanceType[] = [];
+  (getParsedResponse as jest.Mock).mockImplementation(<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
+    if (endpoint.startsWith('trainingRequest'))
+      return Promise.resolve(Effect.succeed(recFromDb));
+    else
+      return Promise.resolve(Effect.succeed(danceTypes));
+  });
 
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
   render(<OnboardCustomer />);
-  await act(async () => responseFromHttpGetRequest);
+  await act(async () => getParsedResponse);
 
   //Assert
   expect(getSiblingByText(/Is Onboarded/i)?.textContent).toEqual('Yes');
@@ -146,14 +161,19 @@ test('Given a training request with a phone number that is missing the area code
     onboardingDateTimeUnix: null,
     descriptionOfNeeds: 'This squirrel has potential to exploit'
   };
-  const responseFromHttpGetRequest = Promise.resolve(Effect.succeed(recFromDb));
-  (getParsedResponse as jest.Mock).mockReturnValueOnce(responseFromHttpGetRequest);
+  const danceTypes:DanceType[] = [];
+  (getParsedResponse as jest.Mock).mockImplementation(<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
+    if (endpoint.startsWith('trainingRequest'))
+      return Promise.resolve(Effect.succeed(recFromDb));
+    else
+      return Promise.resolve(Effect.succeed(danceTypes));
+  });
 
   (useParams as jest.Mock).mockReturnValue({ trainingRequestId: recFromDb.trainingRequestId.toString() });
 
   //Act
   render(<OnboardCustomer />);
-  await act(async () => responseFromHttpGetRequest);
+  await act(async () => getParsedResponse);
 
   //Assert
   expect(getSiblingByText(/Phone/i)?.textContent).toEqual('(414) 555-2222');
@@ -219,11 +239,16 @@ test('When a user presses the "Onboard" button, a POST request should be made.',
     onboardingDateTimeUnix: 60*60*24*365*2,
     descriptionOfNeeds: 'Squirrel is easily distracted by honey'
   };
+  const danceTypes:DanceType[] = [];
   const actualHttpVerbs : string[] = [];
   (getParsedResponse as jest.Mock).mockImplementation(
       async <TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string) => {
-        actualHttpVerbs.push(methodVerb || '');
-        return methodVerb === 'GET' ? Effect.succeed(recBeforeOnboarding) : Effect.succeed(recAfterOnboarding)
+        if (endpoint.startsWith('danceType'))
+          return Effect.succeed(danceTypes);
+        else if (endpoint.startsWith('trainingRequest') || endpoint.startsWith('squirrel/trainingRequest')){
+          actualHttpVerbs.push(methodVerb || '');
+          return methodVerb === 'GET' ? Effect.succeed(recBeforeOnboarding) : Effect.succeed(recAfterOnboarding)
+        }
       }
     );
 
