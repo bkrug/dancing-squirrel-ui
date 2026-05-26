@@ -2,6 +2,13 @@
 
 This is a React JS application for managing an imaginary company that trains squirrels to work in the entertainment industry. See also the companion repo for the ReactJS application: https://github.com/bkrug/dancing-squirrel-api
 
+## Helpful commands
+
+Build a docker image
+`docker build -t dancing-squirrel-ui -f Dockerfile.dev .`
+Run the container
+`docker run -p 3626:3626 dancing-squirrel-ui
+
 ## Available Scripts
 
 In the project directory, you can run:
