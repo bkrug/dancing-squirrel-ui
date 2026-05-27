@@ -1,5 +1,5 @@
 # =========================================
-# Stage: Development (Vite React.js App)
+# Stage: Development
 # =========================================
 ARG NODE_VERSION=22.22.2
  
@@ -26,5 +26,5 @@ USER node
 # Expose Vite dev server port
 EXPOSE 3626
  
-# Run Vite in dev mode, accessible outside the container
+#
 CMD ["npm", "start"]
