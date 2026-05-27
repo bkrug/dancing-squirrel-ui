@@ -9,6 +9,10 @@ Build a docker image
 Run the container
 `docker run -p 3626:3626 dancing-squirrel-ui
 
+## How to Dockerize a React Application
+
+https://www.docker.com/blog/how-to-dockerize-react-app/
+
 ## Available Scripts
 
 In the project directory, you can run:
