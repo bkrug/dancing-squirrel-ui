@@ -3,7 +3,7 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { LocalTextInput } from '../../../Forms/Fields/LocalFields';
 import { submitFormikJson } from '../../../Forms/Submission/formikSubmission';
-import { EditUserModel } from '../../../dtoModels';
+import { EditUserModel, ViewUserModel } from '../../../dtoModels';
 
 class EditUserValidationFailures {
   email: string = '';
@@ -12,16 +12,15 @@ class EditUserValidationFailures {
 
 interface ContactFieldFormProps {
   editModel: EditUserModel;
-  username: string | undefined;
-  userId: string | undefined;
+  viewModel: ViewUserModel;
 }
 
-export default function ContactFieldForm({ editModel, username, userId }: ContactFieldFormProps) {
+export default function ContactFieldForm({ editModel, viewModel }: ContactFieldFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
     <>
-      <h2>Edit User {username}</h2>
+      <h2>Edit User {viewModel.username}</h2>
       <Formik
         initialValues={editModel}
         validationSchema={
@@ -32,7 +31,7 @@ export default function ContactFieldForm({ editModel, username, userId }: Contac
           })
         }
         onSubmit={(values, actions) => {
-          submitFormikJson<EditUserModel, EditUserValidationFailures>(`user/${userId}`, values, actions, 'PUT')
+          submitFormikJson<EditUserModel, EditUserValidationFailures>(`user/${viewModel.userId}`, values, actions, 'PUT')
             .then(parsedResponse => {
               setHasBeenSaved(parsedResponse.isSuccess);
             });

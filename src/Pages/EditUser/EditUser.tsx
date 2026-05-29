@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPagedData, getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { EditUserModel, ViewUserModel } from '../../dtoModels';
+import './EditUser.css';
 import ContactFieldForm from './subcomponents/ContactFieldForm';
 import RoleForm from './subcomponents/RoleForm';
-import './EditUser.css';
 
 export default function EditUser() {
   let { userId } = useParams();
@@ -42,15 +42,12 @@ export default function EditUser() {
           onFailure: failureResponse => console.log(failureResponse)
         }))
       );
-  }, [viewModel === null]);
+  }, [viewModel?.roles]);
 
   return (
     <div className='form-parent'>
-      {editModel && <ContactFieldForm editModel={editModel} username={viewModel?.username} userId={userId} />}
+      {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
       <RoleForm roleList={roleList} userId={userId} />
-      <div>
-        Roles: {viewModel?.roles.map(r => r.name).join(', ')}
-      </div>
     </div>
   );
 }
