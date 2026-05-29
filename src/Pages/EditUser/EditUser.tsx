@@ -28,6 +28,9 @@ export default function EditUser() {
   }, [userId]);
 
   useEffect(() => {
+    if (viewModel === null)
+      return
+
     getPagedData<String>('role')
       .then(result =>
         Effect.runPromise(Effect.match(result, {
@@ -47,7 +50,7 @@ export default function EditUser() {
   return (
     <div className='form-parent'>
       {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
-      <RoleForm roleList={roleList} userId={userId} />
+      {Object.keys(roleList).length > 0 && <RoleForm roleList={roleList} userId={userId} />}
     </div>
   );
 }

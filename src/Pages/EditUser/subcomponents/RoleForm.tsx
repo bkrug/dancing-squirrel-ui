@@ -1,23 +1,38 @@
+import { Effect } from 'effect/index';
 import { Form, Formik } from 'formik';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
-import { submitFormikJson } from '../../../Forms/Submission/formikSubmission';
+import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
+import { ViewRoleModel } from '../../../dtoModels';
 
 interface RoleFormProps {
   roleList: { [key: string]: boolean };
   userId: string | undefined;
 }
 
-export default function RoleForm({ roleList, userId }: RoleFormProps) {
-  if (Object.keys(roleList).length === 0) return <></>;
+interface RoleEditingForm {
+  roles: ViewRoleModel[]
+}
 
+export default function RoleForm({ roleList, userId }: RoleFormProps) {
   return (
     <Formik
       initialValues={roleList}
       enableReinitialize
       onSubmit={(values, actions) => {
-        submitFormikJson<{ [key: string]: boolean }, {}>(`user/${userId}/roles`, values, actions, 'PUT')
-          .then(() => actions.setSubmitting(false));
+        var form = {
+          roles: Object.keys(values)
+            .filter(key => values[key])
+            .map(key => Object.assign(new ViewRoleModel(), { name: key }))
+        } as RoleEditingForm;
+        getParsedResponse(`user/${userId}/role`, Object, 'PUT', form)
+          .then(result => {
+            actions.setSubmitting(false);
+            Effect.runPromise(Effect.match(result, {
+              onSuccess: _ => {},
+              onFailure: failureResponse => alert(JSON.stringify(failureResponse))
+            }));
+          });
       }}
     >
       {formik => (
