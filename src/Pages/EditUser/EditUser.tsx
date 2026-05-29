@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { LocalTextInput } from '../../Forms/Fields/LocalFields';
-import { getParsedResponse, submitFormikForm, submitFormikJson } from '../../Forms/Submission/formikSubmission';
-import { EditUserModel } from '../../dtoModels';
+import { getParsedResponse, submitFormikJson } from '../../Forms/Submission/formikSubmission';
+import { EditUserModel, ViewUserModel } from '../../dtoModels';
 import './EditUser.css';
 
 export class EditUserValidationFailures {
@@ -16,24 +16,28 @@ export class EditUserValidationFailures {
 export default function EditUser() {
   let { userId } = useParams();
   console.log('userId', userId);
-  let [ userModel, setUserModel ] = useState(null as null | EditUserModel);
+  let [ viewModel, setViewModel ] = useState(null as null | ViewUserModel);
+  let [ editModel, setEditModel ] = useState(null as null | EditUserModel);
 
   useEffect(() => {
-    getParsedResponse(`user/${userId}`, EditUserModel)
+    getParsedResponse(`user/${userId}`, ViewUserModel)
       .then(parsedResponse => {
         Effect.runPromise(Effect.match(parsedResponse, {
-          onSuccess: parsed => setUserModel(parsed),
+          onSuccess: parsed => {
+            setViewModel(parsed)
+            setEditModel({ email: parsed.email, phoneNumber: parsed.phoneNumber });
+          },
           onFailure: err => console.error(err)
         }))
       })
   }, [userId])
 
   return (
-    userModel
+    editModel
       ? <>
-          <h2>Edit User</h2>
+          <h2>Edit User {viewModel?.username}</h2>
           <Formik
-            initialValues={userModel}
+            initialValues={editModel}
             validationSchema={
               Yup.object({
                 email: Yup.string()

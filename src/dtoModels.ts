@@ -41,3 +41,17 @@ export class EditUserModel
   email: string = '';
   phoneNumber: string = '';
 }
+
+export class ViewRoleModel
+{
+  name: string = '';
+}
+
+export class ViewUserModel
+{
+  userId: string = '';
+  username: string = '';
+  email: string = '';
+  phoneNumber: string = '';
+  roles: ViewRoleModel[] = [];
+}
