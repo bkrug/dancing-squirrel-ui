@@ -31,18 +31,18 @@ export default function EditUser() {
           onFailure: err => console.error(err)
         }))
       })
-  }, [userId])
-  useEffect(() => {
-    getPagedData<String>('role')
-      .then(result =>
-        Effect.runPromise(Effect.match(result, {
-          onSuccess: (parsedResponse) => {
-            setRoleList(parsedResponse.data)
-          },
-          onFailure: (failureResponse) => console.log(failureResponse)
-        }))
-      );
-  }, []);
+      .then(() =>
+        getPagedData<String>('role')
+          .then(result =>
+            Effect.runPromise(Effect.match(result, {
+              onSuccess: (parsedResponse) => {
+                setRoleList(parsedResponse.data)
+              },
+              onFailure: (failureResponse) => console.log(failureResponse)
+            }))
+          )
+      )
+  }, [userId]);
 
   let contactFieldForm = (
     editModel
