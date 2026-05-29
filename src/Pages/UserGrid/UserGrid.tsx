@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import { GridUser } from '../../DbModels';
+import { GridUser } from '../../dtoModels';
 import { getPagedData } from '../../Forms/Submission/formikSubmission';
 import './UserGrid.css';
 

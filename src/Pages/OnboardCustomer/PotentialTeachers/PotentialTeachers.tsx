@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
-import { DanceType, Teacher } from '../../../DbModels';
+import { DanceType, Teacher } from '../../../dtoModels';
 import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
 import './PotentialTeachers.css';
 

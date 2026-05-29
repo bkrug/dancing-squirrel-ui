@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { TrainingRequest } from '../../DbModels';
+import { TrainingRequest } from '../../dtoModels';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { OnboardingRequest } from '../../requestModels';
 import PotentialTeachers from './PotentialTeachers/PotentialTeachers';

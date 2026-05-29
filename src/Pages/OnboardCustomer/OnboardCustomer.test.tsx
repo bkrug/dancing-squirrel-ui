@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Effect } from 'effect';
 import { act } from 'react';
 import { useParams } from 'react-router';
-import { DanceType, Teacher, TrainingRequest } from '../../DbModels';
+import { DanceType, Teacher, TrainingRequest } from '../../dtoModels';
 import { CaretakerType } from '../../enums';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { GenericModelResponse } from '../../Forms/Submission/formResponse';

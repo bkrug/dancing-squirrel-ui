@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import { TrainingRequest } from '../../DbModels';
+import { TrainingRequest } from '../../dtoModels';
 import { CaretakerType } from '../../enums';
 import { formatPhoneNumber } from '../../fieldTransformers';
 import { getPagedData } from '../../Forms/Submission/formikSubmission';

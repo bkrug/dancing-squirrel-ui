@@ -1,4 +1,4 @@
-import { TrainingRequest } from '../../../DbModels';
+import { TrainingRequest } from '../../../dtoModels';
 import { CaretakerType } from '../../../enums';
 import { formatPhoneNumber, unixSecondsToString } from '../../../fieldTransformers';
 import './TrainingRequestView.css';
