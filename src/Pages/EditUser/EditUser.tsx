@@ -58,8 +58,8 @@ export default function EditUser() {
                 <LocalTextInput label="Email" name="email" type="email" />
                 <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
 
-                <button type="submit">Save</button>
-                {hasBeenSaved && (<div className='saved-notification'>Saved</div>)}
+                <button type="submit" disabled={formik.isSubmitting}>Save</button>
+                {hasBeenSaved && !formik.dirty && (<div className='saved-notification'>Saved</div>)}
               </Form>
             )}
           </Formik>
