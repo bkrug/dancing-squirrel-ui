@@ -15,9 +15,9 @@ export class EditUserValidationFailures {
 
 export default function EditUser() {
   let { userId } = useParams();
-  console.log('userId', userId);
   let [ viewModel, setViewModel ] = useState(null as null | ViewUserModel);
   let [ editModel, setEditModel ] = useState(null as null | EditUserModel);
+  let [ hasBeenSaved, setHasBeenSaved ] = useState(false);
 
   useEffect(() => {
     getParsedResponse(`user/${userId}`, ViewUserModel)
@@ -48,9 +48,8 @@ export default function EditUser() {
             onSubmit={(values, actions) => {
               submitFormikJson<EditUserModel, EditUserValidationFailures>(`user/${userId}`, values, actions, 'PUT')
                 .then(parsedResponse => {
-                  if (parsedResponse.isSuccess) {
-
-                  }
+                  console.log(parsedResponse.isSuccess);
+                  setHasBeenSaved(parsedResponse.isSuccess);
                 });
             }}
           >
@@ -60,6 +59,7 @@ export default function EditUser() {
                 <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
 
                 <button type="submit">Save</button>
+                {hasBeenSaved && (<div className='saved-notification'>Saved</div>)}
               </Form>
             )}
           </Formik>
