@@ -6,6 +6,7 @@ import EmployeePortal from './PageHeaders/EmployeePortal';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import TrainingRequestGrid from './Pages/TrainingRequestGrid/TrainingRequestGrid';
+import UserGrid from './Pages/UserGrid/UserGrid';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -17,6 +18,7 @@ root.render(
       <Route path="/" element={<CustomerPortal child={<CustomerSignup />} />} />
       <Route path="employee" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
       <Route path="onboard/:trainingRequestId" element={<EmployeePortal child={<OnboardCustomer />} />} />
+      <Route path="user" element={<EmployeePortal child={<UserGrid />} />} />
     </Routes>
   </BrowserRouter>,
 );

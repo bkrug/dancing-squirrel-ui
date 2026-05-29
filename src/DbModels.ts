@@ -28,3 +28,9 @@ export class Teacher
   firstName: string = '';
   lastName: string = '';
 }
+
+export class GridUser
+{
+  userId: string = '';
+  username: string = '';
+}
