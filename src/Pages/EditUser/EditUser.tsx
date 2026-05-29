@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { LocalTextInput } from '../../Forms/Fields/LocalFields';
-import { getParsedResponse, submitFormikJson } from '../../Forms/Submission/formikSubmission';
+import { getPagedData, getParsedResponse, submitFormikJson } from '../../Forms/Submission/formikSubmission';
 import { EditUserModel, ViewUserModel } from '../../dtoModels';
 import './EditUser.css';
 
@@ -17,6 +17,7 @@ export default function EditUser() {
   let { userId } = useParams();
   let [ viewModel, setViewModel ] = useState(null as null | ViewUserModel);
   let [ editModel, setEditModel ] = useState(null as null | EditUserModel);
+  let [ roleList, setRoleList ] = useState([] as String[]);
   let [ hasBeenSaved, setHasBeenSaved ] = useState(false);
 
   useEffect(() => {
@@ -31,8 +32,19 @@ export default function EditUser() {
         }))
       })
   }, [userId])
+  useEffect(() => {
+    getPagedData<String>('role')
+      .then(result =>
+        Effect.runPromise(Effect.match(result, {
+          onSuccess: (parsedResponse) => {
+            setRoleList(parsedResponse.data)
+          },
+          onFailure: (failureResponse) => console.log(failureResponse)
+        }))
+      );
+  }, []);
 
-  return (
+  let contactFieldForm = (
     editModel
       ? <>
           <h2>Edit User {viewModel?.username}</h2>
@@ -66,4 +78,13 @@ export default function EditUser() {
         </>
       : <></>
   );
+
+  return (
+    <>
+      {contactFieldForm}
+      <div>
+        Roles: {viewModel?.roles.map(r => r.name).join(', ')}
+      </div>
+    </>
+  )
 }
