@@ -3,3 +3,7 @@
   font-size: smaller;
   font-style: italic;
 }
+
+.form-parent {
+  display: inline-block;
+}
