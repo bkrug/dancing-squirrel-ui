@@ -20,6 +20,7 @@ export default function EditUser() {
   let [ roleList, setRoleList ] = useState([] as String[]);
   let [ hasBeenSaved, setHasBeenSaved ] = useState(false);
 
+  //TODO: Maybe all of this data should just come from a single request
   useEffect(() => {
     getParsedResponse(`user/${userId}`, ViewUserModel)
       .then(parsedResponse => {
@@ -35,9 +36,7 @@ export default function EditUser() {
         getPagedData<String>('role')
           .then(result =>
             Effect.runPromise(Effect.match(result, {
-              onSuccess: (parsedResponse) => {
-                setRoleList(parsedResponse.data)
-              },
+              onSuccess: (parsedResponse) => setRoleList(parsedResponse.data),
               onFailure: (failureResponse) => console.log(failureResponse)
             }))
           )
