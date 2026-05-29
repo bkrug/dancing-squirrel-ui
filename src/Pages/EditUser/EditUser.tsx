@@ -78,9 +78,16 @@ export default function EditUser() {
       : <></>
   );
 
+  let roleForm =
+    roleList.length > 0
+    ? (<>
+      </>)
+    : (<></>);
+
   return (
     <>
       {contactFieldForm}
+      {roleForm}
       <div>
         Roles: {viewModel?.roles.map(r => r.name).join(', ')}
       </div>
