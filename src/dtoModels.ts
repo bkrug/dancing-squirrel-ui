@@ -33,4 +33,11 @@ export class GridUser
 {
   userId: string = '';
   username: string = '';
+  email: string = '';
+}
+
+export class EditUserModel
+{
+  email: string = '';
+  phoneNumber: string = '';
 }
