@@ -4,6 +4,7 @@ import './index.css';
 import CustomerPortal from './PageHeaders/CustomerPortal';
 import EmployeePortal from './PageHeaders/EmployeePortal';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
+import EditUser from './Pages/EditUser/EditUser';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import TrainingRequestGrid from './Pages/TrainingRequestGrid/TrainingRequestGrid';
 import UserGrid from './Pages/UserGrid/UserGrid';
@@ -19,6 +20,7 @@ root.render(
       <Route path="employee" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
       <Route path="onboard/:trainingRequestId" element={<EmployeePortal child={<OnboardCustomer />} />} />
       <Route path="user" element={<EmployeePortal child={<UserGrid />} />} />
+      <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser />} />} />
     </Routes>
   </BrowserRouter>,
 );

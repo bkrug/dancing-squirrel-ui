@@ -60,7 +60,8 @@ export async function submitFormikForm<TValues extends object, TValidationFailur
   (
     endpoint: string,
     values: TValues,
-    actions: FormikHelpers<TValues>
+    actions: FormikHelpers<TValues>,
+    methodVerb?: 'POST' | 'PUT'
   )
   : Promise<FormResponse<TValidationFailures>>
 {
@@ -69,10 +70,56 @@ export async function submitFormikForm<TValues extends object, TValidationFailur
 
   try {
     const response = await fetch(fullUrl, {
-      method: 'POST',
+      method: methodVerb || 'POST',
       mode: 'cors',
       credentials: 'include',
       body: formData
+    });
+    const jsonString = await response.text();
+    let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
+    if (parsedResponse.isSuccess) {
+      actions.resetForm();
+    }
+    else if (parsedResponse.validationFailuresStrict) {
+      actions.setErrors(parsedResponse.validationFailuresStrict);
+    }
+    else if (parsedResponse.isInternalError) {
+      alert('An internal error occurred.');
+    }
+    else {
+      alert('A malformed response was received from the server.');
+    }
+    actions.setSubmitting(false);
+    return parsedResponse;
+  } catch (httpErrors) {
+    console.error(httpErrors);
+    alert('An HTTP error occurred.');
+    actions.setSubmitting(false);
+    return {
+      isSuccess: false,
+      isInternalError: true,
+      validationFailures: {}
+    } as FormResponse<TValidationFailures>;
+  }
+};
+
+export async function submitFormikJson<TValues extends object, TValidationFailures extends object>
+  (
+    endpoint: string,
+    values: TValues,
+    actions: FormikHelpers<TValues>,
+    methodVerb?: 'POST' | 'PUT'
+  )
+  : Promise<FormResponse<TValidationFailures>>
+{
+  let fullUrl = new URL(endpoint, baseUrl)
+
+  try {
+    const response = await fetch(fullUrl, {
+      method: methodVerb || 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      body: JSON.stringify(values)
     });
     const jsonString = await response.text();
     let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);

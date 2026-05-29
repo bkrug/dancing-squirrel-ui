@@ -17,7 +17,7 @@ const columns: TableColumn<GridUser>[] = [
   {
     name: 'Email',
     selector: row => row.email
-  }  
+  }
 ];
 
 const pageLength = 20;
