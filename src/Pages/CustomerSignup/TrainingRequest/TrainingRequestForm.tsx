@@ -98,7 +98,7 @@ export default function TrainingRequestForm({ onSuccess }: TrainingRequestFormPr
           <LocalTextInput label="Squirrel Name" name="squirrelName" />
           <LocalTextArea label="Describe the training you are looking for" name="descriptionOfNeeds" />
 
-          <button type="submit">Register Squirrel</button>
+          <button type="submit" disabled={formik.isSubmitting}>Register Squirrel</button>
         </Form>
       )}
     </Formik>
