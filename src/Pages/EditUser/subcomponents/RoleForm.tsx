@@ -2,8 +2,10 @@ import { Effect } from 'effect/index';
 import { Form, Formik } from 'formik';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
-import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
+import { useState } from 'react';
 import { ViewRoleModel } from '../../../dtoModels';
+import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
+import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
 
 interface RoleFormProps {
   roleList: { [key: string]: boolean };
@@ -15,6 +17,8 @@ interface RoleEditingForm {
 }
 
 export default function RoleForm({ roleList, userId }: RoleFormProps) {
+  const [hasBeenSaved, setHasBeenSaved] = useState(false);
+
   return (
     <Formik
       initialValues={roleList}
@@ -29,8 +33,11 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
           .then(result => {
             actions.setSubmitting(false);
             Effect.runPromise(Effect.match(result, {
-              onSuccess: _ => {},
-              onFailure: failureResponse => alert(JSON.stringify(failureResponse))
+              onSuccess: _ => setHasBeenSaved(true),
+              onFailure: failureResponse => {
+                alert(JSON.stringify(failureResponse));
+                setHasBeenSaved(false);
+              }
             }));
           });
       }}
@@ -46,7 +53,7 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
               />
             </div>
           ))}
-          <button type="submit" disabled={formik.isSubmitting}>Save Roles</button>
+          <FeedbackSubmit label="Save Roles" formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
       )}
     </Formik>

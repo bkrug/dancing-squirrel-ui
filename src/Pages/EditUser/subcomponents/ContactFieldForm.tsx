@@ -1,6 +1,7 @@
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
 import { LocalTextInput } from '../../../Forms/Fields/LocalFields';
 import { submitFormikJson } from '../../../Forms/Submission/formikSubmission';
 import { EditUserModel, ViewUserModel } from '../../../dtoModels';
@@ -42,8 +43,7 @@ export default function ContactFieldForm({ editModel, viewModel }: ContactFieldF
             <LocalTextInput label="Email" name="email" type="email" />
             <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
 
-            <button type="submit" disabled={formik.isSubmitting}>Save</button>
-            {hasBeenSaved && !formik.dirty && (<div className='saved-notification'>Saved</div>)}
+            <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
           </Form>
         )}
       </Formik>
