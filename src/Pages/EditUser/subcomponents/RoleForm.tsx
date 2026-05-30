@@ -20,7 +20,7 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
-    <div>
+    <>
       <Formik
         initialValues={roleList}
         enableReinitialize
@@ -58,6 +58,6 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
           </Form>
         )}
       </Formik>
-    </div>
+    </>
   );
 }

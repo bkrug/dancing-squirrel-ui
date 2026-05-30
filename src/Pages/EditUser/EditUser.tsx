@@ -49,8 +49,12 @@ export default function EditUser() {
 
   return (
     <div className='form-parent'>
-      {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
-      {Object.keys(roleList).length > 0 && <RoleForm roleList={roleList} userId={userId} />}
+      <div className='form-container'>
+        {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
+      </div>
+      <div className='form-container'>
+        {Object.keys(roleList).length > 0 && <RoleForm roleList={roleList} userId={userId} />}
+      </div>
     </div>
   );
 }

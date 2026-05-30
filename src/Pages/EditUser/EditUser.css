@@ -2,6 +2,6 @@
   display: inline-block;
 }
 
-.form-parent > div {
+.form-container {
   margin-bottom: 1em;
 }
