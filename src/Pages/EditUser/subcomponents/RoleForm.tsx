@@ -20,42 +20,44 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
-    <Formik
-      initialValues={roleList}
-      enableReinitialize
-      onSubmit={(values, actions) => {
-        var form = {
-          roles: Object.keys(values)
-            .filter(key => values[key])
-            .map(key => Object.assign(new ViewRoleModel(), { name: key }))
-        } as RoleEditingForm;
-        getParsedResponse(`user/${userId}/role`, Object, 'PUT', form)
-          .then(result => {
-            actions.setSubmitting(false);
-            Effect.runPromise(Effect.match(result, {
-              onSuccess: _ => setHasBeenSaved(true),
-              onFailure: failureResponse => {
-                alert(JSON.stringify(failureResponse));
-                setHasBeenSaved(false);
-              }
-            }));
-          });
-      }}
-    >
-      {formik => (
-        <Form onSubmit={formik.handleSubmit}>
-          {Object.keys(formik.values).map(role => (
-            <div key={role}>
-              <label>{role}</label>
-              <Switch
-                checked={formik.values[role]}
-                onChange={(checked: boolean) => formik.setFieldValue(role, checked)}
-              />
-            </div>
-          ))}
-          <FeedbackSubmit label="Save Roles" formikState={formik} displayCompletion={hasBeenSaved} />
-        </Form>
-      )}
-    </Formik>
+    <div>
+      <Formik
+        initialValues={roleList}
+        enableReinitialize
+        onSubmit={(values, actions) => {
+          var form = {
+            roles: Object.keys(values)
+              .filter(key => values[key])
+              .map(key => Object.assign(new ViewRoleModel(), { name: key }))
+          } as RoleEditingForm;
+          getParsedResponse(`user/${userId}/role`, Object, 'PUT', form)
+            .then(result => {
+              actions.setSubmitting(false);
+              Effect.runPromise(Effect.match(result, {
+                onSuccess: _ => setHasBeenSaved(true),
+                onFailure: failureResponse => {
+                  alert(JSON.stringify(failureResponse));
+                  setHasBeenSaved(false);
+                }
+              }));
+            });
+        }}
+      >
+        {formik => (
+          <Form onSubmit={formik.handleSubmit}>
+            {Object.keys(formik.values).map(role => (
+              <div key={role}>
+                <label>{role}</label>
+                <Switch
+                  checked={formik.values[role]}
+                  onChange={(checked: boolean) => formik.setFieldValue(role, checked)}
+                />
+              </div>
+            ))}
+            <FeedbackSubmit label="Save Roles" formikState={formik} displayCompletion={hasBeenSaved} />
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }

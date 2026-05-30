@@ -1,3 +1,7 @@
 .form-parent {
   display: inline-block;
 }
+
+.form-parent > div {
+  margin-bottom: 1em;
+}

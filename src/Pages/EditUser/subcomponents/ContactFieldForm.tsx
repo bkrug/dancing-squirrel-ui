@@ -20,7 +20,7 @@ export default function ContactFieldForm({ editModel, viewModel }: ContactFieldF
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
-    <>
+    <div>
       <h2>Edit User {viewModel.username}</h2>
       <Formik
         initialValues={editModel}
@@ -47,6 +47,6 @@ export default function ContactFieldForm({ editModel, viewModel }: ContactFieldF
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
