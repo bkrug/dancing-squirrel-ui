@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './FeedbackSubmit.css';
 
 interface FeedbackSubmitProps<TValue> {
