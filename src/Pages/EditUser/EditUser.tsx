@@ -45,7 +45,7 @@ export default function EditUser() {
           onFailure: failureResponse => console.log(failureResponse)
         }))
       );
-  }, [viewModel?.roles]);
+  }, [viewModel, viewModel?.roles]);
 
   return (
     <div className='form-parent'>

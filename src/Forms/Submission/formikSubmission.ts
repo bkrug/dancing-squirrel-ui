@@ -124,7 +124,6 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
     const jsonString = await response.text();
     let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
     if (parsedResponse.isSuccess) {
-      actions.resetForm();
     }
     else if (parsedResponse.validationFailuresStrict) {
       actions.setErrors(parsedResponse.validationFailuresStrict);

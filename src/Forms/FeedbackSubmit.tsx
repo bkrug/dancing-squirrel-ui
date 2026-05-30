@@ -1,5 +1,4 @@
 import { FormikProps } from 'formik';
-import { useEffect, useState } from 'react';
 import './FeedbackSubmit.css';
 
 interface FeedbackSubmitProps<TValue> {
@@ -9,19 +8,10 @@ interface FeedbackSubmitProps<TValue> {
 }
 
 export default function FeedbackSubmit<TValue>({ label, displayCompletion, formikState }: FeedbackSubmitProps<TValue>) {
-  const [touchedSinceSubmission, setTouchedSinceSubmission] = useState(false);
-  useEffect(() => {
-    if (formikState.isSubmitting)
-      setTouchedSinceSubmission(false);
-    else if (formikState.dirty)
-      setTouchedSinceSubmission(true);
-  }, [formikState.isSubmitting, formikState.dirty]);
-  const showMessage = displayCompletion && !touchedSinceSubmission;
-
   return (
     <>
       <button type="submit" disabled={formikState.isSubmitting}>{label}</button>
-      {showMessage && <div className='saved-notification'>Saved</div>}
+      <div className='saved-notification'>{displayCompletion && !formikState.isSubmitting ? 'Saved' : (<p></p>)}</div>
     </>
   );
 }
