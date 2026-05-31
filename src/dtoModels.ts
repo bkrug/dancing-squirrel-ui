@@ -47,6 +47,14 @@ export class ViewRoleModel
   name: string = '';
 }
 
+export class CreateUserModel
+{
+  email: string = '';
+  username: string = '';
+  password: string = '';
+  phoneNumber: string = '';
+}
+
 export class ViewUserModel
 {
   userId: string = '';

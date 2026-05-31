@@ -42,13 +42,16 @@ export default function UserGrid() {
   useEffect(() => { refreshGridData(1); }, []);
 
   return (
-    <DataTable
-      columns={columns}
-      data={gridRows || []}
-      pagination
-      paginationServer
-      paginationTotalRows={totalRows}
-      paginationRowsPerPageOptions={[pageLength]}
-      onChangePage={refreshGridData} />
+    <>
+      <a href="/registration-form">Create User</a>
+      <DataTable
+        columns={columns}
+        data={gridRows || []}
+        pagination
+        paginationServer
+        paginationTotalRows={totalRows}
+        paginationRowsPerPageOptions={[pageLength]}
+        onChangePage={refreshGridData} />
+    </>
   );
 }

@@ -5,7 +5,8 @@ import './LocalFields.css';
 interface TextInputProps {
   label: string,
   name: string,
-  type?: string
+  type?: string,
+  disabled?: boolean
 }
 
 export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
