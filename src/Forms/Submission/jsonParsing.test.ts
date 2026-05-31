@@ -1,4 +1,4 @@
-import parseToCamelCase from "./jsonParsing";
+import parseToCamelCase from './jsonParsing';
 
 interface ObjectInBackendFormat {
   ValueA: string;

@@ -41,9 +41,9 @@ export default function CreateUser() {
     >
       {formik => (
         <Form onSubmit={formik.handleSubmit} method="POST">
-          <LocalTextInput label="Email" name="email" type="email" disabled={hasBeenSaved} />
           <LocalTextInput label="Username" name="username"  disabled={hasBeenSaved}/>
           <LocalTextInput label="Password" name="password" type="password" disabled={hasBeenSaved}/>
+          <LocalTextInput label="Email" name="email" type="email" disabled={hasBeenSaved} />
           <LocalTextInput label="Phone Number" name="phoneNumber" type="tel"  disabled={hasBeenSaved}/>
 
           <FeedbackSubmit label="Create User" formikState={formik} displayCompletion={hasBeenSaved} />

@@ -20,33 +20,30 @@ export default function ContactFieldForm({ editModel, viewModel }: ContactFieldF
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
-    <>
-      <h2>Edit User {viewModel.username}</h2>
-      <Formik
-        initialValues={editModel}
-        validationSchema={
-          Yup.object({
-            email: Yup.string()
-              .email('Invalid email address')
-              .required('Required'),
-          })
-        }
-        onSubmit={(values, actions) => {
-          submitFormikJson<EditUserModel, EditUserValidationFailures>(`user/${viewModel.userId}`, values, actions, 'PUT')
-            .then(parsedResponse => {
-              setHasBeenSaved(parsedResponse.isSuccess);
-            });
-        }}
-      >
-        {formik => (
-          <Form onSubmit={formik.handleSubmit} method="POST">
-            <LocalTextInput label="Email" name="email" type="email" />
-            <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
+    <Formik
+      initialValues={editModel}
+      validationSchema={
+        Yup.object({
+          email: Yup.string()
+            .email('Invalid email address')
+            .required('Required'),
+        })
+      }
+      onSubmit={(values, actions) => {
+        submitFormikJson<EditUserModel, EditUserValidationFailures>(`user/${viewModel.userId}`, values, actions, 'PUT')
+          .then(parsedResponse => {
+            setHasBeenSaved(parsedResponse.isSuccess);
+          });
+      }}
+    >
+      {formik => (
+        <Form onSubmit={formik.handleSubmit} method="POST">
+          <LocalTextInput label="Email" name="email" type="email" />
+          <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
 
-            <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
-          </Form>
-        )}
-      </Formik>
-    </>
+          <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
+        </Form>
+      )}
+    </Formik>
   );
 }

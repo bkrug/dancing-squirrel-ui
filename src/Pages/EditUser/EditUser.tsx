@@ -1,6 +1,7 @@
 import { Effect } from 'effect/index';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import YesNoModal from '../../Components/YesNoModal';
 import { getPagedData, getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { EditUserModel, ViewUserModel } from '../../dtoModels';
 import './EditUser.css';
@@ -12,6 +13,8 @@ export default function EditUser() {
   let [viewModel, setViewModel] = useState(null as null | ViewUserModel);
   let [editModel, setEditModel] = useState(null as null | EditUserModel);
   let [roleList, setRoleList] = useState({} as { [key: string]: boolean });
+  let [openDelete, setOpenDelete] = useState(false);
+  let navigate = useNavigate();
 
   //TODO: Maybe all of this data should just come from a single request
   useEffect(() => {
@@ -47,8 +50,26 @@ export default function EditUser() {
       );
   }, [viewModel, viewModel?.roles]);
 
+  function deleteUser() {
+    getParsedResponse(`user/${userId}`, Boolean, 'DELETE')
+      .then(parsedResponse => {
+        Effect.runPromise(Effect.match(parsedResponse, {
+          onSuccess: () => {
+            setOpenDelete(false);
+            navigate('/users');
+          },
+          onFailure: err => console.error(err)
+        }));
+      });
+  }
+
   return (
     <div className='form-parent'>
+      { viewModel && <h2>Edit User {viewModel.username}</h2> }
+      <button onClick={() => setOpenDelete(true)}>Delete</button>
+      <YesNoModal isOpen={openDelete} onConfirm={deleteUser} onDeny={()=> setOpenDelete(false)}>
+        Are you sure you want to delete this user?
+      </YesNoModal>
       <div className='form-container'>
         {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
       </div>
