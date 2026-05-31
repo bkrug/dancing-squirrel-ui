@@ -1,5 +1,6 @@
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import FeedbackSubmit from '../../Forms/FeedbackSubmit';
 import { LocalTextInput } from '../../Forms/Fields/LocalFields';
@@ -15,6 +16,7 @@ class CreateUserValidationFailures {
 
 export default function CreateUser() {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Formik
@@ -36,6 +38,7 @@ export default function CreateUser() {
         submitFormikJson<CreateUserModel, CreateUserValidationFailures>('user', values, actions, 'POST')
           .then(parsedResponse => {
             setHasBeenSaved(parsedResponse.isSuccess);
+            if (parsedResponse.isSuccess) navigate('/users');
           });
       }}
     >
