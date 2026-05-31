@@ -34,3 +34,7 @@
 .App-header a:visited {
   color: violet;
 }
+
+nav a {
+  margin: 0em .5em;
+}

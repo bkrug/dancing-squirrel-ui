@@ -59,6 +59,10 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
       <header className="App-header">
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
         <h2>Great Dancing Squirrel Corporation of North America</h2>
+        <nav>
+          <a href="/trainingrequests">Training Requests</a>
+          <a href="/users">Users</a>
+        </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>
       {child}

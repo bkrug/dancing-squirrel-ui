@@ -17,9 +17,9 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<CustomerPortal child={<CustomerSignup />} />} />
-      <Route path="employee" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
+      <Route path="trainingrequests" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
       <Route path="onboard/:trainingRequestId" element={<EmployeePortal child={<OnboardCustomer />} />} />
-      <Route path="user" element={<EmployeePortal child={<UserGrid />} />} />
+      <Route path="users" element={<EmployeePortal child={<UserGrid />} />} />
       <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser />} />} />
     </Routes>
   </BrowserRouter>,
