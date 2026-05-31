@@ -9,7 +9,7 @@ const columns: TableColumn<GridUser>[] = [
   {
     name: 'User ID',
     selector: row => row.userId,
-    cell: row => <a href={`user-form/${row.userId}`}>row.userId</a>
+    cell: row => <a href={`user-form/${row.userId}`}>{row.userId}</a>
   },
   {
     name: 'Username',
