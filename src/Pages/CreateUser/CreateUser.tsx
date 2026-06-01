@@ -30,8 +30,6 @@ export default function CreateUser() {
             .required('Required'),
           password: Yup.string()
             .required('Required'),
-          phoneNumber: Yup.string()
-            .required('Required'),
         })
       }
       onSubmit={(values, actions) => {
