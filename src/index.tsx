@@ -1,11 +1,11 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
-import './index.css';
 import AuthProvider from './Auth/AuthProvider';
+import './index.css';
 import CustomerPortal from './PageHeaders/CustomerPortal';
 import EmployeePortal from './PageHeaders/EmployeePortal';
-import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 import CreateUser from './Pages/CreateUser/CreateUser';
+import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 import EditUser from './Pages/EditUser/EditUser';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import TrainingRequestGrid from './Pages/TrainingRequestGrid/TrainingRequestGrid';
@@ -20,6 +20,7 @@ root.render(
     <AuthProvider>
     <Routes>
       <Route path="/" element={<CustomerPortal child={<CustomerSignup />} />} />
+      <Route path="landingpage" element={<EmployeePortal child={<div></div>} />} />
       <Route path="trainingrequests" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
       <Route path="onboard/:trainingRequestId" element={<EmployeePortal child={<OnboardCustomer />} />} />
       <Route path="users" element={<EmployeePortal child={<UserGrid />} />} />

@@ -1,5 +1,5 @@
 import { ReactNode, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useHasRole } from '../Auth/AuthContext';
 import { adminRole, onboarderRole } from '../Auth/roles';
 import LoginForm from './LoginForm';
@@ -32,12 +32,19 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
   const { isAuthenticated, setAuth, refreshAuth } = useAuth();
   const isOnboarder = useHasRole(onboarderRole);
   const isAdmin = useHasRole(adminRole);
+  const navigate = useNavigate();
 
   const makeLogoutRequest = function() {
     logoutUser().then(logoutSuccessful => { if (logoutSuccessful) setAuth(false); });
   }
 
-  const recordSuccessfulLogin = useCallback(() => { refreshAuth(); }, [refreshAuth]);
+  const recordSuccessfulLogin = useCallback(async () => {
+    let roles = await refreshAuth();
+    if (roles.includes(onboarderRole))
+      navigate('/trainingrequests', { replace: true });
+    else if (roles.includes(adminRole))
+      navigate('/users', { replace: true });
+  }, [refreshAuth, navigate]);
 
   const nodeWhenAuthorized = (
     <div className="App">
@@ -45,8 +52,8 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
         <h2>Great Dancing Squirrel Corporation of North America</h2>
         <nav>
-          {isOnboarder && <Link to="/trainingrequests">Training Requests</Link>}
-          {isAdmin && <Link to="/users">Users</Link>}
+          {isOnboarder && <Link to='/trainingrequests'>Training Requests</Link>}
+          {isAdmin && <Link to='/users'>Users</Link>}
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>

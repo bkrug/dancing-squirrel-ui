@@ -11,15 +11,18 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [roles, setRoles] = useState<string[]>([]);
 
-  async function refreshAuth() {
+  async function refreshAuth(): Promise<string[]> {
     const result = await getParsedResponse('authentication', EditRoleModel, 'GET');
+    let fetchedRoles: string[] = [];
     await Effect.runPromise(Effect.match(result, {
       onSuccess: roleModel => {
+        fetchedRoles = (roleModel.roles ?? []).map(r => r.name);
         setIsAuthenticated(true);
-        setRoles((roleModel.roles ?? []).map(r => r.name));
+        setRoles(fetchedRoles);
       },
       onFailure: () => setIsAuthenticated(false)
     }));
+    return fetchedRoles;
   }
 
   useEffect(() => { refreshAuth(); }, []); // eslint-disable-line react-hooks/exhaustive-deps

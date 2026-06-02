@@ -4,14 +4,14 @@ export interface AuthState {
   isAuthenticated: boolean;
   roles: string[];
   setAuth: (isAuthenticated: boolean, roles?: string[]) => void;
-  refreshAuth: () => Promise<void>;
+  refreshAuth: () => Promise<string[]>;
 }
 
 export const AuthContext = createContext<AuthState>({
   isAuthenticated: false,
   roles: [],
   setAuth: () => {},
-  refreshAuth: () => Promise.resolve(),
+  refreshAuth: () => Promise.resolve([]),
 });
 
 export function useAuth() {

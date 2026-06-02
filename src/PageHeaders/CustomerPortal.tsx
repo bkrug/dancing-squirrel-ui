@@ -15,7 +15,7 @@ function CustomerPortal({ child } : CustomerPortalProps) {
           <p>In our world, the entertainment industry is now nearly monopolized by squirrel performers.</p>
           <p>A major subindustry involves dancing, and GDSC has decades of experience training and coaching squirrels to maximize their talents.</p>
           <p>Signup with us today to prepare your squirrel for the next great American musical or to awe a stadium full of fans.</p>
-          <p><a href="/trainingrequests">Switch to Employee Portal</a></p>
+          <p><a href="/landingpage">Switch to Employee Portal</a></p>
         </div>
       </header>
       {child}
