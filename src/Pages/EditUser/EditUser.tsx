@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import YesNoModal from '../../Components/YesNoModal';
 import { getPagedData, getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { EditUserModel, ViewUserModel } from '../../dtoModels';
-import './EditUser.css';
+import './Edit.css';
 import ContactFieldForm from './subcomponents/ContactFieldForm';
 import RoleForm from './subcomponents/RoleForm';
 
