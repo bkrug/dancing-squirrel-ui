@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import './index.css';
+import AuthProvider from './Auth/AuthProvider';
 import CustomerPortal from './PageHeaders/CustomerPortal';
 import EmployeePortal from './PageHeaders/EmployeePortal';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
@@ -16,6 +17,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
+    <AuthProvider>
     <Routes>
       <Route path="/" element={<CustomerPortal child={<CustomerSignup />} />} />
       <Route path="trainingrequests" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
@@ -24,6 +26,7 @@ root.render(
       <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser />} />} />
       <Route path="registration-form" element={<EmployeePortal child={<CreateUser />} />} />
     </Routes>
+    </AuthProvider>
   </BrowserRouter>,
 );
 

@@ -1,24 +1,10 @@
-import { useCallback, useState, useEffect, ReactNode } from 'react';
+import { useCallback, ReactNode } from 'react';
 import LoginForm from './LoginForm';
+import { useAuth } from '../Auth/AuthContext';
 import './PageHeader.css';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
-
-let checkAuthentication = async function () {
-  let fullUrl = new URL('authentication', baseUrl);
-  try {
-    const response = await fetch(fullUrl, {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'include'
-    });
-    console.log(response);
-    return response.ok;
-  } catch {
-    return false;
-  }
-};
 
 let logoutUser = async function () {
   let fullUrl = new URL('authentication', baseUrl);
@@ -40,19 +26,14 @@ interface EmployeePortalProps {
   child: ReactNode
 }
 
-//TODO: Store the state at a higher level like index.tsx so that we don't have to keep re-running this checkAuthentication() method.
 export default function EmployeePortal({ child }: EmployeePortalProps) {
-  const [authed, setAuth] = useState(null as boolean | null);
-
-  useEffect(() => {
-    checkAuthentication().then(isAuthenticated => setAuth(isAuthenticated));
-  }, [authed]);
+  const { isAuthenticated, setAuth } = useAuth();
 
   const makeLogoutRequest = function() {
-    logoutUser().then(logoutSuccessful => setAuth(!logoutSuccessful));
+    logoutUser().then(logoutSuccessful => { if (logoutSuccessful) setAuth(false); });
   }
 
-  const recordSuccessfulLogin = useCallback(() => setAuth(true), []);
+  const recordSuccessfulLogin = useCallback(() => setAuth(true), [setAuth]);
 
   const nodeWhenAuthorized = (
     <div className="App">
@@ -83,7 +64,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
   )
 
   return (
-    authed
+    isAuthenticated
     ? nodeWhenAuthorized
     : nodeWhenNotAuthorized);
 }

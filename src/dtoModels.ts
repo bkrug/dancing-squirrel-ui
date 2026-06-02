@@ -63,3 +63,7 @@ export class ViewUserModel
   phoneNumber: string = '';
   roles: ViewRoleModel[] = [];
 }
+
+export class EditRoleModel {
+  roles: ViewRoleModel[] = [];
+}
