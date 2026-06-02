@@ -18,7 +18,7 @@ const typeOrFail = function(labelText: RegExp | string, textToType: string) {
   const inputOrTextArea = getInputOrTextArea(labelText);
   if (inputOrTextArea === null)
     /* eslint-disable-next-line jest/no-jasmine-globals */
-    throw `Could not find an input with label ${labelText}`;
+    throw new Error(`Could not find an input with label ${labelText}`);
   else
     fireEvent.change(inputOrTextArea, {target:{value:textToType}});
 }
