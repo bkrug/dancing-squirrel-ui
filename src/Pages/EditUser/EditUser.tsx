@@ -12,7 +12,7 @@ export default function EditUser() {
   let { userId } = useParams();
   let [viewModel, setViewModel] = useState(null as null | ViewUserModel);
   let [editModel, setEditModel] = useState(null as null | EditUserModel);
-  let [roleList, setRoleList] = useState({} as { [key: string]: boolean });
+  let [availableRoles, setAvailableRoles] = useState({} as { [key: string]: boolean });
   let [openDelete, setOpenDelete] = useState(false);
   let navigate = useNavigate();
 
@@ -39,7 +39,7 @@ export default function EditUser() {
         Effect.runPromise(Effect.match(result, {
           onSuccess: parsedResponse => {
             const userRoleNames = viewModel?.roles.map(r => r.name) ?? [];
-            setRoleList(Object.fromEntries(
+            setAvailableRoles(Object.fromEntries(
               parsedResponse.data
                 .map(role => role.toString())
                 .map(role => [role, userRoleNames.includes(role)])
@@ -74,7 +74,7 @@ export default function EditUser() {
         {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
       </div>
       <div className='form-container'>
-        {Object.keys(roleList).length > 0 && <RoleForm roleList={roleList} userId={userId} />}
+        {Object.keys(availableRoles).length > 0 && <RoleForm roleList={availableRoles} userId={userId} />}
       </div>
     </div>
   );
