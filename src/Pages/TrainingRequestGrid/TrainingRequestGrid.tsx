@@ -1,6 +1,7 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import { Link } from 'react-router-dom';
 import { TrainingRequest } from '../../dtoModels';
 import { CaretakerType } from '../../enums';
 import { formatPhoneNumber } from '../../fieldTransformers';
@@ -10,7 +11,7 @@ import './TrainingRequestGrid.css';
 const columns: TableColumn<TrainingRequest>[] = [
   {
     name: 'Buttons',
-		cell: row => (<a href={`onboard/${row.trainingRequestId}`} rel="noopener noreferrer">Onboard Customer</a>)
+		cell: row => (<Link to={`/onboard/${row.trainingRequestId}`}>Onboard Customer</Link>)
   },
   {
     name: 'Squirrel',

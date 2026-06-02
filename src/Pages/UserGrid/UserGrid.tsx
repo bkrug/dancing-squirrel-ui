@@ -1,6 +1,7 @@
 import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import { Link } from 'react-router-dom';
 import { GridUser } from '../../dtoModels';
 import { getPagedData } from '../../Forms/Submission/formikSubmission';
 import './UserGrid.css';
@@ -9,7 +10,7 @@ const columns: TableColumn<GridUser>[] = [
   {
     name: 'User ID',
     selector: row => row.userId,
-    cell: row => <a href={`user-form/${row.userId}`}>{row.userId}</a>
+    cell: row => <Link to={`/user-form/${row.userId}`}>Edit</Link>
   },
   {
     name: 'Username',
@@ -43,7 +44,7 @@ export default function UserGrid() {
 
   return (
     <>
-      <a href="/registration-form">Create User</a>
+      <Link to="/registration-form">Create User</Link>
       <DataTable
         columns={columns}
         data={gridRows || []}
