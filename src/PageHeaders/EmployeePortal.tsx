@@ -1,6 +1,6 @@
 import { ReactNode, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../Auth/AuthContext';
+import { useAuth, useHasRole } from '../Auth/AuthContext';
 import { adminRole, onboarderRole } from '../Auth/roles';
 import LoginForm from './LoginForm';
 import './PageHeader.css';
@@ -29,9 +29,9 @@ interface EmployeePortalProps {
 }
 
 export default function EmployeePortal({ child }: EmployeePortalProps) {
-  const { isAuthenticated, roles, setAuth, refreshAuth } = useAuth();
-
-  console.log(roles);
+  const { isAuthenticated, setAuth, refreshAuth } = useAuth();
+  const isOnboarder = useHasRole(onboarderRole);
+  const isAdmin = useHasRole(adminRole);
 
   const makeLogoutRequest = function() {
     logoutUser().then(logoutSuccessful => { if (logoutSuccessful) setAuth(false); });
@@ -45,8 +45,8 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
         <h2>Great Dancing Squirrel Corporation of North America</h2>
         <nav>
-          { roles.indexOf(onboarderRole) >= 0 && <Link to="/trainingrequests">Training Requests</Link>}
-          { roles.indexOf(adminRole) >= 0 && <Link to="/users">Users</Link>}
+          {isOnboarder && <Link to="/trainingrequests">Training Requests</Link>}
+          {isAdmin && <Link to="/users">Users</Link>}
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>
