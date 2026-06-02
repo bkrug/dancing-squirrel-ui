@@ -71,7 +71,7 @@ export default function EditUser() {
         Are you sure you want to delete this user?
       </YesNoModal>
       <div className='form-container'>
-        {editModel && viewModel && <ContactFieldForm editModel={editModel} viewModel={viewModel} />}
+        {editModel && viewModel && <ContactFieldForm editingOwnData={false} editModel={editModel} viewModel={viewModel} />}
       </div>
       <div className='form-container'>
         {Object.keys(availableRoles).length > 0 && <RoleForm roleList={availableRoles} userId={userId} />}

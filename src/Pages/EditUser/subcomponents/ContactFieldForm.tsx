@@ -12,11 +12,12 @@ class EditUserValidationFailures {
 }
 
 interface ContactFieldFormProps {
+  editingOwnData: boolean;   //Admins can edit any user's data. Non-admins can edit their own data.
   editModel: EditUserModel;
   viewModel: ViewUserModel;
 }
 
-export default function ContactFieldForm({ editModel, viewModel }: ContactFieldFormProps) {
+export default function ContactFieldForm({ editingOwnData, editModel, viewModel }: ContactFieldFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
@@ -30,18 +31,21 @@ export default function ContactFieldForm({ editModel, viewModel }: ContactFieldF
         })
       }
       onSubmit={(values, actions) => {
-        submitFormikJson<EditUserModel, EditUserValidationFailures>(`user/${viewModel.userId}`, values, actions, 'PUT')
+        const url = editingOwnData
+          ? 'user/self'
+          : `user/${viewModel.userId}`
+        submitFormikJson<EditUserModel, EditUserValidationFailures>(url, values, actions, 'PUT')
           .then(parsedResponse => {
             setHasBeenSaved(parsedResponse.isSuccess);
           });
       }}
     >
       {formik => (
-        <Form onSubmit={formik.handleSubmit} method="POST">
-          <LocalTextInput label="Email" name="email" type="email" />
-          <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
+        <Form onSubmit={formik.handleSubmit} method='POST'>
+          <LocalTextInput label='Email' name='email' type='email' />
+          <LocalTextInput label='Phone Number' name='phoneNumber' type='tel' />
 
-          <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
+          <FeedbackSubmit label='Save Contact Info' formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
       )}
     </Formik>
