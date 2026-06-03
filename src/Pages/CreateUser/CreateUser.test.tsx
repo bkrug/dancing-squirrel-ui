@@ -49,3 +49,47 @@ test('When the create user form is filled in and submitted, the input is POSTed 
   // Assert the app navigated to /users
   expect(mockNavigate).toHaveBeenCalledWith('/users');
 });
+
+test('When the POST returns validation failures, the error messages are shown next to the relevant fields.', async () => {
+  // Arrange
+  const mockNavigate = jest.fn();
+  (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+
+  const responseFromPost = Promise.resolve({
+    isSuccess: false,
+    isInternalError: false,
+    validationFailures: {
+      email: 'Email is already in use',
+      username: 'Username is already taken'
+    }
+  } as FormResponse<object>);
+
+  (submitFormikJson as jest.Mock).mockImplementation(
+    async (_endpoint: string, _values: object, actions: { setErrors: Function, setSubmitting: Function }) => {
+      const response = await responseFromPost;
+      actions.setErrors(response.validationFailures);
+      actions.setSubmitting(false);
+      return response;
+    }
+  );
+
+  render(<CreateUser />);
+
+  // Act: fill in the form fields and submit
+  fireEvent.change(getInputOrTextArea('Username')!, { target: { value: 'takenuser' } });
+  fireEvent.change(getInputOrTextArea('Password')!, { target: { value: 'secret123' } });
+  fireEvent.change(getInputOrTextArea('Email')!, { target: { value: 'taken@example.com' } });
+
+  fireEvent.submit(screen.getByText('Create User'));
+  await act(async () => responseFromPost);
+
+  // Assert validation failure messages appear next to the relevant fields
+  const emailError = document.querySelector("input[name='email'] ~ .error");
+  expect(emailError).toHaveTextContent('Email is already in use');
+  
+  const usernameError = document.querySelector("input[name='username'] ~ .error");
+  expect(usernameError).toHaveTextContent('Username is already taken');
+
+  // Assert the app did not navigate away
+  expect(mockNavigate).not.toHaveBeenCalled();
+});
