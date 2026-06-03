@@ -6,7 +6,6 @@ import CustomerPortal from './PageHeaders/CustomerPortal';
 import EmployeePortal from './PageHeaders/EmployeePortal';
 import CreateUser from './Pages/CreateUser/CreateUser';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
-import EditOwnProfile from './Pages/EditUser/EditOwnProfile';
 import EditUser from './Pages/EditUser/EditUser';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import TrainingRequestGrid from './Pages/TrainingRequestGrid/TrainingRequestGrid';
@@ -25,8 +24,8 @@ root.render(
       <Route path="trainingrequests" element={<EmployeePortal child={<TrainingRequestGrid />} />} />
       <Route path="onboard/:trainingRequestId" element={<EmployeePortal child={<OnboardCustomer />} />} />
       <Route path="users" element={<EmployeePortal child={<UserGrid />} />} />
-      <Route path="user-form/self" element={<EmployeePortal child={<EditOwnProfile />} />} />
-      <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser />} />} />
+      <Route path="user-form/self" element={<EmployeePortal child={<EditUser editingOwnData={true} />} />} />
+      <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser editingOwnData={false} />} />} />
       <Route path="registration-form" element={<EmployeePortal child={<CreateUser />} />} />
     </Routes>
     </AuthProvider>
