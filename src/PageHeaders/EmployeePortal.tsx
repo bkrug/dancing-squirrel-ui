@@ -66,7 +66,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <nav>
           {isOnboarder && <Link to='/trainingrequests'>Training Requests</Link>}
           {isAdmin && <Link to='/users'>Users</Link>}
-          <Link to='/user-form/self-fake'>Profile of {username}</Link>
+          <Link to='/user-form/self'>Profile of {username}</Link>
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>
