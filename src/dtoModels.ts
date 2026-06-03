@@ -74,5 +74,5 @@ export class OwnPasswordResetModel {
 }
 
 export class PasswordResetModel {
-  password: string = '';
+  newPassword: string = '';
 }

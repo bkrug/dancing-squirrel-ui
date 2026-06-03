@@ -4,39 +4,48 @@ import * as Yup from 'yup';
 import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
 import { LocalTextInput } from '../../../Forms/Fields/LocalFields';
 import { submitFormikJson } from '../../../Forms/Submission/formikSubmission';
-import { PasswordResetModel } from '../../../dtoModels';
 
-interface PasswordResetValidationFailures extends PasswordResetModel {}
-
-class PasswordResetForm extends PasswordResetModel {
-  confirmPassword: string = '';
+interface ResetPasswordProps {
+  userId?: string;
 }
 
-interface PasswordResetProps {
-  userId: string
+interface PasswordFormValues {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
-export default function ResetPassword({ userId } : PasswordResetProps) {
+interface PasswordResetValidationFailures {
+  oldPassword?: string;
+  newPassword?: string;
+}
+
+const baseSchema = {
+  newPassword: Yup.string().required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('newPassword')], 'Passwords must match')
+    .required('Required'),
+};
+
+export default function ResetPassword({ userId }: ResetPasswordProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
+  const editingOwnData = userId === undefined || userId === null;
+  const endpoint = editingOwnData ? 'user/self/password' : `user/${userId}/password`;
 
   return (
-    <Formik
-      initialValues={{ password: '', confirmPassword: '' } as PasswordResetForm}
-      validationSchema={Yup.object({
-        password: Yup.string().required('Required'),
-        confirmPassword: Yup.string()
-          .oneOf([Yup.ref('password')], 'Passwords must match')
-          .required('Required'),
-      })}
+    <Formik<PasswordFormValues>
+      initialValues={{ oldPassword: '', newPassword: '', confirmPassword: '' }}
+      validationSchema={Yup.object(
+        editingOwnData
+          ? { ...baseSchema, oldPassword: Yup.string().required('Required') }
+          : baseSchema
+      )}
       onSubmit={(values, actions) => {
-        console.log('got here');
-        const model = Object.assign(new PasswordResetForm(), values);
-        model.confirmPassword = '';
-        submitFormikJson<PasswordResetForm, PasswordResetValidationFailures>(
-          `user/${userId}/password`,
-          model,
-          actions,
-          'POST'
+        const payload = editingOwnData
+          ? { newPassword: values.newPassword, oldPassword: values.oldPassword }
+          : { newPassword: values.newPassword };
+        submitFormikJson<PasswordFormValues, PasswordResetValidationFailures>(
+          endpoint, payload as PasswordFormValues, actions, 'POST'
         ).then(parsedResponse => {
           setHasBeenSaved(parsedResponse.isSuccess);
         });
@@ -44,7 +53,8 @@ export default function ResetPassword({ userId } : PasswordResetProps) {
     >
       {formik => (
         <Form onSubmit={formik.handleSubmit} method='POST'>
-          <LocalTextInput label='New Password' name='password' type='password' />
+          {editingOwnData && <LocalTextInput label='Old Password' name='oldPassword' type='password' />}
+          <LocalTextInput label='New Password' name='newPassword' type='password' />
           <LocalTextInput label='Confirm Password' name='confirmPassword' type='password' />
           <FeedbackSubmit label='Reset Password' formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>

@@ -1,7 +1,7 @@
 import { EditProfileProps } from './EditUser';
 import './EditUser.css';
 import ContactFieldForm from './subcomponents/ContactFieldForm';
-import ResetOwnPassword from './subcomponents/ResetOwnPassword';
+import ResetPassword from './subcomponents/ResetPassword';
 
 export default function EditOwnProfile({ viewModel, editModel} : EditProfileProps) {
   return (
@@ -11,7 +11,7 @@ export default function EditOwnProfile({ viewModel, editModel} : EditProfileProp
         <ContactFieldForm editingOwnData={true} editModel={editModel} viewModel={viewModel} />
       </div>
       <div className='form-container'>
-        <ResetOwnPassword />
+        <ResetPassword />
       </div>
     </div>
   );
