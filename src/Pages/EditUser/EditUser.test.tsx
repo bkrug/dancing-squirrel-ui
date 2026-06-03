@@ -170,3 +170,51 @@ test('When the delete button is pressed but denied in the modal, no DELETE reque
   expect(getParsedResponse).not.toHaveBeenCalledWith('user/' + mockUser.userId, Boolean, 'DELETE');
   expect(mockNavigate).not.toHaveBeenCalled();
 });
+
+test('When role switches are changed and saved, a PUT request is made to user/{userId}/role with the updated role list.', async () => {
+  // Arrange: user currently has Admin; available roles are Admin, Onboarder, Teacher
+  const mockUser = {
+    userId: '29e65279-bfce-4bf3-a49e-3969a6715cbd',
+    username: 'jdoe',
+    email: 'jdoe@example.com',
+    phoneNumber: '555-9876',
+    roles: [{ name: 'Admin' },{name: 'Teacher'}]
+  };
+  const rolesFromEndpoint = ['Admin', 'Onboarder', 'Teacher'];
+  let capturedRolePutBody: { roles: { name: string }[] } | undefined;
+
+  (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
+  (useNavigate as jest.Mock).mockReturnValue(jest.fn());
+
+  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string, _constructor: unknown, method?: string, body?: object) => {
+    if (endpoint === `user/${mockUser.userId}/role` && method === 'PUT') {
+      capturedRolePutBody = body as { roles: { name: string }[] };
+      return Promise.resolve(Effect.succeed({}));
+    }
+    if (endpoint === 'user/' + mockUser.userId)
+      return Promise.resolve(Effect.succeed(mockUser));
+    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
+  });
+
+  (getPagedData as jest.Mock).mockImplementation((endpoint: string) => {
+    if (endpoint === 'role')
+      return Promise.resolve(Effect.succeed({ data: rolesFromEndpoint }));
+    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
+  });
+
+  render(<EditUser editingOwnData={false} />);
+  await act(async () => getParsedResponse);
+  await act(async () => getPagedData);
+
+  // Act: toggle Admin OFF (was on), toggle Onboarder ON (was off), leave Teacher switch unchanged (was on).
+  const [adminSwitch, onboarderSwitch] = screen.getAllByRole('switch');
+  fireEvent.click(adminSwitch);
+  fireEvent.click(onboarderSwitch);
+
+  fireEvent.click(screen.getByText('Save Roles'));
+  await act(async () => getParsedResponse);
+
+  // Assert the PUT body contains only Onboarder
+  expect(capturedRolePutBody).toBeDefined();
+  expect((capturedRolePutBody!.roles || []).map(r => r.name)).toEqual(['Onboarder', 'Teacher']);
+});
