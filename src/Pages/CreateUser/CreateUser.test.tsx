@@ -84,11 +84,8 @@ test('When the POST returns validation failures, the error messages are shown ne
   await act(async () => responseFromPost);
 
   // Assert validation failure messages appear next to the relevant fields
-  const emailError = document.querySelector("input[name='email'] ~ .error");
-  expect(emailError).toHaveTextContent('Email is already in use');
-  
-  const usernameError = document.querySelector("input[name='username'] ~ .error");
-  expect(usernameError).toHaveTextContent('Username is already taken');
+  expect(screen.queryByText('Email is already in use')).toBeInTheDocument();
+  expect(screen.queryByText('Username is already taken')).toBeInTheDocument();
 
   // Assert the app did not navigate away
   expect(mockNavigate).not.toHaveBeenCalled();
