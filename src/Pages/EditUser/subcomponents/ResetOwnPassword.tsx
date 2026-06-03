@@ -4,36 +4,32 @@ import * as Yup from 'yup';
 import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
 import { LocalTextInput } from '../../../Forms/Fields/LocalFields';
 import { submitFormikJson } from '../../../Forms/Submission/formikSubmission';
-import { PasswordResetModel } from '../../../dtoModels';
+import { OwnPasswordResetModel } from '../../../dtoModels';
 
-interface PasswordResetValidationFailures extends PasswordResetModel {}
+interface PasswordResetValidationFailures extends OwnPasswordResetModel {}
 
-class PasswordResetForm extends PasswordResetModel {
+class PasswordResetForm extends OwnPasswordResetModel {
   confirmPassword: string = '';
 }
 
-interface PasswordResetProps {
-  userId: string
-}
-
-export default function ResetPassword({ userId } : PasswordResetProps) {
+export default function ResetOwnPassword() {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
 
   return (
     <Formik
-      initialValues={{ password: '', confirmPassword: '' } as PasswordResetForm}
+      initialValues={{ oldPassword: '', newPassword: '', confirmPassword: '' } as PasswordResetForm}
       validationSchema={Yup.object({
-        password: Yup.string().required('Required'),
+        oldPassword: Yup.string().required('Required'),
+        newPassword: Yup.string().required('Required'),
         confirmPassword: Yup.string()
-          .oneOf([Yup.ref('password')], 'Passwords must match')
+          .oneOf([Yup.ref('newPassword')], 'Passwords must match')
           .required('Required'),
       })}
       onSubmit={(values, actions) => {
-        console.log('got here');
         const model = Object.assign(new PasswordResetForm(), values);
         model.confirmPassword = '';
         submitFormikJson<PasswordResetForm, PasswordResetValidationFailures>(
-          `user/${userId}/password`,
+          'user/self/password',
           model,
           actions,
           'POST'
@@ -44,7 +40,8 @@ export default function ResetPassword({ userId } : PasswordResetProps) {
     >
       {formik => (
         <Form onSubmit={formik.handleSubmit} method='POST'>
-          <LocalTextInput label='New Password' name='password' type='password' />
+          <LocalTextInput label='Old Password' name='oldPassword' type='password' />
+          <LocalTextInput label='New Password' name='newPassword' type='password' />
           <LocalTextInput label='Confirm Password' name='confirmPassword' type='password' />
           <FeedbackSubmit label='Reset Password' formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
