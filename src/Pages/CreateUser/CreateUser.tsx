@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import FeedbackSubmit from '../../Forms/FeedbackSubmit';
 import { LocalTextInput } from '../../Forms/Fields/LocalFields';

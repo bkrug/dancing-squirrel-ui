@@ -1,6 +1,6 @@
 import { Effect } from 'effect/index';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import YesNoModal from '../../Components/YesNoModal';
 import { getPagedData, getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { EditProfileProps } from './EditUser';

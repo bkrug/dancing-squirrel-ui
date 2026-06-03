@@ -1,6 +1,6 @@
 import { Effect } from 'effect/index';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { EditUserModel, ViewUserModel } from '../../dtoModels';
 import EditOtherProfile from './EditOtherProfile';
