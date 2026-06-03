@@ -1,7 +1,10 @@
-import { ReactNode, useCallback } from 'react';
+import { Effect } from 'effect/index';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useHasRole } from '../Auth/AuthContext';
 import { adminRole, onboarderRole } from '../Auth/roles';
+import { getParsedResponse } from '../Forms/Submission/formikSubmission';
+import { ViewUserModel } from '../dtoModels';
 import LoginForm from './LoginForm';
 import './PageHeader.css';
 
@@ -30,9 +33,18 @@ interface EmployeePortalProps {
 
 export default function EmployeePortal({ child }: EmployeePortalProps) {
   const { isAuthenticated, setAuth, refreshAuth } = useAuth();
+  const [ username, setUsername ] = useState('');
   const isOnboarder = useHasRole(onboarderRole);
   const isAdmin = useHasRole(adminRole);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    isAuthenticated && getParsedResponse('user/self', ViewUserModel)
+    .then(result => Effect.runPromise(Effect.match(result, {
+      onSuccess: viewModel => setUsername(viewModel.username),
+      onFailure: () => {}
+    })))
+  }, [isAuthenticated]);
 
   const makeLogoutRequest = function() {
     logoutUser().then(logoutSuccessful => { if (logoutSuccessful) setAuth(false); });
@@ -54,7 +66,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <nav>
           {isOnboarder && <Link to='/trainingrequests'>Training Requests</Link>}
           {isAdmin && <Link to='/users'>Users</Link>}
-          <Link to='/user-form/self'>My Profile</Link>
+          <Link to='/user-form/self-fake'>Profile of {username}</Link>
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>
