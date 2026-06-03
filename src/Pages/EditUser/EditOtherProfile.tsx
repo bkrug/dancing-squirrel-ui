@@ -51,10 +51,6 @@ export default function EditOtherProfile({ viewModel, editModel} : EditProfilePr
   return (
     <div className='form-parent'>
       <h2>Edit User {viewModel.username}</h2>
-      <button onClick={() => setOpenDelete(true)}>Delete</button>
-      <YesNoModal isOpen={openDelete} onConfirm={deleteUser} onDeny={()=> setOpenDelete(false)}>
-        Are you sure you want to delete this user?
-      </YesNoModal>
       <div className='form-container'>
         <ContactFieldForm editingOwnData={false} editModel={editModel} viewModel={viewModel} />
       </div>
@@ -63,6 +59,14 @@ export default function EditOtherProfile({ viewModel, editModel} : EditProfilePr
       </div>
       <div className='form-container'>
         <ResetPassword userId={viewModel.userId} />
+      </div>
+      <div className='form-container'>
+        <div className='delete-container'>
+          <button onClick={() => setOpenDelete(true)}>Delete User</button>
+        </div>
+        <YesNoModal isOpen={openDelete} onConfirm={deleteUser} onDeny={()=> setOpenDelete(false)}>
+          Are you sure you want to delete this user?
+        </YesNoModal>
       </div>
     </div>
   );

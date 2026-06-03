@@ -5,3 +5,7 @@
 .form-container {
   margin-bottom: 1em;
 }
+
+.delete-container {
+  text-align: right;
+}

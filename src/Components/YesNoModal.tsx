@@ -1,4 +1,5 @@
 import { MouseEventHandler, ReactNode } from 'react';
+import './YesNoModal.css';
 
 interface ModalProps {
   isOpen: boolean;
