@@ -19,7 +19,7 @@ jest.mock('react-router', () => ({
 test('When editingOwnData is false, email and phone fields are populated from user/{userId}, a delete button is shown, and one role switch appears per role from the role endpoint.', async () => {
   // Arrange
   const mockUser = {
-    userId: '42',
+    userId: '29e65279-bfce-4bf3-a49e-3969a6715cbd',
     username: 'jdoe',
     email: 'jdoe@example.com',
     phoneNumber: '555-9876',
@@ -27,11 +27,11 @@ test('When editingOwnData is false, email and phone fields are populated from us
   };
   const rolesFromEndpoint = ['Admin', 'Onboarder', 'Teacher'];
 
-  (useParams as jest.Mock).mockReturnValue({ userId: '42' });
+  (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
   (useNavigate as jest.Mock).mockReturnValue(jest.fn());
 
   (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) => {
-    if (endpoint === 'user/42')
+    if (endpoint === 'user/' + mockUser.userId)
       return Promise.resolve(Effect.succeed(mockUser));
     return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
   });
@@ -64,7 +64,7 @@ test('When editingOwnData is false, email and phone fields are populated from us
 test('When editingOwnData is true, email and phone fields are populated from user/self, with no delete button and no role switches.', async () => {
   // Arrange
   const mockUser = {
-    userId: '7',
+    userId: '29e65279-bfce-4bf3-a49e-3969a6715cbd',
     username: 'selfuser',
     email: 'me@example.com',
     phoneNumber: '555-1111',
