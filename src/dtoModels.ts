@@ -67,3 +67,12 @@ export class ViewUserModel
 export class EditRoleModel {
   roles: ViewRoleModel[] = [];
 }
+
+export class OwnPasswordResetModel {
+  oldPassword: string = '';
+  newPassword: string = '';
+}
+
+export class PasswordResetModel {
+  password: string = '';
+}
