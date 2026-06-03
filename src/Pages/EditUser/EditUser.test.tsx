@@ -43,7 +43,7 @@ test('When editingOwnData is true, email and phone fields are populated from use
   expect(getInputOrTextArea('Phone Number')).toHaveValue(mockUser.phoneNumber);
 
   // Assert no delete button
-  expect(screen.queryByText('Delete')).not.toBeInTheDocument();
+  expect(screen.queryByText('Delete User')).not.toBeInTheDocument();
 
   // Assert no role switches
   expect(screen.queryAllByRole('switch')).toHaveLength(0);
@@ -85,7 +85,7 @@ test('When editingOwnData is false, email and phone fields are populated from us
   expect(getInputOrTextArea('Phone Number')).toHaveValue(mockUser.phoneNumber);
 
   // Assert delete button is present
-  expect(screen.queryByText('Delete')).toBeInTheDocument();
+  expect(screen.queryByText('Delete User')).toBeInTheDocument();
 
   // Assert one role switch per role from the role endpoint
   expect(screen.getByText('Admin')).toBeInTheDocument();
@@ -125,7 +125,7 @@ test('When the delete button is pressed and confirmed, a DELETE request is made 
   await act(async () => getPagedData);
 
   // Act: click Delete, then confirm in the modal
-  fireEvent.click(screen.getByText('Delete'));
+  fireEvent.click(screen.getByText('Delete User'));
   fireEvent.click(screen.getByText('Yes'));
   await act(async () => getParsedResponse);
 
@@ -163,7 +163,7 @@ test('When the delete button is pressed but denied in the modal, no DELETE reque
   await act(async () => getPagedData);
 
   // Act: click Delete, then deny in the modal
-  fireEvent.click(screen.getByText('Delete'));
+  fireEvent.click(screen.getByText('Delete User'));
   fireEvent.click(screen.getByText('No'));
 
   // Assert DELETE was not called and navigation did not occur
