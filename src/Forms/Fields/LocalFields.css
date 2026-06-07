@@ -6,6 +6,7 @@ form {
   border-radius: 1em;
 }
 
+/*Let fields outside of fieldsets, line up with the ones inside of fieldsets. */
 .field {
   margin-left: 1em;
   margin-right: 1em;
@@ -16,30 +17,26 @@ fieldset .field {
   margin-right: 0;
 }
 
-.field label {
-  /* Uniform size & alignment */
+.label-on-left {
   display: inline-block;
   min-width: 150px;
   text-align: right;
 }
 
-.label-left-of-field.label-for-input {
+/*Inputs have an extra border above the text.
+  Here we move the label downwards a little bit so that the label still lines up with the input text*/
+.label-on-left.label-for-input {
   margin-top: .25em;
   vertical-align: top;
 }
 
-.right-side-field {
+.right-of-label {
   margin-left: .5em;
   display: inline-block;
   text-align: left;
 }
 
-.right-side-field > input:not([type="radio"]) {
-  width: 100%;
-}
-
-.field input:not([type="radio"]),
-.field textarea {
+.typeable-field {
   /* To make sure that all text fields have the same font settings
      By default, text areas have a monospace font */
   font: 1em sans-serif;
@@ -48,41 +45,42 @@ fieldset .field {
   border: 1px solid #999999;
 }
 
+.typeable-field:focus {
+  outline-style: solid;
+  outline-color: black;
+}
+
+.typeable-field:user-invalid {
+  outline-color: red;
+}
+
+.field.vertically-arranged-contents {
+  text-align: left;
+}
+
+.field.vertically-arranged-contents > * {
+  display: block;
+}
+
+.fill-container-width {
+  width: 100%;
+}
+
+.field textarea {
+  height: 5em;
+  width: stretch;
+}
+
 .radiogroup,
 .radiogroup > * {
   display: inline-block;
 }
 
-.field input[type="radio"] + label {
+.radio-option-label {
   min-width: auto;
   margin: 0 .5em;
 }
 
-.field input:focus,
-.field textarea:focus {
-  /* Set the outline width and style */
-  outline-style: solid;
-  /* To give a little highlight on active elements */
-  outline-color: black;
-}
-
-.field.textareacontainer {
-  text-align: left;
-}
-
-.field textarea {
-  display: block;
-  /* Provide space to type some text */
-  height: 5em;
-  width: stretch;
-}
-
-.field input:user-invalid,
-.field textarea:user-invalid {
-  outline-color: red;
-}
-
-/* Base the left margin and padding on the label's width and field's left margin */
 .field .error {
   color: red;
   text-align: left;

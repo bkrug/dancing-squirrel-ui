@@ -15,10 +15,10 @@ export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || 'text';
   const [field, meta] = useField(props);
   return (
-    <div className="field textinputcontainer">
-      <label className="label-left-of-field label-for-input" htmlFor={props.name}>{label}</label>
-      <div className="right-side-field">
-        <input {...field} {...props} />
+    <div className="field">
+      <label className="label-on-left label-for-input" htmlFor={props.name}>{label}</label>
+      <div className="right-of-label">
+        <input className="fill-container-width typeable-field" {...field} {...props} />
         {meta.touched && meta.error && <div className="error">{meta.error}</div>}
       </div>
     </div>
@@ -29,9 +29,9 @@ export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || 'text';
   const [field, meta] = useField(props);
   return (
-    <div className="field textareacontainer">
-      <label htmlFor={props.name}>{label}</label>
-      <textarea {...field} {...props} className="bottomsidefield"/>
+    <div className="field vertically-arranged-contents">
+      <label className="label-on-top" htmlFor={props.name}>{label}</label>
+      <textarea {...field} {...props} className="typeable-field"/>
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </div>
   );
@@ -51,9 +51,9 @@ interface RadioInputProps<TValue> {
 export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, ...props }) => {
   const [{value, ...field}, meta] = useField(props);
   return (
-    <div className="field radiogroupcontainer">
-      <label className="label-left-of-field" htmlFor={props.name}>{label}</label>
-      <div className="radiogroup right-side-field">
+    <div className="field">
+      <label className="label-on-left" htmlFor={props.name}>{label}</label>
+      <div className="radiogroup right-of-label">
         {
           options.map((option) => {
             return (
@@ -66,7 +66,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
                   {...field}
                   {...props}
                 />
-                <label>{option.label}</label>
+                <label className="radio-option-label">{option.label}</label>
               </div>
             )
           })
@@ -85,9 +85,9 @@ interface SwitchProps {
 export const LocalSwitch: FC<SwitchProps> = ({ label, ...props }) => {
   const [field, meta, helpers] = useField(props);
   return (
-    <div className="field switchcontainer">
-      <label className="label-left-of-field" htmlFor={props.name}>{label}</label>
-      <div className="right-side-field">
+    <div className="field switch-container">
+      <label className="label-on-left" htmlFor={props.name}>{label}</label>
+      <div className="right-of-label">
         <Switch
           checked={field.value}
           onChange={(checked: boolean) => helpers.setValue(checked)}

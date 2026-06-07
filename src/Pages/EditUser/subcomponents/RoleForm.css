@@ -1,6 +1,6 @@
-.roleform .switchcontainer .label-left-of-field {
+.roleform .switch-container .label-on-left {
   min-width: 100px;
 }
-.roleform .switchcontainer .right-side-field {
+.roleform .switch-container .right-of-label {
   width: 100px;
 }
