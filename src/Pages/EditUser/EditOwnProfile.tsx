@@ -5,12 +5,12 @@ import ResetPassword from './subcomponents/ResetPassword';
 
 export default function EditOwnProfile({ viewModel, editModel} : EditProfileProps) {
   return (
-    <div className='form-parent'>
+    <div className="form-parent">
       <h2>Edit Your Profile</h2>
-      <div className='form-container'>
+      <div className="form-container">
         <ContactFieldForm editingOwnData={true} editModel={editModel} viewModel={viewModel} />
       </div>
-      <div className='form-container'>
+      <div className="form-container">
         <ResetPassword />
       </div>
     </div>

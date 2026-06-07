@@ -49,19 +49,19 @@ export default function EditOtherProfile({ viewModel, editModel} : EditProfilePr
   }
 
   return (
-    <div className='form-parent'>
+    <div className="form-parent">
       <h2>Edit User {viewModel.username}</h2>
-      <div className='form-container'>
+      <div className="form-container">
         <ContactFieldForm editingOwnData={false} editModel={editModel} viewModel={viewModel} />
       </div>
-      <div className='form-container'>
+      <div className="form-container">
         {Object.keys(availableRoles).length > 0 && <RoleForm roleList={availableRoles} userId={userId} />}
       </div>
-      <div className='form-container'>
+      <div className="form-container">
         <ResetPassword userId={viewModel.userId} />
       </div>
-      <div className='form-container'>
-        <div className='delete-container'>
+      <div className="form-container">
+        <div className="delete-container">
           <button onClick={() => setOpenDelete(true)}>Delete User</button>
         </div>
         <YesNoModal isOpen={openDelete} onConfirm={deleteUser} onDeny={()=> setOpenDelete(false)}>

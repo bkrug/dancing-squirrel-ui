@@ -52,11 +52,11 @@ export default function ResetPassword({ userId }: ResetPasswordProps) {
       }}
     >
       {formik => (
-        <Form onSubmit={formik.handleSubmit} method='POST'>
-          {editingOwnData && <LocalTextInput label='Old Password' name='oldPassword' type='password' />}
-          <LocalTextInput label='New Password' name='newPassword' type='password' />
-          <LocalTextInput label='Confirm Password' name='confirmPassword' type='password' />
-          <FeedbackSubmit label='Reset Password' formikState={formik} displayCompletion={hasBeenSaved} />
+        <Form onSubmit={formik.handleSubmit} method="POST">
+          {editingOwnData && <LocalTextInput label="Old Password" name="oldPassword" type="password" />}
+          <LocalTextInput label="New Password" name="newPassword" type="password" />
+          <LocalTextInput label="Confirm Password" name="confirmPassword" type="password" />
+          <FeedbackSubmit label="Reset Password" formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
       )}
     </Formik>

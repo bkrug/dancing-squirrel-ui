@@ -35,7 +35,7 @@ export default function EditUser({ editingOwnData } : EditUserProps) {
   }, [userId]);
 
   if (viewModel && editModel)
-    return (<div className='edituser'>
+    return (<div className="edituser">
       {
         editingOwnData
         ? (<EditOwnProfile viewModel={viewModel} editModel={editModel} />)

@@ -44,7 +44,7 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
         }}
       >
         {formik => (
-          <Form onSubmit={formik.handleSubmit} className='roleform'>
+          <Form onSubmit={formik.handleSubmit} className="roleform">
             {Object.keys(formik.values).map(roleName => (
               <LocalSwitch key={roleName} label={roleName} name={roleName} />
             ))}

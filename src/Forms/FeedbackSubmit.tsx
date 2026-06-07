@@ -11,7 +11,7 @@ export default function FeedbackSubmit<TValue>({ label, displayCompletion, formi
   return (
     <>
       <button type="submit" disabled={formikState.isSubmitting}>{label}</button>
-      <div className='saved-notification'>{displayCompletion && !formikState.isSubmitting ? 'Saved' : ''}</div>
+      <div className="saved-notification">{displayCompletion && !formikState.isSubmitting ? 'Saved' : ''}</div>
     </>
   );
 }

@@ -64,9 +64,9 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
         <h2>Great Dancing Squirrel Corporation of North America</h2>
         <nav>
-          {isOnboarder && <Link to='/trainingrequests'>Training Requests</Link>}
-          {isAdmin && <Link to='/users'>Users</Link>}
-          <Link to='/user-form/self'>Profile of {username}</Link>
+          {isOnboarder && <Link to="/trainingrequests">Training Requests</Link>}
+          {isAdmin && <Link to="/users">Users</Link>}
+          <Link to="/user-form/self">Profile of {username}</Link>
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
       </header>

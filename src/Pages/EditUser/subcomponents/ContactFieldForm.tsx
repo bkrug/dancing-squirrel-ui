@@ -41,11 +41,11 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
       }}
     >
       {formik => (
-        <Form onSubmit={formik.handleSubmit} method='POST'>
-          <LocalTextInput label='Email' name='email' type='email' />
-          <LocalTextInput label='Phone Number' name='phoneNumber' type='tel' />
+        <Form onSubmit={formik.handleSubmit} method="POST">
+          <LocalTextInput label="Email" name="email" type="email" />
+          <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
 
-          <FeedbackSubmit label='Save Contact Info' formikState={formik} displayCompletion={hasBeenSaved} />
+          <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
       )}
     </Formik>
