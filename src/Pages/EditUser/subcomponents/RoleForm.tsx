@@ -1,11 +1,11 @@
 import { Effect } from 'effect/index';
 import { Form, Formik } from 'formik';
-import Switch from 'rc-switch';
-import 'rc-switch/assets/index.css';
 import { useState } from 'react';
 import { ViewRoleModel } from '../../../dtoModels';
 import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
+import { LocalSwitch } from '../../../Forms/Fields/LocalFields';
 import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
+import './RoleForm.css';
 
 interface RoleFormProps {
   roleList: { [key: string]: boolean };
@@ -44,15 +44,9 @@ export default function RoleForm({ roleList, userId }: RoleFormProps) {
         }}
       >
         {formik => (
-          <Form onSubmit={formik.handleSubmit}>
-            {Object.keys(formik.values).map(role => (
-              <div key={role}>
-                <label>{role}</label>
-                <Switch
-                  checked={formik.values[role]}
-                  onChange={(checked: boolean) => formik.setFieldValue(role, checked)}
-                />
-              </div>
+          <Form onSubmit={formik.handleSubmit} className='roleform'>
+            {Object.keys(formik.values).map(roleName => (
+              <LocalSwitch key={roleName} label={roleName} name={roleName} />
             ))}
             <FeedbackSubmit label="Save Roles" formikState={formik} displayCompletion={hasBeenSaved} />
           </Form>

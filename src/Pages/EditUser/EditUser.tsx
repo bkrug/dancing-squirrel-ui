@@ -35,9 +35,13 @@ export default function EditUser({ editingOwnData } : EditUserProps) {
   }, [userId]);
 
   if (viewModel && editModel)
-    return editingOwnData
-      ? (<EditOwnProfile viewModel={viewModel} editModel={editModel} />)
-      : (<EditOtherProfile viewModel={viewModel} editModel={editModel} />);
+    return (<div className='edituser'>
+      {
+        editingOwnData
+        ? (<EditOwnProfile viewModel={viewModel} editModel={editModel} />)
+        : (<EditOtherProfile viewModel={viewModel} editModel={editModel} />)
+      }
+      </div>)
   else
     return (<></>);
 }

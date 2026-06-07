@@ -1,3 +1,7 @@
 .customer-signup {
   text-align: center;
 }
+
+.customer-signup .label-left-of-field {
+  min-width: 150px;
+}

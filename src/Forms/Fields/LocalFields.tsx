@@ -1,4 +1,6 @@
 import { useField } from 'formik';
+import Switch from 'rc-switch';
+import 'rc-switch/assets/index.css';
 import { FC } from 'react';
 import './LocalFields.css';
 
@@ -69,6 +71,27 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
             )
           })
         }
+        {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+      </div>
+    </div>
+  );
+};
+
+interface SwitchProps {
+  label: string,
+  name: string,
+}
+
+export const LocalSwitch: FC<SwitchProps> = ({ label, ...props }) => {
+  const [field, meta, helpers] = useField(props);
+  return (
+    <div className="field switchcontainer">
+      <label className='label-left-of-field' htmlFor={props.name}>{label}</label>
+      <div className="right-side-field">
+        <Switch
+          checked={field.value}
+          onChange={(checked: boolean) => helpers.setValue(checked)}
+        />
         {meta.touched && meta.error && <div className="error">{meta.error}</div>}
       </div>
     </div>
