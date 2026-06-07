@@ -23,7 +23,7 @@ fieldset .field-container {
   margin-right: 0;
 }
 
-.label-on-left {
+.field-container .label-on-left {
   display: inline-block;
   min-width: 150px;
   text-align: right;
@@ -31,18 +31,18 @@ fieldset .field-container {
 
 /*Inputs have an extra border above the text.
   Here we move the label downwards a little bit so that the label still lines up with the input text*/
-.label-on-left.label-for-input {
+.field-container .label-on-left.label-for-input {
   margin-top: .25em;
   vertical-align: top;
 }
 
-.right-of-label {
+.field-container .right-of-label {
   margin-left: .5em;
   display: inline-block;
   text-align: left;
 }
 
-.typeable-field {
+.field-container .typeable-field {
   /* To make sure that all text fields have the same font settings
      By default, text areas have a monospace font */
   font: 1em sans-serif;
@@ -51,12 +51,12 @@ fieldset .field-container {
   border: 1px solid #999999;
 }
 
-.typeable-field:focus {
+.field-container .typeable-field:focus {
   outline-style: solid;
   outline-color: black;
 }
 
-.typeable-field:user-invalid {
+.field-container .typeable-field:user-invalid {
   outline-color: red;
 }
 
@@ -68,7 +68,7 @@ fieldset .field-container {
   display: block;
 }
 
-.fill-container-width {
+.field-container .fill-container-width {
   width: 100%;
 }
 
@@ -77,12 +77,12 @@ fieldset .field-container {
   width: stretch;
 }
 
-.radiogroup,
-.radiogroup > * {
+.field-container .radiogroup,
+.field-container .radiogroup > * {
   display: inline-block;
 }
 
-.radio-option-label {
+.field-container .radio-option-label {
   min-width: auto;
   margin: 0 .5em;
 }
