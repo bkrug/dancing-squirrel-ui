@@ -58,7 +58,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
       navigate('/users', { replace: true });
   }, [refreshAuth, navigate]);
 
-  const nodeWhenAuthorized = (
+  const nodeWhenAuthenticated = (
     <div className="App">
       <header className="App-header">
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
@@ -74,7 +74,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
     </div>
   )
 
-  const nodeWhenNotAuthorized = (
+  const nodeWhenNotAuthenticated = (
     <div className="App">
       <header className="App-header">
         <img src={`${process.env.PUBLIC_URL}/breakdancing-squirrel.jpg`} className="App-logo" alt="breakdancing squirrel" />
@@ -89,6 +89,6 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
 
   return (
     isAuthenticated
-    ? nodeWhenAuthorized
-    : nodeWhenNotAuthorized);
+    ? nodeWhenAuthenticated
+    : nodeWhenNotAuthenticated);
 }

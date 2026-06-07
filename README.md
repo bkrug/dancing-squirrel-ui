@@ -15,7 +15,7 @@ But you should only need to run `npm install` and `npm start` for this frontend 
 ## Helpful commands
 
 Build a docker image
-`docker build -t dancing-squirrel-ui -f Dockerfile.dev .`
+`docker build -t krugee/dancing-squirrel-ui -f Dockerfile.dev .`
 Run the container
 `docker run -p 3626:3626 dancing-squirrel-ui
 
