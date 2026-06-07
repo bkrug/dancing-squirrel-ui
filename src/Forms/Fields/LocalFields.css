@@ -54,6 +54,7 @@ textarea {
   display: block;
   /* Provide space to type some text */
   height: 5em;
+  width: 100%;
 }
 
 input:user-invalid,

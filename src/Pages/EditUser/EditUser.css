@@ -1,3 +1,7 @@
+form .field .label-left-of-field {
+  width: 155px;
+}
+
 .form-parent {
   display: inline-block;
 }

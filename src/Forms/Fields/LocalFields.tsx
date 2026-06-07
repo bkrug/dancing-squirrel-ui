@@ -14,7 +14,7 @@ export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <div className="field textinputcontainer">
-      <label htmlFor={props.name}>{label}</label>
+      <label className='label-left-of-field' htmlFor={props.name}>{label}</label>
       <input {...field} {...props} className="rightsidefield" />
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </div>
@@ -48,7 +48,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
   const [{value, ...field}, meta] = useField(props);
   return (
     <div className="field radiogroupcontainer">
-      <label htmlFor={props.name}>{label}</label>
+      <label className='label-left-of-field' htmlFor={props.name}>{label}</label>
       <div className="radiogroup rightsidefield">
         {
           options.map((option) => {
