@@ -7,12 +7,18 @@ form {
 }
 
 /*Let fields outside of fieldsets, line up with the ones inside of fieldsets. */
-.field {
+.field-container {
   margin-left: 1em;
   margin-right: 1em;
 }
 
-fieldset .field {
+.field-container + .field-container,
+fieldset + .field-container,
+button[type="submit"] {
+  margin-top: 1em;
+}
+
+fieldset .field-container {
   margin-left: 0;
   margin-right: 0;
 }
@@ -54,11 +60,11 @@ fieldset .field {
   outline-color: red;
 }
 
-.field.vertically-arranged-contents {
+.field-container.vertically-arranged-contents {
   text-align: left;
 }
 
-.field.vertically-arranged-contents > * {
+.field-container.vertically-arranged-contents > * {
   display: block;
 }
 
@@ -66,7 +72,7 @@ fieldset .field {
   width: 100%;
 }
 
-.field textarea {
+.field-container textarea {
   height: 5em;
   width: stretch;
 }
@@ -81,7 +87,7 @@ fieldset .field {
   margin: 0 .5em;
 }
 
-.field .error {
+.field-container .error {
   color: red;
   text-align: left;
 }

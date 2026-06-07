@@ -15,7 +15,7 @@ export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || 'text';
   const [field, meta] = useField(props);
   return (
-    <div className="field">
+    <div className="field-container">
       <label className="label-on-left label-for-input" htmlFor={props.name}>{label}</label>
       <div className="right-of-label">
         <input className="fill-container-width typeable-field" {...field} {...props} />
@@ -29,7 +29,7 @@ export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || 'text';
   const [field, meta] = useField(props);
   return (
-    <div className="field vertically-arranged-contents">
+    <div className="field-container vertically-arranged-contents">
       <label className="label-on-top" htmlFor={props.name}>{label}</label>
       <textarea {...field} {...props} className="typeable-field"/>
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}
@@ -51,7 +51,7 @@ interface RadioInputProps<TValue> {
 export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, ...props }) => {
   const [{value, ...field}, meta] = useField(props);
   return (
-    <div className="field">
+    <div className="field-container">
       <label className="label-on-left" htmlFor={props.name}>{label}</label>
       <div className="radiogroup right-of-label">
         {
@@ -85,7 +85,7 @@ interface SwitchProps {
 export const LocalSwitch: FC<SwitchProps> = ({ label, ...props }) => {
   const [field, meta, helpers] = useField(props);
   return (
-    <div className="field switch-container">
+    <div className="field-container switch-container">
       <label className="label-on-left" htmlFor={props.name}>{label}</label>
       <div className="right-of-label">
         <Switch

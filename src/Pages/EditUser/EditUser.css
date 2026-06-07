@@ -1,11 +1,15 @@
-.form-parent {
+.edituser .form-parent {
   display: inline-block;
 }
 
-.form-container {
+.edituser .form-container {
   margin-bottom: 1em;
 }
 
-.delete-container {
+.edituser .delete-container {
   text-align: right;
+}
+
+.edituser .right-of-label {
+  width: 300px
 }

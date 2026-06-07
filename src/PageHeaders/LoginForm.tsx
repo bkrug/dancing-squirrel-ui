@@ -1,8 +1,8 @@
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import './LoginForm.css';
-import { submitUserCredentials } from '../Forms/Submission/formikSubmission';
 import { LocalTextInput } from '../Forms/Fields/LocalFields';
+import { submitUserCredentials } from '../Forms/Submission/formikSubmission';
+import './LoginForm.css';
 
 class LoginFormValues {
   username: string = '';
@@ -32,7 +32,7 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       }}
     >
       {formik => (
-        <Form onSubmit={formik.handleSubmit} method="POST">
+        <Form className="login-form" onSubmit={formik.handleSubmit} method="POST">
           <LocalTextInput label="Username" name="username" type="text" />
           <LocalTextInput label="Password" name="password" type="password" />
 

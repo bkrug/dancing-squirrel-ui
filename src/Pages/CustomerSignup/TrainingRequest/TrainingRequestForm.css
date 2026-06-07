@@ -1,18 +1,7 @@
-body {
-  /* Center the form on the page */
-  text-align: center;
+.customer-signup .label-on-left {
+  min-width: 140px;
 }
 
-button[type="submit"],
-.field + .field,
-fieldset + .field {
-  margin-top: 1em;
-}
-
-.customer-signup label {
-  min-width: 100px;
-}
-
-.right-of-label {
+.customer-signup .right-of-label {
   width: 300px
 }
