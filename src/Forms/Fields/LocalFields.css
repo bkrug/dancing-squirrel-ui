@@ -63,7 +63,6 @@ textarea {
   display: block;
   /* Provide space to type some text */
   height: 5em;
-  margin: 0em 1em;
   width: stretch;
 }
 

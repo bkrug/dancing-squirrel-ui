@@ -1,8 +1,8 @@
-ul {
+.teacherList {
     list-style-type: none;
 }
 
-label {
+.teacherName {
   padding-left: 1em;
   text-align: left;
 }

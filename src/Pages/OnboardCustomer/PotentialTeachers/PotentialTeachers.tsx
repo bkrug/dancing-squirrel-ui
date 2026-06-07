@@ -2,7 +2,7 @@ import { Effect } from 'effect';
 import { useEffect, useState } from 'react';
 import { DanceType, Teacher } from '../../../dtoModels';
 import { getParsedResponse } from '../../../Forms/Submission/formikSubmission';
-import './PotentialTeachers.css';
+import styles from './PotentialTeachers.module.css';
 
 interface Props {
   onCheckedTeachersChange: (checkedIds: Set<number>) => void;
@@ -59,7 +59,7 @@ export default function PotentialTeachers({ onCheckedTeachersChange }: Props) {
           </option>
         ))}
       </select>
-      <ul>
+      <ul className={styles.teacherList}>
         {teachers.map(t => (
           <li key={t.teacherId}>
             <input
@@ -68,7 +68,7 @@ export default function PotentialTeachers({ onCheckedTeachersChange }: Props) {
               checked={checkedTeacherIds.has(t.teacherId)}
               onChange={e => toggleTeacher(t.teacherId, e.target.checked)}
             />
-            <label htmlFor={`teacher-${t.teacherId}`}>{t.firstName} {t.lastName}</label>
+            <label className={styles.teacherName} htmlFor={`teacher-${t.teacherId}`}>{t.firstName} {t.lastName}</label>
           </li>
         ))}
       </ul>
