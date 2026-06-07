@@ -16,46 +16,6 @@ function getFormData(source: any) : FormData {
   return formData;
 };
 
-export async function submitUserCredentials<TValues extends object, TValidationFailures extends object>
-  (
-    endpoint: string,
-    values: TValues,
-    actions: FormikHelpers<TValues>
-  )
-  : Promise<FormResponse<TValidationFailures>>
-{
-  const fullUrl = new URL(endpoint, baseUrl)
-  const headers = new Headers();
-  headers.set('Content-Type', 'application/json');
-
-  try {
-    const response = await fetch(fullUrl, {
-      method: 'POST',
-      headers: headers,
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(values)
-    });
-    console.log(response);
-    //actions.resetForm();
-    actions.setSubmitting(false);
-    return {
-      isSuccess: response.ok,
-      isInternalError: false,
-      validationFailures: {}
-    } as FormResponse<TValidationFailures>;
-  } catch (httpErrors) {
-    console.error(httpErrors);
-    alert('An HTTP error occurred.');
-    actions.setSubmitting(false);
-    return {
-      isSuccess: false,
-      isInternalError: true,
-      validationFailures: {}
-    } as FormResponse<TValidationFailures>;
-  }
-};
-
 export async function submitFormikForm<TValues extends object, TValidationFailures extends object>
   (
     endpoint: string,
@@ -112,20 +72,30 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
   )
   : Promise<FormResponse<TValidationFailures>>
 {
-  let fullUrl = new URL(endpoint, baseUrl)
+  let fullUrl = new URL(endpoint, baseUrl);
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
 
   try {
     const response = await fetch(fullUrl, {
       method: methodVerb || 'POST',
+      headers: headers,
       mode: 'cors',
       credentials: 'include',
       body: JSON.stringify(values)
     });
+    actions.setSubmitting(false);
     const jsonString = await response.text();
-    let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
-    if (parsedResponse.isSuccess) {
+    if (response.ok) {
+      return {
+        isSuccess: response.ok,
+        isInternalError: false,
+        validationFailures: {}
+      } as FormResponse<TValidationFailures>;
     }
-    else if (parsedResponse.validationFailuresStrict) {
+
+    let parsedResponse = parseToCamelCase((FormResponse<TValidationFailures>), jsonString);
+    if (parsedResponse.validationFailuresStrict) {
       actions.setErrors(parsedResponse.validationFailuresStrict);
     }
     else if (parsedResponse.isInternalError) {
@@ -134,7 +104,6 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
     else {
       alert('A malformed response was received from the server.');
     }
-    actions.setSubmitting(false);
     return parsedResponse;
   } catch (httpErrors) {
     console.error(httpErrors);

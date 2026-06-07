@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { LocalTextInput } from '../Forms/Fields/LocalFields';
-import { submitUserCredentials } from '../Forms/Submission/formikSubmission';
+import { submitFormikJson } from '../Forms/Submission/formikSubmission';
 import './LoginForm.css';
 
 class LoginFormValues {
@@ -25,10 +25,8 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         })
       }
       onSubmit={(values, actions) => {
-        submitUserCredentials<LoginFormValues, LoginValidationFailures>('authentication', values, actions)
-          .then(parsedResponse => {
-            if (parsedResponse.isSuccess) onSuccess();
-          });
+        submitFormikJson<LoginFormValues, LoginValidationFailures>('authentication', values, actions, 'POST')
+          .then(parsedResponse => parsedResponse.isSuccess && onSuccess());
       }}
     >
       {formik => (
