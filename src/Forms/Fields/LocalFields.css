@@ -16,7 +16,7 @@ fieldset .field {
   margin-right: 0;
 }
 
-label {
+.field label {
   /* Uniform size & alignment */
   display: inline-block;
   min-width: 150px;
@@ -37,8 +37,8 @@ label {
   width: 100%;
 }
 
-input:not([type="radio"]),
-textarea {
+.field input:not([type="radio"]),
+.field textarea {
   /* To make sure that all text fields have the same font settings
      By default, text areas have a monospace font */
   font: 1em sans-serif;
@@ -52,37 +52,37 @@ textarea {
   display: inline-block;
 }
 
-input[type="radio"] + label {
+.field input[type="radio"] + label {
   min-width: auto;
   margin: 0 .5em;
 }
 
-input:focus,
-textarea:focus {
+.field input:focus,
+.field textarea:focus {
   /* Set the outline width and style */
   outline-style: solid;
   /* To give a little highlight on active elements */
   outline-color: black;
 }
 
-.textareacontainer {
+.field .textareacontainer {
   text-align: left;
 }
 
-textarea {
+.field textarea {
   display: block;
   /* Provide space to type some text */
   height: 5em;
   width: stretch;
 }
 
-input:user-invalid,
-textarea:user-invalid {
+.field input:user-invalid,
+.field textarea:user-invalid {
   outline-color: red;
 }
 
 /* Base the left margin and padding on the label's width and field's left margin */
-.error {
+.field .error {
   color: red;
   text-align: left;
 }
