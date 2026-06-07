@@ -13,6 +13,6 @@ fieldset + .field {
   min-width: 100px;
 }
 
-.rightsidefield {
-  width: 300px;
+.right-side-field {
+  width: 300px
 }

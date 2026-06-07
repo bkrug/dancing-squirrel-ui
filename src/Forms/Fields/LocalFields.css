@@ -13,14 +13,18 @@ label {
   text-align: right;
 }
 
-input[type="radio"] + label {
-  min-width: auto;
-  margin: 0 .5em;
+.label-left-of-field.label-for-input {
+  margin-top: .25em;
+  vertical-align: top;
 }
 
-label + input,
-label + .radiogroup {
+.right-side-field {
   margin-left: .5em;
+  display: inline-block;
+}
+
+.right-side-field > input:not([type="radio"]) {
+  width: 100%;
 }
 
 input:not([type="radio"]),
@@ -36,6 +40,11 @@ textarea {
 .radiogroup,
 .radiogroup > * {
   display: inline-block;
+}
+
+input[type="radio"] + label {
+  min-width: auto;
+  margin: 0 .5em;
 }
 
 input:focus,
@@ -65,7 +74,5 @@ textarea:user-invalid {
 /* Base the left margin and padding on the label's width and field's left margin */
 .error {
   color: red;
-  padding-left: 150px;
-  margin-left: .5em;
   text-align: left;
 }
