@@ -6,6 +6,16 @@ form {
   border-radius: 1em;
 }
 
+.field {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+fieldset .field {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 label {
   /* Uniform size & alignment */
   display: inline-block;
