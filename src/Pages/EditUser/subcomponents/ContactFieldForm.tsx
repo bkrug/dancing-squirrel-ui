@@ -21,7 +21,7 @@ interface ContactFieldFormProps {
 
 export default function ContactFieldForm({ editingOwnData, editModel, viewModel }: ContactFieldFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
-  const [isAssigningTeacher, setIsAssigningTeacher] = useState(false);
+  const [isAssigningTeacher, setIsAssigningTeacher] = useState(viewModel.teacherId != null);
   const [isLoadingTeachers, setIsLoadingTeachers] = useState(false);
   const [teachers, setTeachers] = useState([] as Teacher[]);
 

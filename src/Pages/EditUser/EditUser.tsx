@@ -27,7 +27,7 @@ export default function EditUser({ editingOwnData } : EditUserProps) {
         Effect.runPromise(Effect.match(parsedResponse, {
           onSuccess: parsed => {
             setViewModel(parsed);
-            setEditModel({ email: parsed.email, phoneNumber: parsed.phoneNumber, teacherId: null });
+            setEditModel({ email: parsed.email, phoneNumber: parsed.phoneNumber, teacherId: parsed.teacherId });
           },
           onFailure: err => console.error(err)
         }));

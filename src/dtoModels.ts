@@ -71,6 +71,7 @@ export class ViewUserModel
   email: string = '';
   phoneNumber: string = '';
   roles: ViewRoleModel[] = [];
+  teacherId: number | null = null;
 }
 
 export class EditRoleModel {
