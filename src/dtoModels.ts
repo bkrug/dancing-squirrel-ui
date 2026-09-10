@@ -36,10 +36,19 @@ export class GridUser
   email: string = '';
 }
 
+
+export class EditUserValidation
+{
+  email: string = '';
+  phoneNumber: string = '';
+  teacherId: string = '';
+}
+
 export class EditUserModel
 {
   email: string = '';
   phoneNumber: string = '';
+  teacherId: number | null = null;
 }
 
 export class ViewRoleModel

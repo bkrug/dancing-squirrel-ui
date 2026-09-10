@@ -77,6 +77,42 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
   );
 };
 
+interface SelectListOption {
+  label: string;
+  value: number;
+}
+
+interface SelectListProps {
+  label: string,
+  name: string,
+  options: SelectListOption[],
+  disabled?: boolean
+}
+
+export const LocalSelectList: FC<SelectListProps> = ({ label, options, ...props }) => {
+  const [field, meta, helpers] = useField(props);
+  return (
+    <div className="field-container">
+      <label className="label-on-left label-for-input" htmlFor={props.name}>{label}</label>
+      <div className="right-of-label">
+        <select
+          className="fill-container-width typeable-field"
+          {...props}
+          value={field.value ?? ''}
+          onBlur={field.onBlur}
+          onChange={e => helpers.setValue(e.target.value === '' ? null : Number(e.target.value))}
+        >
+          <option value="">-- Select --</option>
+          {options.map(option => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </select>
+        {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+      </div>
+    </div>
+  );
+};
+
 interface SwitchProps {
   label: string,
   name: string,

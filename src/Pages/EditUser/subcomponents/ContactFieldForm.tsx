@@ -1,10 +1,12 @@
+import { Effect } from 'effect';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import LoadingSpinner from '../../../Components/LoadingSpinner';
+import { EditUserModel, Teacher, ViewUserModel } from '../../../dtoModels';
 import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
-import { LocalTextInput } from '../../../Forms/Fields/LocalFields';
-import { submitFormikJson } from '../../../Forms/Submission/formikSubmission';
-import { EditUserModel, ViewUserModel } from '../../../dtoModels';
+import { LocalSelectList, LocalTextInput } from '../../../Forms/Fields/LocalFields';
+import { getParsedResponse, submitFormikJson } from '../../../Forms/Submission/formikSubmission';
 
 class EditUserValidationFailures {
   email: string = '';
@@ -19,6 +21,21 @@ interface ContactFieldFormProps {
 
 export default function ContactFieldForm({ editingOwnData, editModel, viewModel }: ContactFieldFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
+  const [isAssigningTeacher, setIsAssigningTeacher] = useState(false);
+  const [isLoadingTeachers, setIsLoadingTeachers] = useState(false);
+  const [teachers, setTeachers] = useState([] as Teacher[]);
+
+  useEffect(() => {
+    if (!isAssigningTeacher) return;
+
+    setIsLoadingTeachers(true);
+    getParsedResponse('teacher', Array<Teacher>)
+      .then(result => Effect.runPromise(Effect.match(result, {
+        onSuccess: parsed => setTeachers(parsed as Teacher[]),
+        onFailure: err => console.error(err)
+      })))
+      .finally(() => setIsLoadingTeachers(false));
+  }, [isAssigningTeacher]);
 
   return (
     <Formik
@@ -44,6 +61,33 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
         <Form onSubmit={formik.handleSubmit} method="POST">
           <LocalTextInput label="Email" name="email" type="email" />
           <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
+
+          <div className="field-container">
+            <label className="label-on-left" htmlFor="isAssigningTeacher">Assign Teacher</label>
+            <div className="right-of-label">
+              <input
+                type="checkbox"
+                id="isAssigningTeacher"
+                checked={isAssigningTeacher}
+                onChange={e => setIsAssigningTeacher(e.target.checked)}
+              />
+            </div>
+          </div>
+
+          <div hidden={!isAssigningTeacher}>
+            {isLoadingTeachers
+              ? <LoadingSpinner />
+              : (
+                <LocalSelectList
+                  label="Teacher"
+                  name="teacherId"
+                  options={teachers.map(teacher => ({
+                    value: teacher.teacherId,
+                    label: `${teacher.firstName} ${teacher.lastName}`
+                  }))}
+                />
+              )}
+          </div>
 
           <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
