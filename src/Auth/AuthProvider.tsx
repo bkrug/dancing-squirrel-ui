@@ -1,6 +1,6 @@
 import { Effect } from 'effect/index';
 import { ReactNode, useEffect, useState } from 'react';
-import { EditRoleModel } from '../dtoModels';
+import { ClaimResponse } from '../dtoModels';
 import { getParsedResponse } from '../Forms/Submission/formikSubmission';
 import { AuthContext } from './AuthContext';
 
@@ -10,13 +10,16 @@ if (!baseUrl) throw new TypeError('Base URL is not configured');
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [roles, setRoles] = useState<string[]>([]);
+  let teacherId = 0;
 
   async function refreshAuth(): Promise<string[]> {
-    const result = await getParsedResponse('authentication', EditRoleModel, 'GET');
+    const result = await getParsedResponse('authentication', ClaimResponse, 'GET');
     let fetchedRoles: string[] = [];
     await Effect.runPromise(Effect.match(result, {
-      onSuccess: roleModel => {
-        fetchedRoles = (roleModel.roles ?? []).map(r => r.name);
+      onSuccess: claimRepone => {
+        let claims = claimRepone.claims ?? [];
+        console.log(claims);
+        fetchedRoles = claims.filter(c => c.type === 'Role').map(r => r.value);
         setIsAuthenticated(true);
         setRoles(fetchedRoles);
       },

@@ -86,3 +86,12 @@ export class OwnPasswordResetModel {
 export class PasswordResetModel {
   newPassword: string = '';
 }
+
+export class Claim {
+  type: string = '';
+  value: string = '';
+}
+
+export class ClaimResponse {
+  claims: Claim[] = [];
+}
