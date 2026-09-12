@@ -1,5 +1,5 @@
 import { Effect } from 'effect/index';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useEffectEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useHasRole, useIsTeacher } from '../Auth/AuthContext';
 import { adminRole, onboarderRole } from '../Auth/roles';
@@ -52,14 +52,23 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
   }
 
   const recordSuccessfulLogin = useCallback(async () => {
-    let roles = await refreshAuth();
-    if (roles.includes(onboarderRole))
+    await refreshAuth();
+  }, [refreshAuth]);
+
+  const onLogin = useEffectEvent(() => {
+    if (isTeacher)
+      navigate('/teachers', { replace: true });
+    else if (isOnboarder)
       navigate('/trainingrequests', { replace: true });
-    else if (roles.includes(adminRole))
+    else if (isAdmin)
       navigate('/users', { replace: true });
     else
       navigate('/landingpage');
-  }, [refreshAuth, navigate]);
+  });
+
+  useEffect(() => {
+    if (isAuthenticated) onLogin();
+  }, [isAuthenticated, onLogin]);
 
   const nodeWhenAuthenticated = (
     <div className="App">

@@ -43,8 +43,17 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setTeacher(teacherId || null);
   }
 
+  function getAuth() {
+    console.log('got here');
+    return {
+      isAuthenticated: isAuthenticated,
+      roles: roles,
+      teacherId: teacherId
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, roles, teacherId, setAuth, refreshAuth }}>
+    <AuthContext.Provider value={{ isAuthenticated, roles, teacherId, setAuth, getAuth, refreshAuth }}>
       {children}
     </AuthContext.Provider>
   );
