@@ -5,12 +5,7 @@ export interface AuthState {
   roles: string[];
   teacherId: number | null;
   setAuth: (isAuthenticated: boolean, roles?: string[], teacherId?: number | null) => void;
-  getAuth: () => {
-    isAuthenticated: boolean;
-    roles: string[];
-    teacherId: number | null;
-  };
-  refreshAuth: () => Promise<string[]>;
+  refreshAuth: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthState>({
@@ -18,14 +13,7 @@ export const AuthContext = createContext<AuthState>({
   roles: [],
   teacherId: null,
   setAuth: () => {},
-  getAuth: () => {
-    return {
-      isAuthenticated: false,
-      roles: [] as string[],
-      teacherId: null as number | null
-    }
-  },
-  refreshAuth: () => Promise.resolve([]),
+  refreshAuth: () => Promise.resolve(),
 });
 
 export function useAuth() {

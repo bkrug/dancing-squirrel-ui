@@ -18,21 +18,17 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [roles, setRoles] = useState<string[]>([]);
   const [teacherId, setTeacher] = useState<number|null>(null);
 
-  async function refreshAuth(): Promise<string[]> {
+  async function refreshAuth(): Promise<void> {
     const result = await getParsedResponse('authentication', ClaimResponse, 'GET');
-    let fetchedRoles: string[] = [];
     await Effect.runPromise(Effect.match(result, {
       onSuccess: claimRepone => {
         let claims = claimRepone.claims ?? [];
-        fetchedRoles = claims.filter(c => c.type === 'Role').map(r => r.value);
-        let teacherIdNumber = getTeacherId(claims);
         setIsAuthenticated(true);
-        setRoles(fetchedRoles);
-        setTeacher(teacherIdNumber);
+        setRoles(claims.filter(c => c.type === 'Role').map(r => r.value));
+        setTeacher(getTeacherId(claims));
       },
       onFailure: () => setIsAuthenticated(false)
     }));
-    return fetchedRoles;
   }
 
   useEffect(() => { refreshAuth(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -43,17 +39,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setTeacher(teacherId || null);
   }
 
-  function getAuth() {
-    console.log('got here');
-    return {
-      isAuthenticated: isAuthenticated,
-      roles: roles,
-      teacherId: teacherId
-    }
-  }
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, roles, teacherId, setAuth, getAuth, refreshAuth }}>
+    <AuthContext.Provider value={{ isAuthenticated, roles, teacherId, setAuth, refreshAuth }}>
       {children}
     </AuthContext.Provider>
   );
