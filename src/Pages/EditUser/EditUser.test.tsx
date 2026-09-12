@@ -58,7 +58,7 @@ test('When editingOwnData is false, email and phone fields are populated from us
     phoneNumber: '555-9876',
     roles: [{ name: 'Admin' }]
   };
-  const rolesFromEndpoint = ['Admin', 'Onboarder', 'Teacher'];
+  const rolesFromEndpoint = ['Admin', 'Onboarder', 'Accountant'];
 
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
   (useNavigate as jest.Mock).mockReturnValue(jest.fn());
@@ -90,7 +90,7 @@ test('When editingOwnData is false, email and phone fields are populated from us
   // Assert one role switch per role from the role endpoint
   expect(screen.getByText('Admin')).toBeInTheDocument();
   expect(screen.getByText('Onboarder')).toBeInTheDocument();
-  expect(screen.getByText('Teacher')).toBeInTheDocument();
+  expect(screen.getByText('Accountant')).toBeInTheDocument();
   expect(screen.getAllByRole('switch')).toHaveLength(rolesFromEndpoint.length);
 });
 
@@ -172,15 +172,15 @@ test('When the delete button is pressed but denied in the modal, no DELETE reque
 });
 
 test('When role switches are changed and saved, a PUT request is made to user/{userId}/role with the updated role list.', async () => {
-  // Arrange: user currently has Admin; available roles are Admin, Onboarder, Teacher
+  // Arrange: user currently has Admin; available roles are Admin, Onboarder, Accountant
   const mockUser = {
     userId: '29e65279-bfce-4bf3-a49e-3969a6715cbd',
     username: 'jdoe',
     email: 'jdoe@example.com',
     phoneNumber: '555-9876',
-    roles: [{ name: 'Admin' },{name: 'Teacher'}]
+    roles: [{ name: 'Admin' },{name: 'Accountant'}]
   };
-  const rolesFromEndpoint = ['Admin', 'Onboarder', 'Teacher'];
+  const rolesFromEndpoint = ['Admin', 'Onboarder', 'Accountant'];
   let capturedRolePutBody: { roles: { name: string }[] } | undefined;
 
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
@@ -206,7 +206,7 @@ test('When role switches are changed and saved, a PUT request is made to user/{u
   await act(async () => getParsedResponse);
   await act(async () => getPagedData);
 
-  // Act: toggle Admin OFF (was on), toggle Onboarder ON (was off), leave Teacher switch unchanged (was on).
+  // Act: toggle Admin OFF (was on), toggle Onboarder ON (was off), leave Accountant switch unchanged (was on).
   const [adminSwitch, onboarderSwitch] = screen.getAllByRole('switch');
   fireEvent.click(adminSwitch);
   fireEvent.click(onboarderSwitch);
@@ -216,5 +216,5 @@ test('When role switches are changed and saved, a PUT request is made to user/{u
 
   // Assert the PUT body contains only Onboarder
   expect(capturedRolePutBody).toBeDefined();
-  expect((capturedRolePutBody!.roles || []).map(r => r.name)).toEqual(['Onboarder', 'Teacher']);
+  expect((capturedRolePutBody!.roles || []).map(r => r.name)).toEqual(['Onboarder', 'Accountant']);
 });
