@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 export interface AuthState {
   isAuthenticated: boolean;
   roles: string[];
-  // teacherId: number | null;
+  teacherId: number | null;
   setAuth: (isAuthenticated: boolean, roles?: string[], teacherId?: number | null) => void;
   refreshAuth: () => Promise<string[]>;
 }
@@ -11,7 +11,7 @@ export interface AuthState {
 export const AuthContext = createContext<AuthState>({
   isAuthenticated: false,
   roles: [],
-  // teacherId: null,
+  teacherId: null,
   setAuth: () => {},
   refreshAuth: () => Promise.resolve([]),
 });
@@ -23,4 +23,9 @@ export function useAuth() {
 export function useHasRole(role: string) {
   const { roles } = useContext(AuthContext);
   return roles.includes(role);
+}
+
+export function useIsTeacher() {
+  const { teacherId } = useContext(AuthContext);
+  return teacherId !== null;
 }

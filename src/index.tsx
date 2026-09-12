@@ -8,6 +8,7 @@ import CreateUser from './Pages/CreateUser/CreateUser';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
 import EditUser from './Pages/EditUser/EditUser';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
+import TeacherPage from './Pages/TeacherPage/TeacherPage';
 import TrainingRequestGrid from './Pages/TrainingRequestGrid/TrainingRequestGrid';
 import UserGrid from './Pages/UserGrid/UserGrid';
 import reportWebVitals from './reportWebVitals';
@@ -27,6 +28,7 @@ root.render(
       <Route path="user-form/self" element={<EmployeePortal child={<EditUser editingOwnData={true} />} />} />
       <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser editingOwnData={false} />} />} />
       <Route path="registration-form" element={<EmployeePortal child={<CreateUser />} />} />
+      <Route path="teachers" element={<EmployeePortal child={<TeacherPage />} />} />
     </Routes>
     </AuthProvider>
   </BrowserRouter>,

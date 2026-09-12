@@ -1,7 +1,7 @@
 import { Effect } from 'effect/index';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth, useHasRole } from '../Auth/AuthContext';
+import { useAuth, useHasRole, useIsTeacher } from '../Auth/AuthContext';
 import { adminRole, onboarderRole } from '../Auth/roles';
 import { getParsedResponse } from '../Forms/Submission/formikSubmission';
 import { ViewUserModel } from '../dtoModels';
@@ -36,6 +36,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
   const [ username, setUsername ] = useState('');
   const isOnboarder = useHasRole(onboarderRole);
   const isAdmin = useHasRole(adminRole);
+  const isTeacher = useIsTeacher();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,6 +57,8 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
       navigate('/trainingrequests', { replace: true });
     else if (roles.includes(adminRole))
       navigate('/users', { replace: true });
+    else
+      navigate('/landingpage');
   }, [refreshAuth, navigate]);
 
   const nodeWhenAuthenticated = (
@@ -66,6 +69,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <nav>
           {isOnboarder && <Link to="/trainingrequests">Training Requests</Link>}
           {isAdmin && <Link to="/users">Users</Link>}
+          {isTeacher && <Link to="/teachers">Teachers Page</Link>}
           <Link to="/user-form/self">Profile of {username}</Link>
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
