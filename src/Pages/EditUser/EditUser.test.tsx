@@ -28,11 +28,11 @@ test('When editingOwnData is true, email and phone fields are populated from use
 
   (useParams as jest.Mock).mockReturnValue({});
 
-  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) => {
-    if (endpoint === 'user/self')
-      return Promise.resolve(Effect.succeed(mockUser));
-    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
-  });
+  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) =>
+    (endpoint === 'user/self')
+      ? Promise.resolve(Effect.succeed(mockUser))
+      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
+  );
 
   // Act
   render(<EditUser editingOwnData={true} />);
@@ -63,17 +63,17 @@ test('When editingOwnData is false, email and phone fields are populated from us
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
   (useNavigate as jest.Mock).mockReturnValue(jest.fn());
 
-  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) => {
-    if (endpoint === 'user/' + mockUser.userId)
-      return Promise.resolve(Effect.succeed(mockUser));
-    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
-  });
+  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) =>
+    (endpoint === 'user/' + mockUser.userId)
+      ? Promise.resolve(Effect.succeed(mockUser))
+      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
+  );
 
-  (getPagedData as jest.Mock).mockImplementation((endpoint: string) => {
-    if (endpoint === 'role')
-      return Promise.resolve(Effect.succeed({ data: rolesFromEndpoint }));
-    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
-  });
+  (getPagedData as jest.Mock).mockImplementation((endpoint: string) =>
+    (endpoint === 'role')
+      ? Promise.resolve(Effect.succeed({ data: rolesFromEndpoint }))
+      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
+  );
 
   // Act
   render(<EditUser editingOwnData={false} />);
@@ -148,11 +148,11 @@ test('When the delete button is pressed but denied in the modal, no DELETE reque
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
   (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
 
-  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) => {
-    if (endpoint === 'user/' + mockUser.userId)
-      return Promise.resolve(Effect.succeed(mockUser));
-    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
-  });
+  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) =>
+    (endpoint === 'user/' + mockUser.userId)
+      ? Promise.resolve(Effect.succeed(mockUser))
+      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
+  );
 
   (getPagedData as jest.Mock).mockImplementation(() =>
     Promise.resolve(Effect.succeed({ data: ['Admin'] }))
@@ -196,11 +196,11 @@ test('When role switches are changed and saved, a PUT request is made to user/{u
     return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
   });
 
-  (getPagedData as jest.Mock).mockImplementation((endpoint: string) => {
-    if (endpoint === 'role')
-      return Promise.resolve(Effect.succeed({ data: rolesFromEndpoint }));
-    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
-  });
+  (getPagedData as jest.Mock).mockImplementation((endpoint: string) =>
+    (endpoint === 'role')
+      ? Promise.resolve(Effect.succeed({ data: rolesFromEndpoint }))
+      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
+  );
 
   render(<EditUser editingOwnData={false} />);
   await act(async () => getParsedResponse);
