@@ -95,3 +95,14 @@ export class Claim {
 export class ClaimResponse {
   claims: Claim[] = [];
 }
+
+export class ViewDefaultDayAvailability {
+  defaultAvailabilityId: number = 0;
+  dayOfWeek: string = '';
+  startTime: string = '';
+  endTime: string = ''
+}
+
+export class ViewDefaultAvailability {
+  availabilities: ViewDefaultDayAvailability[] = [];
+}

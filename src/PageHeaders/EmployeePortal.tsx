@@ -1,5 +1,5 @@
 import { Effect } from 'effect/index';
-import { ReactNode, useCallback, useEffect, useEffectEvent, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useHasRole, useIsTeacher } from '../Auth/AuthContext';
 import { adminRole, onboarderRole } from '../Auth/roles';
