@@ -68,7 +68,9 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
 
   useEffect(() => {
     if (isAuthenticated) onLogin();
-  }, [isAuthenticated, onLogin]);
+    //TODO: Update es-lint
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const nodeWhenAuthenticated = (
     <div className="App">
