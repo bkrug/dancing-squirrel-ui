@@ -6,6 +6,7 @@ import CustomerPortal from './PageHeaders/CustomerPortal';
 import EmployeePortal from './PageHeaders/EmployeePortal';
 import CreateUser from './Pages/CreateUser/CreateUser';
 import CustomerSignup from './Pages/CustomerSignup/CustomerSignup';
+import DefaultAvailability from './Pages/DefaultAvailability/DefaultAvailability';
 import EditUser from './Pages/EditUser/EditUser';
 import OnboardCustomer from './Pages/OnboardCustomer/OnboardCustomer';
 import TeacherPage from './Pages/TeacherPage/TeacherPage';
@@ -29,6 +30,7 @@ root.render(
       <Route path="user-form/:userId" element={<EmployeePortal child={<EditUser editingOwnData={false} />} />} />
       <Route path="registration-form" element={<EmployeePortal child={<CreateUser />} />} />
       <Route path="teachers" element={<EmployeePortal child={<TeacherPage />} />} />
+      <Route path="default-availabilities" element={<EmployeePortal child={<DefaultAvailability />} />} />
     </Routes>
     </AuthProvider>
   </BrowserRouter>,

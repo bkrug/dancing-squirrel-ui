@@ -78,6 +78,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
           {isOnboarder && <Link to="/trainingrequests">Training Requests</Link>}
           {isAdmin && <Link to="/users">Users</Link>}
           {isTeacher && <Link to="/teachers">Teachers Page</Link>}
+          {isTeacher && <Link to="/default-availabilities">Availability</Link>}
           <Link to="/user-form/self">Profile of {username}</Link>
         </nav>
         <button onClick={makeLogoutRequest}>Logout</button>
