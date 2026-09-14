@@ -34,6 +34,7 @@ interface EmployeePortalProps {
 export default function EmployeePortal({ child }: EmployeePortalProps) {
   const { isAuthenticated, setAuth, refreshAuth } = useAuth();
   const [ username, setUsername ] = useState('');
+  const [ nowAutonavigate, setNowAutonavigate ] = useState(false);
   const isOnboarder = useHasRole(onboarderRole);
   const isAdmin = useHasRole(adminRole);
   const isTeacher = useIsTeacher();
@@ -53,9 +54,11 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
 
   const recordSuccessfulLogin = useCallback(async () => {
     await refreshAuth();
+    setNowAutonavigate(true);
   }, [refreshAuth]);
 
-  const onLogin = useEffectEvent(() => {
+  if (nowAutonavigate) {
+    setNowAutonavigate(false);
     if (isTeacher)
       navigate('/teachers', { replace: true });
     else if (isOnboarder)
@@ -64,13 +67,7 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
       navigate('/users', { replace: true });
     else
       navigate('/landingpage');
-  });
-
-  useEffect(() => {
-    if (isAuthenticated) onLogin();
-    //TODO: Update es-lint
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }
 
   const nodeWhenAuthenticated = (
     <div className="App">
