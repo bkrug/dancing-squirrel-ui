@@ -106,3 +106,14 @@ export class ViewDefaultDayAvailability {
 export class ViewDefaultAvailability {
   availabilities: ViewDefaultDayAvailability[] = [];
 }
+
+export class CreateEditDefaultDayAvailability {
+  defaultAvailabilityId: number | null = null;
+  dayOfWeek: string | null = '';
+  startTime: string | null = '';
+  endTime: string | null = '';
+}
+
+export class CreateEditDefaultAvailability {
+  availabilities: CreateEditDefaultDayAvailability[] = [];
+}
