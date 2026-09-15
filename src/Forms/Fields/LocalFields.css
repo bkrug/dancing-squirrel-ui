@@ -6,6 +6,14 @@ form {
   border-radius: 1em;
 }
 
+.form-row {
+  margin: 1em 0;
+}
+
+.form-row .field-container {
+  display: inline;
+}
+
 /*Let fields outside of fieldsets, line up with the ones inside of fieldsets. */
 .field-container {
   margin-left: 1em;
