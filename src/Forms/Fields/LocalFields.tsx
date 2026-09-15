@@ -79,7 +79,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
 
 interface SelectListOption {
   label: string;
-  value: number;
+  value: number | string;
 }
 
 interface SelectListProps {
@@ -100,7 +100,14 @@ export const LocalSelectList: FC<SelectListProps> = ({ label, options, ...props 
           {...props}
           value={field.value ?? ''}
           onBlur={field.onBlur}
-          onChange={e => helpers.setValue(e.target.value === '' ? null : Number(e.target.value))}
+          onChange={e => {
+            if (e.target.value === '') {
+              helpers.setValue(null);
+              return;
+            }
+            const selectedOption = options.find(option => option.value.toString() === e.target.value);
+            helpers.setValue(selectedOption ? selectedOption.value : e.target.value);
+          }}
         >
           <option value="">-- Select --</option>
           {options.map(option => (

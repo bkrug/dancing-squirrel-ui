@@ -1,10 +1,10 @@
 import { Effect } from 'effect/index';
-import { Field, FieldArray, Form, Formik } from 'formik';
+import { FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../Auth/AuthContext';
 import { CreateEditDefaultAvailability, CreateEditDefaultDayAvailability, ViewDefaultAvailability } from '../../dtoModels';
 import FeedbackSubmit from '../../Forms/FeedbackSubmit';
-import { LocalTextInput } from '../../Forms/Fields/LocalFields';
+import { LocalSelectList, LocalTextInput } from '../../Forms/Fields/LocalFields';
 import { getParsedResponse, submitFormikJson } from '../../Forms/Submission/formikSubmission';
 
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -56,19 +56,11 @@ export default function DefaultAvailability() {
                 <>
                   {formik.values.availabilities.map((_, index) => (
                     <div key={index} className="field-container">
-                      <label className="label-on-left label-for-input" htmlFor={`availabilities[${index}].dayOfWeek`}>Day</label>
-                      <div className="right-of-label">
-                        <Field
-                          as="select"
-                          className="fill-container-width typeable-field"
-                          id={`availabilities[${index}].dayOfWeek`}
-                          name={`availabilities[${index}].dayOfWeek`}
-                        >
-                          <option value="">-- Select --</option>
-                          {daysOfWeek.map(day => <option key={day} value={day}>{day}</option>)}
-                        </Field>
-                      </div>
-
+                      <LocalSelectList
+                        label="Day"
+                        name={`availabilities[${index}].dayOfWeek`}
+                        options={daysOfWeek.map(day => ({ value: day, label: day }))}
+                      />
                       <LocalTextInput label="Start Time" name={`availabilities[${index}].startTime`} />
                       <LocalTextInput label="End Time" name={`availabilities[${index}].endTime`} />
 
