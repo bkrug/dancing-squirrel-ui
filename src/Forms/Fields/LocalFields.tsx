@@ -77,7 +77,7 @@ export const LocalRadioInput: FC<RadioInputProps<string>> = ({ label, options, .
   );
 };
 
-interface SelectListOption {
+export interface SelectListOption {
   label: string;
   value: number | string;
 }

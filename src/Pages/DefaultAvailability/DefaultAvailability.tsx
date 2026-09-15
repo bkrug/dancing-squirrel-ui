@@ -32,6 +32,8 @@ export default function DefaultAvailability() {
       });
   }, [teacherId]);
 
+  const dayOfWeekOptions = daysOfWeek.map(day => ({ value: day, label: day }));
+
   return (
     <>
       <h1>Default Availability</h1>
@@ -56,11 +58,7 @@ export default function DefaultAvailability() {
                 <>
                   {formik.values.availabilities.map((_, index) => (
                     <div key={index} className="field-container">
-                      <LocalSelectList
-                        label="Day"
-                        name={`availabilities[${index}].dayOfWeek`}
-                        options={daysOfWeek.map(day => ({ value: day, label: day }))}
-                      />
+                      <LocalSelectList label="Day" name={`availabilities[${index}].dayOfWeek`} options={dayOfWeekOptions} />
                       <LocalTextInput label="Start Time" name={`availabilities[${index}].startTime`} />
                       <LocalTextInput label="End Time" name={`availabilities[${index}].endTime`} />
 

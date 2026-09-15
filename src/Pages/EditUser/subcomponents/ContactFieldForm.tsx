@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
 import { EditUserModel, Teacher, ViewUserModel } from '../../../dtoModels';
 import FeedbackSubmit from '../../../Forms/FeedbackSubmit';
-import { LocalSelectList, LocalTextInput } from '../../../Forms/Fields/LocalFields';
+import { LocalSelectList, LocalTextInput, SelectListOption } from '../../../Forms/Fields/LocalFields';
 import { getParsedResponse, submitFormikJson } from '../../../Forms/Submission/formikSubmission';
 
 class EditUserValidationFailures {
@@ -23,7 +23,7 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
   const [isAssigningTeacher, setIsAssigningTeacher] = useState(viewModel.teacherId != null);
   const [isLoadingTeachers, setIsLoadingTeachers] = useState(false);
-  const [teachers, setTeachers] = useState([] as Teacher[]);
+  const [teacherOptions, setTeacherOptions] = useState([] as SelectListOption[]);
 
   useEffect(() => {
     if (!isAssigningTeacher) return;
@@ -31,7 +31,9 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
     setIsLoadingTeachers(true);
     getParsedResponse('teacher', Array<Teacher>)
       .then(result => Effect.runPromise(Effect.match(result, {
-        onSuccess: parsed => setTeachers(parsed as Teacher[]),
+        onSuccess: parsed => setTeacherOptions(
+          parsed.map(teacher => ({ value: teacher.teacherId, label: `${teacher.firstName} ${teacher.lastName}` }))
+        ),
         onFailure: err => console.error(err)
       })))
       .finally(() => setIsLoadingTeachers(false));
@@ -52,9 +54,7 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
           ? 'user/self'
           : `user/${viewModel.userId}`
         submitFormikJson<EditUserModel, EditUserValidationFailures>(url, values, actions, 'PUT')
-          .then(parsedResponse => {
-            setHasBeenSaved(parsedResponse.isSuccess);
-          });
+          .then(parsedResponse => setHasBeenSaved(parsedResponse.isSuccess));
       }}
     >
       {formik => (
@@ -68,7 +68,7 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
               <input
                 type="checkbox"
                 id="isAssigningTeacher"
-                checked={isAssigningTeacher}
+                checked={isAssigningTeacher} 
                 onChange={e => setIsAssigningTeacher(e.target.checked)}
               />
             </div>
@@ -77,16 +77,8 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
           <div hidden={!isAssigningTeacher}>
             {isLoadingTeachers
               ? <LoadingSpinner />
-              : (
-                <LocalSelectList
-                  label="Teacher"
-                  name="teacherId"
-                  options={teachers.map(teacher => ({
-                    value: teacher.teacherId,
-                    label: `${teacher.firstName} ${teacher.lastName}`
-                  }))}
-                />
-              )}
+              : <LocalSelectList label="Teacher" name="teacherId" options={teacherOptions}/>
+            }
           </div>
 
           <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
