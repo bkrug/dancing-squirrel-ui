@@ -5,7 +5,7 @@ import { useAuth } from '../../Auth/AuthContext';
 import { CreateEditDefaultAvailability, CreateEditDefaultDayAvailability } from '../../dtoModels';
 import FeedbackSubmit from '../../Forms/FeedbackSubmit';
 import { LocalSelectList, LocalTextInput } from '../../Forms/Fields/LocalFields';
-import { getParsedResponse, submitFormikJson } from '../../Forms/Submission/formikSubmission';
+import { getParsedResponse, submitFormWithResult } from '../../Forms/Submission/formikSubmission';
 
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -22,11 +22,7 @@ export default function DefaultAvailability() {
     getParsedResponse(`teacher/${teacherId}/availability`, CreateEditDefaultAvailability, 'GET')
       .then(result => {
         Effect.runPromise(Effect.match(result, {
-          onSuccess: viewDefaultResponse => setInitialValues(Object.assign(new CreateEditDefaultAvailability(), {
-            availabilities: viewDefaultResponse.availabilities.map(
-              availability => Object.assign(new CreateEditDefaultDayAvailability(), availability)
-            )
-          })),
+          onSuccess: viewDefaultResponse => setInitialValues(viewDefaultResponse),
           onFailure: failureResponse => alert(JSON.stringify(failureResponse))
         }));
       });
@@ -43,12 +39,17 @@ export default function DefaultAvailability() {
         initialValues={initialValues}
         enableReinitialize
         onSubmit={(values, actions) => {
-          submitFormikJson<CreateEditDefaultAvailability, DefaultAvailabilityValidationFailures>(
-            `teacher/${teacherId}/availability`, values, actions, 'PUT'
+          submitFormWithResult<CreateEditDefaultAvailability, DefaultAvailabilityValidationFailures>(
+            `teacher/${teacherId}/availability`, values, actions,
+            CreateEditDefaultAvailability, DefaultAvailabilityValidationFailures, 'PUT'
           )
-          .then(parsedResponse => {
-            setHasBeenSaved(parsedResponse.isSuccess);
-          });
+          .then(result => Effect.runPromise(Effect.match(result, {
+            onSuccess: formResponse => {
+              setHasBeenSaved(true);
+              setInitialValues(formResponse);
+            },
+            onFailure: () => setHasBeenSaved(false)
+          })));
         }}
       >
         {formik => (

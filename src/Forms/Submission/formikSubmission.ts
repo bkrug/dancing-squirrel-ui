@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import { FormikHelpers } from 'formik';
 import { FormResponse, GenericModelResponse, PagedData } from '../Submission/formResponse';
-import parseToCamelCase, { parseToCamelCasePlain } from '../Submission/jsonParsing';
+import parseToCamelCase from '../Submission/jsonParsing';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
@@ -87,8 +87,6 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
     actions.setSubmitting(false);
     const jsonString = await response.text();
     if (response.ok) {
-      if (jsonString)
-        console.log('parse success response', parseToCamelCasePlain<TValues>(jsonString));
       return {
         isSuccess: response.ok,
         isInternalError: false,
@@ -161,3 +159,46 @@ function getInternalError(failureMsg: string) {
     validationFailures: failureMsg
   } as GenericModelResponse<string>;
 }
+
+export async function submitFormWithResult<TFormModel extends object, TFailure extends object>(
+  endpoint: string,
+  values: TFormModel,
+  actions: FormikHelpers<TFormModel>,
+  constructor: { new (): TFormModel },
+  failConstructor: { new (): TFailure },
+  methodVerb?: 'POST' | 'PUT')
+{
+  const fullUrl = new URL(endpoint, baseUrl)
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
+
+  try {
+    const response = await fetch(fullUrl, {
+      method: methodVerb || 'POST',
+      headers: headers,
+      mode: 'cors',
+      credentials: 'include',
+      body: values ? JSON.stringify(values) : undefined
+    });
+    actions.setSubmitting(false);
+    const jsonString = await response.text();
+    if (response.ok) {
+      let parsedResponse = parseToCamelCase(constructor, jsonString);
+      if (parsedResponse)
+        return Effect.succeed(parsedResponse) as Effect.Effect<TFormModel, TFailure, never>;
+      else
+        throw new Error('Could not parse success response');
+    }
+    else {
+      let parsedResponse = parseToCamelCase(failConstructor, jsonString);
+      if (parsedResponse)
+        return Effect.fail(parsedResponse) as Effect.Effect<TFormModel, TFailure, never>;
+      else
+        throw new Error('Could not parse failure response');
+    }
+  }
+  catch(ex) {
+    actions.setSubmitting(false);
+    throw ex;
+  }
+};
