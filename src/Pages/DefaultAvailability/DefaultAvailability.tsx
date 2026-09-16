@@ -2,7 +2,7 @@ import { Effect } from 'effect/index';
 import { FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../Auth/AuthContext';
-import { CreateEditDefaultAvailability, CreateEditDefaultDayAvailability, ViewDefaultAvailability } from '../../dtoModels';
+import { CreateEditDefaultAvailability, CreateEditDefaultDayAvailability } from '../../dtoModels';
 import FeedbackSubmit from '../../Forms/FeedbackSubmit';
 import { LocalSelectList, LocalTextInput } from '../../Forms/Fields/LocalFields';
 import { getParsedResponse, submitFormikJson } from '../../Forms/Submission/formikSubmission';
@@ -19,7 +19,7 @@ export default function DefaultAvailability() {
   const [initialValues, setInitialValues] = useState(new CreateEditDefaultAvailability());
 
   useEffect(() => {
-    getParsedResponse(`teacher/${teacherId}/availability`, ViewDefaultAvailability, 'GET')
+    getParsedResponse(`teacher/${teacherId}/availability`, CreateEditDefaultAvailability, 'GET')
       .then(result => {
         Effect.runPromise(Effect.match(result, {
           onSuccess: viewDefaultResponse => setInitialValues(Object.assign(new CreateEditDefaultAvailability(), {

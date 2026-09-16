@@ -96,17 +96,6 @@ export class ClaimResponse {
   claims: Claim[] = [];
 }
 
-export class ViewDefaultDayAvailability {
-  defaultAvailabilityId: number = 0;
-  dayOfWeek: string = '';
-  startTime: string = '';
-  endTime: string = ''
-}
-
-export class ViewDefaultAvailability {
-  availabilities: ViewDefaultDayAvailability[] = [];
-}
-
 export class CreateEditDefaultDayAvailability {
   defaultAvailabilityId: number | null = null;
   dayOfWeek: string | null = '';
