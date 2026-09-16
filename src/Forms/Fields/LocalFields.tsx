@@ -14,15 +14,23 @@ interface TextInputProps {
 export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
   props.type = props.type || 'text';
   const [field, meta] = useField(props);
-  return (
-    <div className="field-container">
-      <label className="label-on-left label-for-input" htmlFor={props.name}>{label}</label>
-      <div className="right-of-label">
-        <input className="fill-container-width typeable-field" {...field} {...props} />
-        {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-      </div>
-    </div>
-  );
+  return props.type === 'hidden'
+    ? (
+        <div className="field-container">
+          <div className="right-of-label">
+            <input className="fill-container-width typeable-field" {...field} {...props} />
+          </div>
+        </div>
+      )
+    : (
+        <div className="field-container">
+          <label className="label-on-left label-for-input" htmlFor={props.name}>{label}</label>
+          <div className="right-of-label">
+            <input className="fill-container-width typeable-field" {...field} {...props} />
+            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+          </div>
+        </div>
+      );
 };
 
 export const LocalTextArea: FC<TextInputProps> = ({ label, ...props }) => {

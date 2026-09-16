@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import { FormikHelpers } from 'formik';
 import { FormResponse, GenericModelResponse, PagedData } from '../Submission/formResponse';
-import parseToCamelCase from '../Submission/jsonParsing';
+import parseToCamelCase, { parseToCamelCasePlain } from '../Submission/jsonParsing';
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 if (!baseUrl) throw new TypeError('Base URL is not configured');
@@ -87,6 +87,8 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
     actions.setSubmitting(false);
     const jsonString = await response.text();
     if (response.ok) {
+      if (jsonString)
+        console.log('parse success response', parseToCamelCasePlain<TValues>(jsonString));
       return {
         isSuccess: response.ok,
         isInternalError: false,

@@ -17,4 +17,8 @@ function parseToCamelCase<T extends object>(constructor: { new (): T}, jsonStrin
   );
 }
 
+export function parseToCamelCasePlain<T extends object>(jsonString: string) : T {
+  return Object.assign(JSON.parse(jsonString, toCamelCase)) as T;
+}
+
 export default parseToCamelCase;
