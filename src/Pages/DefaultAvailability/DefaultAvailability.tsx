@@ -41,7 +41,7 @@ export default function DefaultAvailability() {
         onSubmit={(values, actions) => {
           submitFormWithResult<CreateEditDefaultAvailability, DefaultAvailabilityValidationFailures>(
             `teacher/${teacherId}/availability`, values, actions,
-            CreateEditDefaultAvailability, DefaultAvailabilityValidationFailures, 'PUT'
+            CreateEditDefaultAvailability, 'PUT'
           )
           .then(result => Effect.runPromise(Effect.match(result, {
             onSuccess: formResponse => {

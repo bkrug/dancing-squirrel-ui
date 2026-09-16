@@ -165,7 +165,6 @@ export async function submitFormWithResult<TFormModel extends object, TFailure e
   values: TFormModel,
   actions: FormikHelpers<TFormModel>,
   constructor: { new (): TFormModel },
-  failConstructor: { new (): TFailure },
   methodVerb?: 'POST' | 'PUT')
 {
   const fullUrl = new URL(endpoint, baseUrl)
@@ -190,9 +189,18 @@ export async function submitFormWithResult<TFormModel extends object, TFailure e
         throw new Error('Could not parse success response');
     }
     else {
-      let parsedResponse = parseToCamelCase(failConstructor, jsonString);
+      let parsedResponse = parseToCamelCase((FormResponse<TFailure>), jsonString);
+      if (parsedResponse && parsedResponse.validationFailuresStrict) {
+        actions.setErrors(parsedResponse.validationFailuresStrict);
+      }
+      else if (parsedResponse && parsedResponse.isInternalError) {
+        console.error('An internal error occurred.');
+      }
+      else {
+        console.error('A malformed response was received from the server.');
+      }
       if (parsedResponse)
-        return Effect.fail(parsedResponse) as Effect.Effect<TFormModel, TFailure, never>;
+        return Effect.fail(parsedResponse.validationFailuresStrict) as Effect.Effect<TFormModel, TFailure, never>;
       else
         throw new Error('Could not parse failure response');
     }
