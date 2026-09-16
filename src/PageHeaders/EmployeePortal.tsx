@@ -59,10 +59,10 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
 
   if (nowAutonavigate) {
     setNowAutonavigate(false);
-    if (isTeacher)
-      navigate('/teachers', { replace: true });
-    else if (isOnboarder)
+    if (isOnboarder)
       navigate('/trainingrequests', { replace: true });
+    else if (isTeacher)
+      navigate('/default-availabilities', { replace: true });
     else if (isAdmin)
       navigate('/users', { replace: true });
     else
@@ -77,7 +77,6 @@ export default function EmployeePortal({ child }: EmployeePortalProps) {
         <nav>
           {isOnboarder && <Link to="/trainingrequests">Training Requests</Link>}
           {isAdmin && <Link to="/users">Users</Link>}
-          {isTeacher && <Link to="/teachers">Teachers Page</Link>}
           {isTeacher && <Link to="/default-availabilities">Availability</Link>}
           <Link to="/user-form/self">Profile of {username}</Link>
         </nav>
