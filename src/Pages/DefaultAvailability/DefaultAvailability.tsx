@@ -37,7 +37,7 @@ export default function DefaultAvailability() {
   return (
     <>
       <h1>Default Availability</h1>
-      <span>Specify which hours you are normally free to teach lessons in a week.</span>
+      <div>Specify which hours you are normally free to teach lessons in a week.</div>
 
       <Formik
         initialValues={initialValues}
