@@ -106,3 +106,15 @@ export class CreateEditDefaultDayAvailability {
 export class CreateEditDefaultAvailability {
   availabilities: CreateEditDefaultDayAvailability[] = [];
 }
+
+export class DefaultDayAvailabilityValidation {
+  modelFailure: string = '';
+  dayOfWeek: string = '';
+  startTime: string = '';
+  endTime: string = '';
+}
+
+export class DefaultAvailabilityValidation {
+  modelFailure: string = '';
+  availabilities: DefaultDayAvailabilityValidation[] = [];
+}

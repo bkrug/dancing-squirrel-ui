@@ -1,4 +1,4 @@
-import { useField } from 'formik';
+import { getIn, useField, useFormikContext } from 'formik';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
 import { FC } from 'react';
@@ -136,6 +136,37 @@ export const LocalSwitch: FC<SwitchProps> = ({ label, ...props }) => {
           onChange={(checked: boolean) => helpers.setValue(checked)}
         />
         {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+      </div>
+    </div>
+  );
+};
+
+interface ModelFailureMsgProps {
+  name?: string
+}
+
+function isAnyTouched(touched: unknown): boolean {
+  if (touched === true) return true;
+  if (touched && typeof touched === 'object') {
+    return Object.values(touched).some(isAnyTouched);
+  }
+  return false;
+}
+
+export const ModelFailureMsg : FC<ModelFailureMsgProps> = ({ name = 'modelFailure' }) => {
+  const { touched } = useFormikContext();
+  const [, meta] = useField({ name });
+
+  //Attempts to remove the validation message if at least one field in the parent container is changed.
+  //Not sure if it actually works.
+  const lastDot = name.lastIndexOf('.');
+  const scopeTouched = lastDot === -1 ? touched : getIn(touched, name.substring(0, lastDot));
+  const isTouched = isAnyTouched(scopeTouched);
+
+  return (
+    <div className="field-container">
+      <div className="right-of-label">
+        {isTouched && meta.error && <div className="error">{meta.error}</div>}
       </div>
     </div>
   );

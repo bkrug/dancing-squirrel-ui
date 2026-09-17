@@ -2,16 +2,12 @@ import { Effect } from 'effect/index';
 import { FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../Auth/AuthContext';
-import { CreateEditDefaultAvailability, CreateEditDefaultDayAvailability } from '../../dtoModels';
+import { CreateEditDefaultAvailability, CreateEditDefaultDayAvailability, DefaultAvailabilityValidation } from '../../dtoModels';
 import FeedbackSubmit from '../../Forms/FeedbackSubmit';
-import { LocalSelectList, LocalTextInput } from '../../Forms/Fields/LocalFields';
+import { LocalSelectList, LocalTextInput, ModelFailureMsg } from '../../Forms/Fields/LocalFields';
 import { getParsedResponse, submitFormWithResult } from '../../Forms/Submission/formikSubmission';
 
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-class DefaultAvailabilityValidationFailures {
-  availabilities: string = '';
-}
 
 export default function DefaultAvailability() {
   const { teacherId } = useAuth();
@@ -39,7 +35,7 @@ export default function DefaultAvailability() {
         initialValues={initialValues}
         enableReinitialize
         onSubmit={(values, actions) => {
-          submitFormWithResult<CreateEditDefaultAvailability, DefaultAvailabilityValidationFailures>(
+          submitFormWithResult<CreateEditDefaultAvailability, DefaultAvailabilityValidation>(
             `teacher/${teacherId}/availability`, values, actions,
             CreateEditDefaultAvailability, 'PUT'
           )
@@ -62,6 +58,7 @@ export default function DefaultAvailability() {
                       <LocalSelectList label="Day" name={`availabilities[${index}].dayOfWeek`} options={dayOfWeekOptions} />
                       <LocalTextInput label="Start Time" name={`availabilities[${index}].startTime`} />
                       <LocalTextInput label="End Time" name={`availabilities[${index}].endTime`} />
+                      <ModelFailureMsg name={`availabilities[${index}].modelFailure`} />
 
                       <button type="button" onClick={() => remove(index)}>Remove</button>
                     </div>
