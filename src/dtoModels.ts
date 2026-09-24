@@ -48,7 +48,6 @@ export class EditUserModel
 {
   email: string = '';
   phoneNumber: string = '';
-  teacherId: number | null = null;
 }
 
 export class ViewRoleModel
