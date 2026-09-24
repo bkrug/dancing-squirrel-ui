@@ -4,13 +4,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-args=()
-while IFS= read -r line || [[ -n "$line" ]]; do
-  [[ -z "$line" || "$line" == \#* ]] && continue
-  args+=("--collectCoverageFrom=$line")
-done < coverage-patterns.txt
-
-npx react-scripts test --coverage --watchAll=false "${args[@]}"
+# Which files are included in coverage is set by "collectCoverageFrom" in package.json.
+npx react-scripts test --coverage --watchAll=false
 
 report="coverage/lcov-report/index.html"
 if command -v xdg-open > /dev/null; then

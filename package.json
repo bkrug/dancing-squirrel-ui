@@ -32,6 +32,13 @@
       "prettier --write"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/{Components,Forms,PageHeaders,Pages}/**",
+      "!src/**/*.test.tsx",
+      "!src/**/*.css"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
