@@ -78,6 +78,10 @@ export class EditRoleModel {
   roles: ViewRoleModel[] = [];
 }
 
+export class EditClaimsModel {
+  teacherId: number | null = null;
+}
+
 export class OwnPasswordResetModel {
   oldPassword: string = '';
   newPassword: string = '';

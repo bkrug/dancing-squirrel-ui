@@ -5,6 +5,7 @@ import YesNoModal from '../../Components/YesNoModal';
 import { getPagedData, getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { EditProfileProps } from './EditUser';
 import './EditUser.css';
+import ClaimsForm from './subcomponents/ClaimsForm';
 import ContactFieldForm from './subcomponents/ContactFieldForm';
 import ResetPassword from './subcomponents/ResetPassword';
 import RoleForm from './subcomponents/RoleForm';
@@ -56,6 +57,9 @@ export default function EditOtherProfile({ viewModel, editModel} : EditProfilePr
       </div>
       <div className="form-container">
         {Object.keys(availableRoles).length > 0 && <RoleForm roleList={availableRoles} userId={userId} />}
+      </div>
+      <div className="form-container">
+        <ClaimsForm viewModel={viewModel} />
       </div>
       <div className="form-container">
         <ResetPassword userId={viewModel.userId} />
