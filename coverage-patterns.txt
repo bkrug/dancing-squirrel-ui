@@ -1,0 +1,8 @@
+# Globs passed to Jest's --collectCoverageFrom by coverage.sh.
+# Lines starting with "!" exclude files. Blank lines and "#" comments are ignored.
+src/Components/**
+src/Forms/**
+src/PageHeaders/**
+src/Pages/**
+!src/**/*.test.tsx
+!src/**/*.css
