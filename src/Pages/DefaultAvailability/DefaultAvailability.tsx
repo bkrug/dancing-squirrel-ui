@@ -56,8 +56,8 @@ export default function DefaultAvailability() {
                   {formik.values.availabilities.map((_, index) => (
                     <div key={index} className="form-row">
                       <LocalSelectList label="Day" name={`availabilities[${index}].dayOfWeek`} options={dayOfWeekOptions} />
-                      <LocalTextInput label="Start Time" name={`availabilities[${index}].startTime`} />
-                      <LocalTextInput label="End Time" name={`availabilities[${index}].endTime`} />
+                      <LocalTextInput label="Start Time" name={`availabilities[${index}].startTime`} type="time" step={60} />
+                      <LocalTextInput label="End Time" name={`availabilities[${index}].endTime`} type="time" step={60} />
                       <ModelFailureMsg name={`availabilities[${index}].modelFailure`} />
 
                       <button type="button" onClick={() => remove(index)}>Remove</button>

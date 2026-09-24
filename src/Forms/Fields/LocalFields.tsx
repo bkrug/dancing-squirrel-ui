@@ -8,7 +8,8 @@ interface TextInputProps {
   label: string,
   name: string,
   type?: string,
-  disabled?: boolean
+  disabled?: boolean,
+  step?: string | number | undefined
 }
 
 export const LocalTextInput: FC<TextInputProps> = ({ label, ...props }) => {
