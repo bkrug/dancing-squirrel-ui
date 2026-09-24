@@ -21,13 +21,10 @@ interface ContactFieldFormProps {
 
 export default function ContactFieldForm({ editingOwnData, editModel, viewModel }: ContactFieldFormProps) {
   const [hasBeenSaved, setHasBeenSaved] = useState(false);
-  const [isAssigningTeacher, setIsAssigningTeacher] = useState(viewModel.teacherId != null);
   const [isLoadingTeachers, setIsLoadingTeachers] = useState(false);
   const [teacherOptions, setTeacherOptions] = useState([] as SelectListOption[]);
 
   useEffect(() => {
-    if (!isAssigningTeacher) return;
-
     setIsLoadingTeachers(true);
     getParsedResponse('teacher', Array<Teacher>)
       .then(result => Effect.runPromise(Effect.match(result, {
@@ -37,7 +34,7 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
         onFailure: err => console.error(err)
       })))
       .finally(() => setIsLoadingTeachers(false));
-  }, [isAssigningTeacher]);
+  }, []);
 
   return (
     <Formik
@@ -62,24 +59,10 @@ export default function ContactFieldForm({ editingOwnData, editModel, viewModel 
           <LocalTextInput label="Email" name="email" type="email" />
           <LocalTextInput label="Phone Number" name="phoneNumber" type="tel" />
 
-          <div className="field-container">
-            <label className="label-on-left" htmlFor="isAssigningTeacher">Assign Teacher</label>
-            <div className="right-of-label">
-              <input
-                type="checkbox"
-                id="isAssigningTeacher"
-                checked={isAssigningTeacher} 
-                onChange={e => setIsAssigningTeacher(e.target.checked)}
-              />
-            </div>
-          </div>
-
-          <div hidden={!isAssigningTeacher}>
-            {isLoadingTeachers
-              ? <LoadingSpinner />
-              : <LocalSelectList label="Teacher" name="teacherId" options={teacherOptions}/>
-            }
-          </div>
+          {isLoadingTeachers
+            ? <LoadingSpinner />
+            : <LocalSelectList label="Teacher" name="teacherId" options={teacherOptions}/>
+          }
 
           <FeedbackSubmit label="Save Contact Info" formikState={formik} displayCompletion={hasBeenSaved} />
         </Form>
