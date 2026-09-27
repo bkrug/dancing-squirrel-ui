@@ -21,3 +21,11 @@ export function getInputOrTextArea(labelText: RegExp | string) {
   const coalescedElement = inputElement || textAreaElement;
   return coalescedElement ? coalescedElement : null;
 }
+
+// Find a form field by its name attribute. Useful when several fields share the same label,
+// such as the rows of a Formik FieldArray.
+export function getFieldByName(name: string) {
+  const field = document.querySelector(`[name="${name}"]`);
+  if (!field) throw new Error(`No field named ${name}`);
+  return field;
+}
