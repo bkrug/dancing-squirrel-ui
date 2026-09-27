@@ -80,7 +80,7 @@ test('When availability already exists for Wednesday and two rows are added, the
   const monday: CreateEditDefaultDayAvailability = { defaultAvailabilityId: null, dayOfWeek: 'Monday', startTime: '09:00', endTime: '12:00' };
   const tuesday: CreateEditDefaultDayAvailability = { defaultAvailabilityId: null, dayOfWeek: 'Tuesday', startTime: '13:30', endTime: '17:00' };
   const wednesday: CreateEditDefaultDayAvailability = { defaultAvailabilityId: 5, dayOfWeek: 'Wednesday', startTime: '10:00', endTime: '14:00' };
-  arrangeMocks({ availabilities: [wednesday] });
+  arrangeMocks({ availabilities: [{ ...wednesday }] });
   render(<DefaultAvailability />);
   await act(async () => getParsedResponse);
 
