@@ -20,7 +20,8 @@ let logoutUser = async function () {
       credentials: 'include'
     });
     return response.ok;
-  } catch {
+  }
+  catch {
     return false;
   }
 }

@@ -1,7 +1,6 @@
 import { CaretakerType } from './enums';
 
-export class TrainingRequest
-{
+export class TrainingRequest {
   trainingRequestId: number = 0;
   squirrelName: string = '';
   caretakerType: CaretakerType = CaretakerType.Empty;
@@ -16,55 +15,47 @@ export class TrainingRequest
   descriptionOfNeeds: string | null = null;
 }
 
-export class DanceType
-{
+export class DanceType {
   danceTypeId: number = 0;
   name: string = ''
 }
 
-export class Teacher
-{
+export class Teacher {
   teacherId: number = 0;
   firstName: string = '';
   lastName: string = '';
 }
 
-export class GridUser
-{
+export class GridUser {
   userId: string = '';
   username: string = '';
   email: string = '';
 }
 
 
-export class EditUserValidation
-{
+export class EditUserValidation {
   email: string = '';
   phoneNumber: string = '';
   teacherId: string = '';
 }
 
-export class EditUserModel
-{
+export class EditUserModel {
   email: string = '';
   phoneNumber: string = '';
 }
 
-export class ViewRoleModel
-{
+export class ViewRoleModel {
   name: string = '';
 }
 
-export class CreateUserModel
-{
+export class CreateUserModel {
   email: string = '';
   username: string = '';
   password: string = '';
   phoneNumber: string = '';
 }
 
-export class ViewUserModel
-{
+export class ViewUserModel {
   userId: string = '';
   username: string = '';
   email: string = '';

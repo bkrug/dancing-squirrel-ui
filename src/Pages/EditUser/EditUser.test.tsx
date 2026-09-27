@@ -209,7 +209,7 @@ test('When role switches are changed and saved, a PUT request is made to user/{u
     if (endpoint === 'user/' + mockUser.userId)
       return Promise.resolve(Effect.succeed(mockUser));
     if (endpoint === 'teacher')
-      return Promise.resolve(Effect.succeed(mockTeacher));    
+      return Promise.resolve(Effect.succeed(mockTeacher));
     return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
   });
 

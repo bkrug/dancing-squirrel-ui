@@ -23,8 +23,7 @@ export async function submitFormikForm<TValues extends object, TValidationFailur
     actions: FormikHelpers<TValues>,
     methodVerb?: 'POST' | 'PUT'
   )
-  : Promise<FormResponse<TValidationFailures>>
-{
+  : Promise<FormResponse<TValidationFailures>> {
   let formData = getFormData(values);
   let fullUrl = new URL(endpoint, baseUrl)
 
@@ -51,7 +50,8 @@ export async function submitFormikForm<TValues extends object, TValidationFailur
     }
     actions.setSubmitting(false);
     return parsedResponse;
-  } catch (httpErrors) {
+  }
+ catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
     actions.setSubmitting(false);
@@ -70,8 +70,7 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
     actions: FormikHelpers<TValues>,
     methodVerb?: 'POST' | 'PUT'
   )
-  : Promise<FormResponse<TValidationFailures>>
-{
+  : Promise<FormResponse<TValidationFailures>> {
   let fullUrl = new URL(endpoint, baseUrl);
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');
@@ -105,7 +104,8 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
       alert('A malformed response was received from the server.');
     }
     return parsedResponse;
-  } catch (httpErrors) {
+  }
+ catch (httpErrors) {
     console.error(httpErrors);
     alert('An HTTP error occurred.');
     actions.setSubmitting(false);
@@ -117,13 +117,11 @@ export async function submitFormikJson<TValues extends object, TValidationFailur
   }
 };
 
-export async function getPagedData<TParsed extends object>(endpoint: string )
-{
+export async function getPagedData<TParsed extends object>(endpoint: string ) {
   return await getParsedResponse(endpoint, PagedData<TParsed>);
 };
 
-export async function getParsedResponse<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string, body?: object)
-{
+export async function getParsedResponse<TParsed extends object>(endpoint: string, constructor: { new (): TParsed}, methodVerb?: string, body?: object) {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');
@@ -146,7 +144,8 @@ export async function getParsedResponse<TParsed extends object>(endpoint: string
     else {
       return Effect.fail(parseToCamelCase(GenericModelResponse<string>, jsonString)) as Effect.Effect<TParsed, GenericModelResponse<string>, never>;
     }
-  } catch (httpErrors) {
+  }
+ catch (httpErrors) {
     console.error(httpErrors);
     return Effect.fail(getInternalError('An Http Request Failed')) as Effect.Effect<TParsed, GenericModelResponse<string>, never>;
   }
@@ -165,8 +164,7 @@ export async function submitFormWithResult<TFormModel extends object, TFailure e
   values: TFormModel,
   actions: FormikHelpers<TFormModel>,
   constructor: { new (): TFormModel },
-  methodVerb?: 'POST' | 'PUT')
-{
+  methodVerb?: 'POST' | 'PUT') {
   const fullUrl = new URL(endpoint, baseUrl)
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');

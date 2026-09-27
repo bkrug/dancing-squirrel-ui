@@ -1,4 +1,3 @@
-export class OnboardingRequest
-{
+export class OnboardingRequest {
   danceTeachers: number[] = [];
 }
