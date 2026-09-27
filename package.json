@@ -36,7 +36,8 @@
     "collectCoverageFrom": [
       "src/{Components,Forms,PageHeaders,Pages}/**",
       "!src/**/*.test.tsx",
-      "!src/**/*.css"
+      "!src/**/*.css",
+      "!src/Forms/Submission/formikSubmission.ts"
     ]
   },
   "scripts": {

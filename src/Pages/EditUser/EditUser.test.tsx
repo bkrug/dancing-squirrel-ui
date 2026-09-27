@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Effect } from 'effect';
 import { act } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { Teacher } from '../../dtoModels';
 import { getPagedData, getParsedResponse } from '../../Forms/Submission/formikSubmission';
 import { getInputOrTextArea } from '../../testHelpers';
 import EditUser from './EditUser';
@@ -58,16 +59,23 @@ test('When editingOwnData is false, email and phone fields are populated from us
     phoneNumber: '555-9876',
     roles: [{ name: 'Admin' }]
   };
+  const mockTeacher: Teacher[] = [];
   const rolesFromEndpoint = ['Admin', 'Onboarder', 'Accountant'];
 
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
   (useNavigate as jest.Mock).mockReturnValue(jest.fn());
 
-  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) =>
-    (endpoint === 'user/' + mockUser.userId)
-      ? Promise.resolve(Effect.succeed(mockUser))
-      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
-  );
+  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) => {
+    if (endpoint === 'user/' + mockUser.userId) {
+      return Promise.resolve(Effect.succeed(mockUser));
+    }
+    else if (endpoint === 'teacher') {
+      return Promise.resolve(Effect.succeed(mockTeacher));
+    }
+    else {
+      return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
+    }
+  });
 
   (getPagedData as jest.Mock).mockImplementation((endpoint: string) =>
     (endpoint === 'role')
@@ -103,6 +111,7 @@ test('When the delete button is pressed and confirmed, a DELETE request is made 
     phoneNumber: '555-9876',
     roles: [{ name: 'Admin' }]
   };
+  const mockTeacher: Teacher[] = [];
   const mockNavigate = jest.fn();
 
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
@@ -113,6 +122,8 @@ test('When the delete button is pressed and confirmed, a DELETE request is made 
       return Promise.resolve(Effect.succeed(true));
     if (endpoint === 'user/' + mockUser.userId)
       return Promise.resolve(Effect.succeed(mockUser));
+    if (endpoint === 'teacher')
+      return Promise.resolve(Effect.succeed(mockTeacher));
     return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
   });
 
@@ -143,16 +154,19 @@ test('When the delete button is pressed but denied in the modal, no DELETE reque
     phoneNumber: '555-9876',
     roles: [{ name: 'Admin' }]
   };
+  const mockTeacher: Teacher[] = [];
   const mockNavigate = jest.fn();
 
   (useParams as jest.Mock).mockReturnValue({ userId: mockUser.userId });
   (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
 
-  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) =>
-    (endpoint === 'user/' + mockUser.userId)
-      ? Promise.resolve(Effect.succeed(mockUser))
-      : Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
-  );
+  (getParsedResponse as jest.Mock).mockImplementation((endpoint: string) => {
+    if (endpoint === 'user/' + mockUser.userId)
+      return Promise.resolve(Effect.succeed(mockUser));
+    if (endpoint === 'teacher')
+      return Promise.resolve(Effect.succeed(mockTeacher));
+    return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }))
+  });
 
   (getPagedData as jest.Mock).mockImplementation(() =>
     Promise.resolve(Effect.succeed({ data: ['Admin'] }))
@@ -180,6 +194,7 @@ test('When role switches are changed and saved, a PUT request is made to user/{u
     phoneNumber: '555-9876',
     roles: [{ name: 'Admin' },{name: 'Accountant'}]
   };
+  const mockTeacher: Teacher[] = [];
   const rolesFromEndpoint = ['Admin', 'Onboarder', 'Accountant'];
   let capturedRolePutBody: { roles: { name: string }[] } | undefined;
 
@@ -193,6 +208,8 @@ test('When role switches are changed and saved, a PUT request is made to user/{u
     }
     if (endpoint === 'user/' + mockUser.userId)
       return Promise.resolve(Effect.succeed(mockUser));
+    if (endpoint === 'teacher')
+      return Promise.resolve(Effect.succeed(mockTeacher));    
     return Promise.resolve(Effect.fail({ isSuccess: false, isInternalError: true, validationFailures: {} }));
   });
 
