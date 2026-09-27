@@ -50,6 +50,8 @@ test('When the create user form is filled in and submitted, the input is POSTed 
   expect(mockNavigate).toHaveBeenCalledWith('/users');
 });
 
+//SUSPECT: This test depends on reimplementing some of the code that had to be mocked.
+// Consider moving production code that calls actions.setErrors() to someplace testable.
 test('When the POST returns validation failures, the error messages are shown next to the relevant fields.', async () => {
   // Arrange
   const mockNavigate = jest.fn();
